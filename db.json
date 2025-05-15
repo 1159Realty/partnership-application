@@ -1,0 +1,115 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "name": "Alice"
+    },
+    {
+      "id": "2",
+      "name": "Bob"
+    }
+  ],
+
+  "states": [
+    { "id": "clx1a0xv1001", "state": "Abia" },
+    { "id": "clx1a0xv1002", "state": "Adamawa" },
+    { "id": "clx1a0xv1003", "state": "Akwa Ibom" },
+    { "id": "clx1a0xv1004", "state": "Anambra" },
+    { "id": "clx1a0xv1005", "state": "Bauchi" },
+    { "id": "clx1a0xv1006", "state": "Bayelsa" },
+    { "id": "clx1a0xv1007", "state": "Benue" },
+    { "id": "clx1a0xv1008", "state": "Borno" },
+    { "id": "clx1a0xv1009", "state": "Cross River" },
+    { "id": "clx1a0xv1010", "state": "Delta" },
+    { "id": "clx1a0xv1011", "state": "Ebonyi" },
+    { "id": "clx1a0xv1012", "state": "Edo" },
+    { "id": "clx1a0xv1013", "state": "Ekiti" },
+    { "id": "clx1a0xv1014", "state": "Enugu" },
+    { "id": "clx1a0xv1015", "state": "Gombe" },
+    { "id": "clx1a0xv1016", "state": "Imo" },
+    { "id": "clx1a0xv1017", "state": "Jigawa" },
+    { "id": "clx1a0xv1018", "state": "Kaduna" },
+    { "id": "clx1a0xv1019", "state": "Kano" },
+    { "id": "clx1a0xv1020", "state": "Katsina" },
+    { "id": "clx1a0xv1021", "state": "Kebbi" },
+    { "id": "clx1a0xv1022", "state": "Kogi" },
+    { "id": "clx1a0xv1023", "state": "Kwara" },
+    { "id": "clx1a0xv1024", "state": "Lagos" },
+    { "id": "clx1a0xv1025", "state": "Nasarawa" },
+    { "id": "clx1a0xv1026", "state": "Niger" },
+    { "id": "clx1a0xv1027", "state": "Ogun" },
+    { "id": "clx1a0xv1028", "state": "Ondo" },
+    { "id": "clx1a0xv1029", "state": "Osun" },
+    { "id": "clx1a0xv1030", "state": "Oyo" },
+    { "id": "clx1a0xv1031", "state": "Plateau" },
+    { "id": "clx1a0xv1032", "state": "Rivers" },
+    { "id": "clx1a0xv1033", "state": "Sokoto" },
+    { "id": "clx1a0xv1034", "state": "Taraba" },
+    { "id": "clx1a0xv1035", "state": "Yobe" },
+    { "id": "clx1a0xv1036", "state": "Zamfara" },
+    { "id": "clx1a0xv1037", "state": "FCT" }
+  ],
+
+  "properties": {
+    "items": [
+      {
+        "id": "clx0prop001",
+        "propertyName": "Property 1",
+        "propertyPic": "https://c0.wallpaperflare.com/preview/108/456/1011/white-and-brown-concrete-building.jpg",
+        "price": 543210,
+        "state": "Lagos",
+        "lga": "Ikeja",
+        "address": "No 1 Random Street, City",
+        "totalLandSize": 894,
+        "availableLandSizes": [300, 500],
+        "paymentDurationOptions": [6, 12],
+        "outrightPayment": true,
+        "soldOut": true,
+        "reserved": false,
+        "createdAt": "2025-02-27T10:00:00.000Z",
+        "updatedAt": "2025-02-27T10:00:00.000Z",
+        "archive": false
+      },
+      {
+        "id": "clx1prop001",
+        "propertyName": "Property 2",
+        "propertyPic": "https://c0.wallpaperflare.com/preview/108/456/1011/white-and-brown-concrete-building.jpg",
+        "price": 750000,
+        "state": "Abuja",
+        "lga": "Wuse",
+        "address": "No 2 Random Street, City",
+        "totalLandSize": 523,
+        "availableLandSizes": [300],
+        "paymentDurationOptions": [6],
+        "outrightPayment": false,
+        "soldOut": false,
+        "reserved": false,
+        "createdAt": "2025-02-27T10:00:00.000Z",
+        "updatedAt": "2025-02-27T10:00:00.000Z",
+        "archive": false
+      },
+      {
+        "id": "clx2prop001",
+        "propertyName": "Property 3",
+        "propertyPic": "https://c0.wallpaperflare.com/preview/108/456/1011/white-and-brown-concrete-building.jpg",
+        "price": 123456,
+        "state": "Ogun",
+        "lga": "Abeokuta",
+        "address": "No 3 Random Street, City",
+        "totalLandSize": 672,
+        "availableLandSizes": [300, 500, 1000],
+        "paymentDurationOptions": [6, 12, 18],
+        "outrightPayment": true,
+        "soldOut": false,
+        "reserved": false,
+        "createdAt": "2025-02-27T10:00:00.000Z",
+        "updatedAt": "2025-02-27T10:00:00.000Z",
+        "archive": false
+      }
+    ],
+    "page": 1,
+    "limit": 10,
+    "totalItems": 37,
+    "totalPages": 1
+  }
+}

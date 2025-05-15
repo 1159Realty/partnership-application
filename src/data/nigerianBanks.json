@@ -1,0 +1,698 @@
+[
+  {
+    "code": "801",
+    "description": "Abbey Mortgage Bank"
+  },
+  {
+    "code": "044",
+    "description": "Access Bank"
+  },
+  {
+    "code": "063",
+    "description": "Access Bank (Diamond)"
+  },
+  {
+    "code": "035A",
+    "description": "ALAT by WEMA"
+  },
+  {
+    "code": "401",
+    "description": "ASO Savings and Loans"
+  },
+  {
+    "code": "50931",
+    "description": "Bowen Microfinance Bank"
+  },
+  {
+    "code": "50823",
+    "description": "CEMCS Microfinance Bank"
+  },
+  {
+    "code": "023",
+    "description": "Citibank Nigeria"
+  },
+  {
+    "code": "559",
+    "description": "Coronation Merchant Bank"
+  },
+  {
+    "code": "050",
+    "description": "Ecobank Nigeria"
+  },
+  {
+    "code": "562",
+    "description": "Ekondo Microfinance Bank"
+  },
+  {
+    "code": "50126",
+    "description": "Eyowo"
+  },
+  {
+    "code": "070",
+    "description": "Fidelity Bank"
+  },
+  {
+    "code": "011",
+    "description": "First Bank of Nigeria"
+  },
+  {
+    "code": "214",
+    "description": "First City Monument Bank"
+  },
+  {
+    "code": "501",
+    "description": "FSDH Merchant Bank Limited"
+  },
+  {
+    "code": "00103",
+    "description": "Globus Bank"
+  },
+  {
+    "code": "058",
+    "description": "Guaranty Trust Bank"
+  },
+  {
+    "code": "51251",
+    "description": "Hackman Microfinance Bank"
+  },
+  {
+    "code": "50383",
+    "description": "Hasal Microfinance Bank"
+  },
+  {
+    "code": "030",
+    "description": "Heritage Bank"
+  },
+  {
+    "code": "51244",
+    "description": "Ibile Microfinance Bank"
+  },
+  {
+    "code": "50457",
+    "description": "Infinity MFB"
+  },
+  {
+    "code": "301",
+    "description": "Jaiz Bank"
+  },
+  {
+    "code": "082",
+    "description": "Keystone Bank"
+  },
+  {
+    "code": "50211",
+    "description": "Kuda Bank"
+  },
+  {
+    "code": "90052",
+    "description": "Lagos Building Investment Company Plc."
+  },
+  {
+    "code": "50563",
+    "description": "Mayfair MFB"
+  },
+  {
+    "code": "565",
+    "description": "One Finance"
+  },
+  {
+    "code": "999991",
+    "description": "PalmPay"
+  },
+  {
+    "code": "526",
+    "description": "Parallex Bank"
+  },
+  {
+    "code": "311",
+    "description": "Parkway - ReadyCash"
+  },
+  {
+    "code": "999992",
+    "description": "Paycom (Opay online)"
+  },
+  {
+    "code": "50746",
+    "description": "Petra Mircofinance Bank Plc"
+  },
+  {
+    "code": "076",
+    "description": "Polaris Bank"
+  },
+  {
+    "code": "101",
+    "description": "Providus Bank"
+  },
+  {
+    "code": "502",
+    "description": "Rand Merchant Bank"
+  },
+  {
+    "code": "125",
+    "description": "Rubies MFB"
+  },
+  {
+    "code": "51310",
+    "description": "Sparkle Microfinance Bank"
+  },
+  {
+    "code": "221",
+    "description": "Stanbic IBTC Bank"
+  },
+  {
+    "code": "068",
+    "description": "Standard Chartered Bank"
+  },
+  {
+    "code": "232",
+    "description": "Sterling Bank"
+  },
+  {
+    "code": "100",
+    "description": "Suntrust Bank"
+  },
+  {
+    "code": "302",
+    "description": "TAJ Bank"
+  },
+  {
+    "code": "51211",
+    "description": "TCF MFB"
+  },
+  {
+    "code": "102",
+    "description": "Titan Bank"
+  },
+  {
+    "code": "032",
+    "description": "Union Bank of Nigeria"
+  },
+  {
+    "code": "033",
+    "description": "United Bank For Africa"
+  },
+  {
+    "code": "215",
+    "description": "Unity Bank"
+  },
+  {
+    "code": "566",
+    "description": "VFD Microfinance Bank Limited"
+  },
+  {
+    "code": "035",
+    "description": "Wema Bank"
+  },
+  {
+    "code": "057",
+    "description": "Zenith Bank"
+  },
+  {
+    "code": "51204",
+    "description": "Above Only MFB"
+  },
+  {
+    "code": "50926",
+    "description": "Amju Unique MFB"
+  },
+  {
+    "code": "51229",
+    "description": "Bainescredit MFB"
+  },
+  {
+    "code": "50171",
+    "description": "Chanelle Microfinance Bank Limited"
+  },
+  {
+    "code": "50204",
+    "description": "Corestep MFB"
+  },
+  {
+    "code": "51314",
+    "description": "Firmus MFB"
+  },
+  {
+    "code": "812",
+    "description": "Gateway Mortgage Bank LTD"
+  },
+  {
+    "code": "100022",
+    "description": "GoMoney"
+  },
+  {
+    "code": "50502",
+    "description": "Kadpoly MFB"
+  },
+  {
+    "code": "50200",
+    "description": "Kredi Money MFB LTD"
+  },
+  {
+    "code": "50549",
+    "description": "Links MFB"
+  },
+  {
+    "code": "303",
+    "description": "Lotus Bank"
+  },
+  {
+    "code": "50304",
+    "description": "Mint MFB"
+  },
+  {
+    "code": "100002",
+    "description": "Paga"
+  },
+  {
+    "code": "104",
+    "description": "Parallex Bank (Payment)"
+  },
+  {
+    "code": "51293",
+    "description": "QuickFund MFB"
+  },
+  {
+    "code": "51113",
+    "description": "Safe Haven MFB"
+  },
+  {
+    "code": "51253",
+    "description": "Stellas MFB"
+  },
+  {
+    "code": "51269",
+    "description": "Tangerine Money"
+  },
+  {
+    "code": "50871",
+    "description": "Unical MFB"
+  },
+  {
+    "code": "MFB50094",
+    "description": "Astrapolaris MFB LTD"
+  },
+  {
+    "code": "031",
+    "description": "Living Trust Mortgage Bank"
+  },
+  {
+    "code": "90067",
+    "description": "Refuge Mortgage Bank"
+  },
+  {
+    "code": "120003",
+    "description": "MoMo PSB"
+  },
+  {
+    "code": "120001",
+    "description": "9Payment Service Bank"
+  },
+  {
+    "code": "120002",
+    "description": "HopePSB"
+  },
+  {
+    "code": "120004",
+    "description": "SmartCash PSB"
+  },
+  {
+    "code": "105",
+    "description": "Premium Trust Bank"
+  },
+  {
+    "code": "",
+    "description": "Abbey Mortage Bank"
+  },
+  {
+    "code": "50800",
+    "description": "Solid Rock MFB"
+  },
+  {
+    "code": "51297",
+    "description": "Crescent MFB"
+  },
+  {
+    "code": "50083",
+    "description": "Aramoko MFB"
+  },
+  {
+    "code": "50439",
+    "description": "Ikoyi Osun MFB"
+  },
+  {
+    "code": "50864",
+    "description": "Polyunwana MFB"
+  },
+  {
+    "code": "51312",
+    "description": "Abulesoro MFB"
+  },
+  {
+    "code": "50263",
+    "description": "Ekimogun MFB"
+  },
+  {
+    "code": "000032",
+    "description": "Titan Paystack"
+  },
+  {
+    "code": "100039",
+    "description": "Titan Paystack"
+  },
+  {
+    "code": "MFB51322",
+    "description": "Uhuru MFB"
+  },
+  {
+    "code": "50582",
+    "description": "Shield MFB"
+  },
+  {
+    "code": "50968",
+    "description": "Supreme MFB"
+  },
+  {
+    "code": "602",
+    "description": "Accion Microfinance Bank"
+  },
+  {
+    "code": "098",
+    "description": "Ekondo Microfinance Bank"
+  },
+  {
+    "code": "090560",
+    "description": "Tanadi Microfinance Bank"
+  },
+  {
+    "code": "50739",
+    "description": "Goodnews Microfinance Bank"
+  },
+  {
+    "code": "090495",
+    "description": "Goodnews Microfinance Bank"
+  },
+  {
+    "code": "50442",
+    "description": "Ilaro Poly Microfinance Bank"
+  },
+  {
+    "code": "50162",
+    "description": "Dot Microfinance Bank"
+  },
+  {
+    "code": "51316",
+    "description": "Unilag Microfinance Bank"
+  },
+  {
+    "code": "50036",
+    "description": "Ahmadu Bello University Microfinance Bank"
+  },
+  {
+    "code": "51318",
+    "description": "Fairmoney Microfinance Bank"
+  },
+  {
+    "code": "50870",
+    "description": "Unaab Microfinance Bank Limited"
+  },
+  {
+    "code": "951113",
+    "description": "Safe Haven Microfinance Bank Limited"
+  },
+  {
+    "code": "50767",
+    "description": "ROCKSHIELD MICROFINANCE BANK"
+  },
+  {
+    "code": "107",
+    "description": "FirstTrust Mortgage Bank Nigeria"
+  },
+  {
+    "code": "51146",
+    "description": "Personal Trust MFB"
+  },
+  {
+    "code": "50117",
+    "description": "Banc Corp MFB"
+  },
+  {
+    "code": "50315",
+    "description": "FLOURISH MFB"
+  },
+  {
+    "code": "50515",
+    "description": "Moniepoint MFB"
+  },
+  {
+    "code": "51341",
+    "description": "AMPERSAND MICROFINANCE BANK"
+  },
+  {
+    "code": "50840",
+    "description": "U&C Microfinance Bank Ltd (U AND C MFB)"
+  },
+  {
+    "code": "50910",
+    "description": "Consumer Microfinance Bank"
+  },
+  {
+    "code": "865",
+    "description": "CASHCONNECT MFB"
+  },
+  {
+    "code": "060001",
+    "description": "Coronation Merchant Bank"
+  },
+  {
+    "code": "50743",
+    "description": "Peace Microfinance Bank"
+  },
+  {
+    "code": "FC40128",
+    "description": "County Finance Limited"
+  },
+  {
+    "code": "51062",
+    "description": "Solid Allianze MFB"
+  },
+  {
+    "code": "FC40163",
+    "description": "Branch International Financial Services Limited"
+  },
+  {
+    "code": "51336",
+    "description": "AKU Microfinance Bank"
+  },
+  {
+    "code": "00107",
+    "description": "Optimus Bank Limited"
+  },
+  {
+    "code": "51286",
+    "description": "Rigo Microfinance Bank Limited"
+  },
+  {
+    "code": "51355",
+    "description": "Waya Microfinance Bank"
+  },
+  {
+    "code": "000036",
+    "description": "Optimus Bank Limited"
+  },
+  {
+    "code": "413",
+    "description": "FirstTrust Mortgage Bank Nigeria"
+  },
+  {
+    "code": "50453",
+    "description": "Imowo MFB"
+  },
+  {
+    "code": "312",
+    "description": "Chikum Microfinance bank"
+  },
+  {
+    "code": "268",
+    "description": "Platinum Mortgage Bank"
+  },
+  {
+    "code": "40165",
+    "description": "SAGE GREY FINANCE LIMITED"
+  },
+  {
+    "code": "090629",
+    "description": "Amegy Microfinance Bank"
+  },
+  {
+    "code": "00711",
+    "description": "OPay Digital Services Limited (OPay)"
+  },
+  {
+    "code": "50994",
+    "description": "Rephidim Microfinance Bank"
+  },
+  {
+    "code": "51322",
+    "description": "Uhuru MFB"
+  },
+  {
+    "code": "120005",
+    "description": "Money Master PSB"
+  },
+  {
+    "code": "070001",
+    "description": "NPF MICROFINANCE BANK"
+  },
+  {
+    "code": "50629",
+    "description": "NPF MICROFINANCE BANK"
+  },
+  {
+    "code": "404",
+    "description": "Abbey Mortgage Bank"
+  },
+  {
+    "code": "946",
+    "description": "Money Master PSB"
+  },
+  {
+    "code": "832",
+    "description": "FUTMINNA MICROFINANCE BANK"
+  },
+  {
+    "code": "050020",
+    "description": "Vale Finance Limited"
+  },
+  {
+    "code": "462",
+    "description": "Akuchukwu Microfinance Bank Limited"
+  },
+  {
+    "code": "50894",
+    "description": "Uzondu Microfinance Bank Awka Anambra State"
+  },
+  {
+    "code": "090561",
+    "description": "Akuchukwu Microfinance Bank Limited"
+  },
+  {
+    "code": "51334",
+    "description": "Davenport MICROFINANCE BANK"
+  },
+  {
+    "code": "090190",
+    "description": "MUTUAL BENEFITS MICROFINANCE BANK"
+  },
+  {
+    "code": "106",
+    "description": "Signature Bank Ltd"
+  },
+  {
+    "code": "50491",
+    "description": "LOMA MFB"
+  },
+  {
+    "code": "090478",
+    "description": "AVUENEGBE MICROFINANCE BANK"
+  },
+  {
+    "code": "070027",
+    "description": "CITYCODE MORTAGE BANK"
+  },
+  {
+    "code": "090678",
+    "description": "EXCEL FINANCE BANK"
+  },
+  {
+    "code": "090164",
+    "description": "FIRST ROYAL MICROFINANCE BANK"
+  },
+  {
+    "code": "090664",
+    "description": "GOOD SHEPHERD MICROFINANCE BANK"
+  },
+  {
+    "code": "PMB90058",
+    "description": "IMPERIAL HOMES MORTAGE BANK"
+  },
+  {
+    "code": "090171",
+    "description": "MAINSTREET MICROFINANCE BANK"
+  },
+  {
+    "code": "090679",
+    "description": "NDCC MICROFINANCE BANK"
+  },
+  {
+    "code": "090680",
+    "description": "PATHFINDER MICROFINANCE BANK LIMITED"
+  },
+  {
+    "code": "050021",
+    "description": "PFI FINANCE COMPANY LIMITED"
+  },
+  {
+    "code": "050023",
+    "description": "PROSPERIS FINANCE LIMITED"
+  },
+  {
+    "code": "090496",
+    "description": "RANDALPHA MICROFINANCE BANK"
+  },
+  {
+    "code": "090162",
+    "description": "STANFORD MICROFINANCE BANK"
+  },
+  {
+    "code": "50298",
+    "description": "Fedeth MFB"
+  },
+  {
+    "code": "51308",
+    "description": "KANOPOLY MFB"
+  },
+  {
+    "code": "090574",
+    "description": "Goldman MFB"
+  },
+  {
+    "code": "00716",
+    "description": "Pocket App"
+  },
+  {
+    "code": "50123",
+    "description": "Beststar Microfinance Bank"
+  },
+  {
+    "code": "50761",
+    "description": "REHOBOTH MICROFINANCE BANK"
+  },
+  {
+    "code": "415",
+    "description": "IMPERIAL HOMES MORTAGE BANK"
+  },
+  {
+    "code": "51142",
+    "description": "Nigerian Navy Microfinance Bank Limited"
+  },
+  {
+    "code": "51226",
+    "description": "PECANTRUST MICROFINANCE BANK LIMITED"
+  },
+  {
+    "code": "51361",
+    "description": "NET MICROFINANCE BANK"
+  },
+  {
+    "code": "MFB50992",
+    "description": "Baobab Microfinance Bank"
+  },
+  {
+    "code": "51351",
+    "description": "AWACASH MICROFINANCE BANK"
+  },
+  {
+    "code": "50809",
+    "description": "STATESIDE MICROFINANCE BANK"
+  }
+]

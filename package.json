@@ -1,0 +1,50 @@
+{
+  "name": "1159_web_app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/lab": "^6.0.0-beta.28",
+    "@mui/material": "^6.4.3",
+    "@mui/x-charts": "^8.2.0",
+    "@mui/x-date-pickers": "^7.27.1",
+    "@paystack/inline-js": "^2.22.3",
+    "@phosphor-icons/react": "^2.1.7",
+    "@tanstack/react-query": "^5.66.3",
+    "cookie": "^1.0.2",
+    "cookies-next": "^5.1.0",
+    "dayjs": "^1.11.13",
+    "framer-motion": "^12.4.2",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^3.0.1",
+    "next": "15.1.6",
+    "pdfmake": "^0.2.18",
+    "polished": "^4.3.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-dropzone": "^14.3.5",
+    "use-debounce": "^10.0.4",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@types/node": "^20",
+    "@types/paystack__inline-js": "^1.0.1",
+    "@types/pdfmake": "^0.2.11",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^9",
+    "eslint-config-next": "15.1.6",
+    "postcss": "^8.5.1",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5"
+  }
+}

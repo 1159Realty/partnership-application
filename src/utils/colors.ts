@@ -1,0 +1,40 @@
+export const COLORS = {
+  gray50: "#FAFAFA",
+  gray100: "#F5F5F5",
+  gray200: "#EEEEEE",
+  gray300: "#E0E0E0",
+  gray400: "#BDBDBD",
+  gray500: "#9E9E9E",
+  gray600: "#757575",
+  gray700: "#616161",
+  gray800: "#424242",
+  gray900: "#212121",
+  greenLight: "#FCFAEE",
+  greenLightHover: "#FAF7E5",
+  greenLightActive: "#F5EFCA",
+  greenNormal: "#E0CB53",
+  greenNormalHover: "#CAB74B",
+  greenNormalActive: "#B3A242",
+  blackLight: "#E6E6E6",
+  blackLightHover: "#D9D9D9",
+  blackLightActive: "#B0B0B0",
+  blackNormal: "#000000",
+  blackHover: "#000000",
+  blackActive: "#000000",
+  whiteNormal: "#FFFFFF",
+  blueNormal: "#2196F3",
+  redCustom1: "#f87171",
+  success: "#2e7d32",
+  error: "#d32f2f",
+  warning: "#ed6c02",
+};
+
+export const SEVERITY_COLORS = {
+  success: { light: "#D8F6DF", dark: "#28A745" },
+  warning: { light: "#FFF6DB", dark: "#DAA502" },
+  danger: { light: "#FEE7E7", dark: "#F87171" },
+  alert: { light: "#EEF2FF", dark: "#4F46E5" },
+  neutral: { light: "#F8FAFC", dark: "#475569" },
+};
+
+export type Severity = keyof typeof SEVERITY_COLORS;
