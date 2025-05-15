@@ -83,7 +83,7 @@ function useCampaign() {
         formState = { result: null, error: { requestError: "Something went wrong" } };
       }
     } else {
-      // Show validation errors if any
+      // Show validation errors if any.
       formState = { result: null, error: formatZodErrors(validation.error) };
     }
     return formState;
