@@ -1,7 +1,5 @@
 import { Home } from "@/modules/home";
 
-// TODO: Add metadata
-
 interface Props {
   searchParams: Promise<{ propertyId: string }>;
 }
