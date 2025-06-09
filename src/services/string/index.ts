@@ -1,7 +1,7 @@
 import { User } from "@/lib/api/user/user.types";
 
-const truncateString = (str: string, max = 30, showAll?: "show-all"): string => {
-  if (showAll || !str) return str;
+const truncateString = (str?: string, max = 30, showAll?: "show-all"): string => {
+  if (showAll || !str) return str || "";
   if (str.length <= max) return str; // If within max limit, return as is
   return str.slice(0, Math.max(0, max - 3)) + "..."; // Truncate & add ellipsis
 };

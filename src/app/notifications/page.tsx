@@ -1,7 +1,8 @@
+import Notifications from "@/modules/notifications";
 import React from "react";
 
 function NotificationPage() {
-  return <div>NotificationPage</div>;
+  return <Notifications />;
 }
 
 export default NotificationPage;

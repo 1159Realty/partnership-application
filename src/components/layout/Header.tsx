@@ -9,6 +9,7 @@ import { Bell } from "@phosphor-icons/react/dist/ssr";
 import { IconButton } from "../buttons";
 import { Tooltip } from "../tooltip";
 import { ROUTES } from "@/utils/constants";
+import { useNotificationContext } from "@/contexts/NotificationContext";
 
 interface HeaderProps {
   avatarUrl: string;
@@ -16,6 +17,7 @@ interface HeaderProps {
 }
 
 const Header = ({ avatarUrl, pathname }: HeaderProps) => {
+  const { unreadCount } = useNotificationContext();
   return (
     <HeaderWrapper>
       <MenuIcon />
@@ -24,7 +26,7 @@ const Header = ({ avatarUrl, pathname }: HeaderProps) => {
         <Tooltip title="Notifications">
           <Link href={"/notifications"}>
             <IconButton bg_color={pathname === "/notifications" ? COLORS.greenNormal : undefined} custom_size="45px">
-              <Badge badgeContent={pathname === "/notifications" ? 0 : 2} color="secondary">
+              <Badge badgeContent={unreadCount || 0} color="secondary">
                 <Bell color="black" weight="bold" />
               </Badge>
             </IconButton>

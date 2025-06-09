@@ -10,6 +10,7 @@ import { getServerSession } from "@/lib/session/server";
 import { OnboardingDialog } from "@/components/dialog/onboarding";
 import { ClientOnboarding } from "@/components/forms/OnboardClient";
 import { UpdateBankAccountForm } from "../forms/UpdateBankAccountForm";
+import NotificationAlert from "../notificationAlert/alert";
 
 async function Component({ children }: ChildrenProps) {
   const session = await getServerSession();
@@ -18,6 +19,7 @@ async function Component({ children }: ChildrenProps) {
   return (
     <Providers initialUserData={userData}>
       <Layout>{children}</Layout>
+      <NotificationAlert />
       <Toast />
       <OnboardingDialog />
       <ClientOnboarding />
