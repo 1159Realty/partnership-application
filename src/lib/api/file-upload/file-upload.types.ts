@@ -28,5 +28,10 @@ type CloudinaryUploadResponse = {
   display_name: string;
   original_filename: string;
 };
+type FileUploadResponse = {
+  url: string;
+};
 
-export type { FileType, CloudinaryPreset, CloudinaryUploadResponse };
+type FileUploadType = "document" | "property-banner" | "profile-picture";
+
+export type { FileType, CloudinaryPreset, CloudinaryUploadResponse, FileUploadType, FileUploadResponse };

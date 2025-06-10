@@ -65,9 +65,9 @@ const PROTECTED_ROUTES = [
   "/notifications",
 ] as const;
 
-const UNPROTECTED_ROUTES = ["/sign-in", "/sign-up", "/forgot-password"] as const;
+const UNPROTECTED_ROUTES = ["/sign-in", "/sign-up", "/forgot-password", "/forgot-password"] as const;
 
-const FOOTER_ROUTES = ["/privacy", "/terms", "/eula"] as const;
+const FOOTER_ROUTES = ["/privacy-policy", "/terms-of-service", "/eula"] as const;
 
 const ROUTES_ARRAY = [...PROTECTED_ROUTES, ...UNPROTECTED_ROUTES, ...FOOTER_ROUTES, "/"] as const;
 
@@ -75,7 +75,14 @@ type RouteKey = (typeof ROUTES_ARRAY)[number];
 
 const ROUTES: Record<RouteKey, string> = Object.fromEntries(ROUTES_ARRAY.map((item) => [item, item])) as Record<RouteKey, string>;
 
-const NO_LAYOUT_ROUTES = [ROUTES["/sign-in"], ROUTES["/sign-up"], ROUTES["/eula"], ROUTES["/privacy"], ROUTES["/terms"]];
+const NO_LAYOUT_ROUTES = [
+  ROUTES["/forgot-password"],
+  ROUTES["/sign-in"],
+  ROUTES["/sign-up"],
+  ROUTES["/eula"],
+  ROUTES["/privacy-policy"],
+  ROUTES["/terms-of-service"],
+];
 
 // Nav Menu
 
@@ -85,8 +92,8 @@ interface INeutralLink {
 }
 
 const NeutralLinks: INeutralLink[] = [
-  { label: "Privacy policy", route: ROUTES["/privacy"] },
-  { label: "Terms of service", route: ROUTES["/terms"] },
+  { label: "Privacy policy", route: "https://www.1159realty.com/privacy-policy" },
+  { label: "Terms of service", route: "https://www.1159realty.com/terms-of-service" },
 ];
 
 interface IPanelItem {

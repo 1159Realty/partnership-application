@@ -14,7 +14,7 @@ const Signin = () => {
         <MobileCap2MGray500>Enter your details below correctly</MobileCap2MGray500>
       </Stack>
       <SigninForm />
-      <FooterLink/>
+      <FooterLink />
     </Box>
   );
 };

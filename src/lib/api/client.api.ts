@@ -1,5 +1,5 @@
 import { BASE_URL } from "@/utils/constants";
-import { ApiResponse, Token } from "./api.types";
+import { ApiResponse, ContentType, Token } from "./api.types";
 import { logout } from "./auth/server.auth";
 import { getClientSession, updateClientSessionToken } from "../session/client";
 
@@ -34,11 +34,14 @@ async function getFreshToken(refreshToken: string): Promise<Token | null> {
   }
 }
 
-function createHeaders(token?: string | null): Headers {
-  const headers = new Headers({
-    "Content-Type": "application/json",
-    Accept: "application/json",
-  });
+function createHeaders(token?: string | null, type: ContentType = "json"): Headers {
+  const headers =
+    type === "json"
+      ? new Headers({
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        })
+      : new Headers({});
 
   if (token) {
     headers.append("Authorization", `Bearer ${token}`);
@@ -76,24 +79,29 @@ async function get<T>(endpoint: string): Promise<ApiResponse<T>> {
 }
 
 // Post
-async function PostRequest<T>(endpoint: string, payload: unknown, token?: string | null): Promise<ApiResponse<T>> {
+async function PostRequest<T>(
+  endpoint: string,
+  payload: unknown,
+  token?: string | null,
+  type: ContentType = "json"
+): Promise<ApiResponse<T>> {
   const response = await fetch(`${BASE_URL}/${endpoint}`, {
     method: "POST",
-    headers: createHeaders(token),
-    body: JSON.stringify(payload),
+    headers: createHeaders(token, type),
+    body: (type === "json" ? JSON.stringify(payload) : payload) as BodyInit,
   });
 
   return await response?.json();
 }
 
-async function post<T>(endpoint: string, payload?: unknown): Promise<ApiResponse<T>> {
+async function post<T>(endpoint: string, payload?: unknown, type: ContentType = "json"): Promise<ApiResponse<T>> {
   try {
     const session = getClientSession();
-    let response = await PostRequest<T>(endpoint, payload, session?.token?.access);
+    let response = await PostRequest<T>(endpoint, payload, session?.token?.access, type);
 
     if (response?.statusCode === 401 && session?.token?.refresh) {
       const newToken = await getFreshToken(session.token.refresh);
-      response = await PostRequest(endpoint, payload, newToken?.access);
+      response = await PostRequest(endpoint, payload, newToken?.access, type);
     }
 
     return response;
@@ -106,24 +114,29 @@ async function post<T>(endpoint: string, payload?: unknown): Promise<ApiResponse
 }
 
 // Put
-async function PutRequest<T>(endpoint: string, payload: unknown, token?: string | null): Promise<ApiResponse<T>> {
+async function PutRequest<T>(
+  endpoint: string,
+  payload: unknown,
+  token?: string | null,
+  type: ContentType = "json"
+): Promise<ApiResponse<T>> {
   const response = await fetch(`${BASE_URL}/${endpoint}`, {
     method: "PUT",
-    headers: createHeaders(token),
-    body: JSON.stringify(payload),
+    headers: createHeaders(token, type),
+    body: (type === "json" ? JSON.stringify(payload) : payload) as BodyInit,
   });
 
   return await response?.json();
 }
 
-async function put<T>(endpoint: string, payload?: unknown): Promise<ApiResponse<T>> {
+async function put<T>(endpoint: string, payload?: unknown, type: ContentType = "json"): Promise<ApiResponse<T>> {
   try {
     const session = getClientSession();
-    let response = await PutRequest<T>(endpoint, payload, session?.token?.access);
+    let response = await PutRequest<T>(endpoint, payload, session?.token?.access, type);
 
     if (response?.statusCode === 401 && session?.token?.refresh) {
       const newToken = await getFreshToken(session.token.refresh);
-      response = await PutRequest(endpoint, payload, newToken?.access);
+      response = await PutRequest(endpoint, payload, newToken?.access, type);
     }
 
     return response;

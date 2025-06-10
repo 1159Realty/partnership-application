@@ -9,8 +9,6 @@ import {
   StyledPanelItem,
   PanelItemsWrapper,
   StyledDesktopSidePanel,
-  SidePanelFooterLinks,
-  SidePanelFooterLink,
 } from "./layout.styles";
 
 import { useGlobalContext } from "@/contexts/GlobalContext";
@@ -21,7 +19,7 @@ import { usePathname } from "next/navigation";
 import { fadeVariants } from "@/utils/animation-variants";
 import { Backdrop } from "@/styles/globals.styles";
 import { useUserContext } from "@/contexts/UserContext";
-import { IPanelItem, NeutralLinks } from "@/utils/constants";
+import { IPanelItem } from "@/utils/constants";
 import { getRoleRoutes, ROLE_PAIR } from "@/lib/session/roles";
 
 interface SidePanelContentProps {
@@ -46,17 +44,6 @@ const SidePanelContent = ({ onClose }: SidePanelContentProps) => {
             />
           ))}
       </PanelItemsWrapper>
-      <SidePanelFooterLinks>
-        {NeutralLinks.map((x) => (
-          <SidePanelFooterLink
-            key={x.route}
-            href={x.route}
-            active={`${(x.route === "/" && pathname === "/") || (pathname.includes(x.route) && x.route !== "/")}`}
-          >
-            {x.label}
-          </SidePanelFooterLink>
-        ))}
-      </SidePanelFooterLinks>
     </SidePanelWrapper>
   );
 };

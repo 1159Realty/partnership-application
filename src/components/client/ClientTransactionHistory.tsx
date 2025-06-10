@@ -240,7 +240,8 @@ function TransactionCard({ invoice, handleResolvePayment, handleUpdateInvoices, 
         <Box mt="8px">
           <ButtonPill onClick={() => setShowPdf(true)}>
             <Stack direction={"row"} spacing={"5px"} alignItems={"center"}>
-              <Receipt size={14} weight="bold" /> <MobileCap2MGray900>See invoice</MobileCap2MGray900>
+              <Receipt size={14} weight="bold" />{" "}
+              <MobileCap2MGray900>See {invoice?.status === "PAID" ? "receipt" : "invoice"}</MobileCap2MGray900>
             </Stack>
           </ButtonPill>
         </Box>

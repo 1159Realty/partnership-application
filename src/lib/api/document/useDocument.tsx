@@ -7,7 +7,7 @@ import { formatError } from "@/services/errors";
 import { formatZodErrors } from "@/services/validation/zod";
 import { useCallback } from "react";
 import { DocumentFormState } from "@/components/forms/DocumentForm";
-import { uploadToCloudinary } from "../file-upload";
+import { uploadFile } from "../file-upload";
 import {
   DocumentFormPayload,
   DocumentGroupPayload,
@@ -118,12 +118,12 @@ function useDocument() {
         const data = { ...validation.data };
         let uploadResponse;
         if (data?.document) {
-          uploadResponse = await uploadToCloudinary(data?.document, "document_file");
+          uploadResponse = await uploadFile(data?.document, "document");
         }
 
         const payloadData: DocumentPayload = {
           name: data?.name,
-          link: uploadResponse?.secure_url || "",
+          link: uploadResponse?.url || "",
           type: data?.type || "",
           documentGroupId: data?.documentGroupId || "",
           message: data?.message || undefined,
@@ -202,7 +202,7 @@ function useDocument() {
 
   async function deleteDocument(id: string): Promise<boolean> {
     try {
-      const response = await removeClient(`document/${id}`);
+      const response = await removeClient(`documents/document/${id}`);
       if (response?.statusCode === 200) {
         return true;
       }

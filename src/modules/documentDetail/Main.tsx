@@ -141,6 +141,7 @@ function Main({ documentsData, documentGroupData }: Props) {
         canUpdate={canUpdate}
         document={document}
         onCreate={() => setReload(!reload)}
+        onDelete={() => setReload(!reload)}
         formType={currentTabIndex === 0 ? "CLIENT" : "MODERATOR"}
       />
 

@@ -5,9 +5,9 @@ import { ApiResponse, PaginatedResponse } from "../api.types";
 import { PropertyFormState } from "@/components/forms/PropertyForm";
 import { formatError } from "@/services/errors";
 import { formatZodErrors } from "@/services/validation/zod";
-import { uploadToCloudinary } from "../file-upload";
 import { useCallback } from "react";
 import { getClient, postClient, putClient } from "../client.api";
+import { uploadFile } from "../file-upload";
 
 function useProperty() {
   const createProperty = async (initialState: PropertyFormState, payload: PropertyFormPayload) => {
@@ -64,10 +64,10 @@ function useProperty() {
       try {
         // upload image to cloudinary
         const data = { ...validation.data };
-        const uploadedImageResponse = await uploadToCloudinary(data.propertyPic, "property_image");
+        const uploadedImageResponse = await uploadFile(data.propertyPic, "property-banner");
 
         if (uploadedImageResponse) {
-          data.propertyPic = uploadedImageResponse.secure_url;
+          data.propertyPic = uploadedImageResponse?.url;
         }
         response = await postClient<IProperty>("properties", data);
 
@@ -131,10 +131,10 @@ function useProperty() {
       try {
         // upload image to cloudinary
         const data = { ...validation.data };
-        const uploadedImageResponse = await uploadToCloudinary(data.propertyPic, "property_image");
+        const uploadedImageResponse = await uploadFile(data.propertyPic, "property-banner");
 
         if (uploadedImageResponse) {
-          data.propertyPic = uploadedImageResponse.secure_url;
+          data.propertyPic = uploadedImageResponse?.url;
         }
 
         response = await putClient<IProperty>(`properties/${payload.id}`, { ...data });
@@ -146,6 +146,8 @@ function useProperty() {
           } else {
             formState = { result: true, error: {} };
           }
+        } else if (response?.statusCode === 413) {
+          formState = { result: null, error: { requestError: "File too large! Max file size is 3mb." } };
         }
       } catch (error) {
         // Log error to console

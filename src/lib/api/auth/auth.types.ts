@@ -4,6 +4,12 @@ interface LoginPayload {
   email: string;
   password: string;
 }
+
+interface PasswordResetPayload {
+  newPassword: string;
+  userId: string;
+  code: string;
+}
 interface RegisterPayload {
   email: string;
   password: string;
@@ -20,4 +26,4 @@ interface ChangePasswordPayload {
   newPassword: string;
 }
 
-export type { LoginPayload, AuthResponse, RegisterPayload, ChangePasswordPayload };
+export type { LoginPayload, AuthResponse, PasswordResetPayload, RegisterPayload, ChangePasswordPayload };

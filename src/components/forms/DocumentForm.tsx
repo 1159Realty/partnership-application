@@ -28,6 +28,7 @@ export interface DocumentFormState {
 
 interface DocumentFormProps {
   onCreate?: (doc: IDocument) => void;
+  onDelete?: () => void;
   onClose?: () => void;
   document: IDocument | null;
   canUpdate?: boolean;
@@ -36,7 +37,16 @@ interface DocumentFormProps {
   formType: "MODERATOR" | "CLIENT";
 }
 
-function DocumentForm({ onCreate, onClose, document, canUpdate, isOpen, documentGroupId, formType }: DocumentFormProps) {
+function DocumentForm({
+  onCreate,
+  onClose,
+  onDelete,
+  document,
+  canUpdate,
+  isOpen,
+  documentGroupId,
+  formType,
+}: DocumentFormProps) {
   const initialState: DocumentFormState = {
     error: {},
     result: null,
@@ -45,7 +55,7 @@ function DocumentForm({ onCreate, onClose, document, canUpdate, isOpen, document
   const { setAlert } = useAlertContext();
   const { userData } = useUserContext();
 
-  const { createDocument } = useDocument();
+  const { createDocument, deleteDocument } = useDocument();
 
   const [formState, setFormState] = useState<DocumentFormPayload>({
     status: "PENDING",
@@ -53,6 +63,7 @@ function DocumentForm({ onCreate, onClose, document, canUpdate, isOpen, document
 
   const [error, setError] = useState<ValidationError<DocumentFormPayload>>({});
   const [loading, setLoading] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   const [isUpdateMode, setIsUpdateMode] = useState(false);
 
@@ -87,6 +98,17 @@ function DocumentForm({ onCreate, onClose, document, canUpdate, isOpen, document
         <DotOutline size={30} weight="fill" color={"orange"} />
       </Stack>
     );
+  }
+
+  async function handleDelete() {
+    setDeleting(true);
+    const res = await deleteDocument(document?.id || "");
+    if (res) {
+      setAlert({ message: "Document deleted", show: true, severity: "success" });
+      onDelete?.();
+      handleClose?.();
+    }
+    setDeleting(false);
   }
 
   const handleClose = () => {
@@ -193,7 +215,15 @@ function DocumentForm({ onCreate, onClose, document, canUpdate, isOpen, document
               </Stack>
               {canUpdate && !disableUpdate && (
                 <Box width={"fit-content"}>
-                  <Button fullWidth={false} color="error" disableElevation={false} not_rounded padding="5px 12px">
+                  <Button
+                    onClick={handleDelete}
+                    loading={deleting}
+                    fullWidth={false}
+                    color="error"
+                    disableElevation={false}
+                    not_rounded
+                    padding="5px 12px"
+                  >
                     Delete document
                   </Button>
                 </Box>

@@ -1,6 +1,6 @@
-import ForgotPassword from "@/modules/forgotPassword";
+import { ForgotPassword } from "@/modules/forgotPassword";
 
-function ForgotPasswordPage() {
+async function ForgotPasswordPage() {
   return <ForgotPassword />;
 }
 

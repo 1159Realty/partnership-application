@@ -98,7 +98,7 @@ function InvoiceTemplate({ isOpen, onClose, makePayment, invoice }: InvoiceTempl
               <Stack direction={"row"} justifyContent={"space-between"} width={"100%"} mb="20px">
                 <Image alt="Logo" width={40} height={40} src={Logo} />
                 <Box display={"flex"} justifyContent={"flex-end"} alignItems={"flex-end"} flexDirection={"column"}>
-                  <Header>RECEIPT</Header>
+                  <Header>{isPaid ? "RECEIPT" : "INVOICE"}</Header>
                   <Subheader>#{invoice?.invoiceNum}</Subheader>
                 </Box>
               </Stack>

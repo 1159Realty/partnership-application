@@ -41,7 +41,7 @@ async function generateInvoicePDF(invoice: IInvoice, userData: User | null) {
           {
             alignment: "right",
             stack: [
-              { text: "RECEIPT", style: "header" },
+              { text: isPaid ? "RECEIPT" : "INVOICE", style: "header" },
               { text: `#${invoiceNum}`, style: "subheader" },
             ],
           },

@@ -19,13 +19,13 @@ import { useCallback } from "react";
 import { UserFormState } from "@/components/forms/OnboardClient";
 import { z } from "zod";
 import { formatPhoneNumber, phoneNumberToReferralId } from "@/services/string";
-import { uploadToCloudinary } from "../file-upload";
 import { formatZodErrors } from "@/services/validation/zod";
 import { getClientSession, updateClientSessionUser } from "@/lib/session/client";
 import { getClient, putClient } from "../client.api";
 import { UserRoleFormState } from "@/components/forms/TeamForm";
 import { getRole } from "@/lib/session/roles";
 import { BankAccountFormState } from "@/components/forms/UpdateBankAccountForm";
+import { uploadFile } from "../file-upload";
 
 function useUser() {
   const fetchUserData = useCallback(async (): Promise<User | null> => {
@@ -135,9 +135,9 @@ ${args?.sort ? `&sort=${args.sort}` : ""}`);
         let profilePic = "";
         // upload image to cloudinary
         if (payload?.profilePic && typeof payload.profilePic !== "string") {
-          const uploadedImageResponse = await uploadToCloudinary(payload?.profilePic, "user_profile_picture");
+          const uploadedImageResponse = await uploadFile(payload?.profilePic, "profile-picture");
           if (uploadedImageResponse) {
-            profilePic = uploadedImageResponse.secure_url;
+            profilePic = uploadedImageResponse?.url;
           }
         }
 
@@ -235,9 +235,9 @@ ${args?.sort ? `&sort=${args.sort}` : ""}`);
         let profilePic = "";
         // upload image to cloudinary
         if (payload?.profilePic && typeof payload.profilePic !== "string") {
-          const uploadedImageResponse = await uploadToCloudinary(payload?.profilePic, "user_profile_picture");
+          const uploadedImageResponse = await uploadFile(payload?.profilePic, "profile-picture");
           if (uploadedImageResponse) {
-            profilePic = uploadedImageResponse.secure_url;
+            profilePic = uploadedImageResponse?.url;
           }
         }
 

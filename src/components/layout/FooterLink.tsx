@@ -5,15 +5,12 @@ export default function FooterLink() {
   return (
     <SideLinkWrapper>
       <SidePanelFooterLinks>
-    {NeutralLinks.map((x) => (
-      <SidePanelFooterLink
-        key={x.route}
-        href={x.route}
-      >
-        {x.label}
-      </SidePanelFooterLink>
-    ))}
-  </SidePanelFooterLinks>
+        {NeutralLinks.map((x) => (
+          <SidePanelFooterLink key={x.route} href={x.route}>
+            {x.label}
+          </SidePanelFooterLink>
+        ))}
+      </SidePanelFooterLinks>
     </SideLinkWrapper>
-  )
+  );
 }

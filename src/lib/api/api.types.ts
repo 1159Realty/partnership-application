@@ -25,4 +25,6 @@ interface Session {
   user?: User;
 }
 
-export type { Token, Session, ApiResponse, PaginatedResponse };
+type ContentType = "json" | "form-data";
+
+export type { Token, Session, ApiResponse, PaginatedResponse, ContentType };
