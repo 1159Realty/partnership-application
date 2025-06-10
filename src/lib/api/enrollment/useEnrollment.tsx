@@ -148,12 +148,29 @@ function useEnrollment() {
     }
   }, []);
 
+  const addPlotId = useCallback(async (plotId: string): Promise<boolean> => {
+    try {
+      // TODO handle no land size scenario
+      const response = await putClient(`enrolments/`, { plotId });
+      if (response?.statusCode === 200) {
+        return true;
+      } else if (response?.statusCode === 403 || response?.statusCode === 430) {
+        return false;
+      }
+      return false;
+    } catch (error) {
+      console.error(formatError(error));
+      return false;
+    }
+  }, []);
+
   return {
     fetchEnrollmentsByUserId,
     fetchEnrollments,
     createEnrollment,
     cancelEnrollment,
     resumeEnrollment,
+    addPlotId,
   };
 }
 

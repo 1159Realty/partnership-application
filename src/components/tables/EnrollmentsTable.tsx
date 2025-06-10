@@ -28,6 +28,7 @@ interface Column {
     | "landSize"
     | "installmentDuration"
     | "outrightPayment"
+    | "plotId"
     | "agent"
     | "createdOn";
 
@@ -47,6 +48,7 @@ const columns: readonly Column[] = [
   { id: "landSize", label: "Land Size", minWidth: 170 },
   { id: "installmentDuration", label: "Installment Duration", minWidth: 170 },
   { id: "outrightPayment", label: "Outright Payment", minWidth: 170 },
+  { id: "plotId", label: "Plot Id", minWidth: 170 },
   { id: "agent", label: "Agent", minWidth: 170 },
   { id: "createdOn", label: "Created On", minWidth: 170 },
 ];
@@ -61,6 +63,7 @@ interface Data {
   landSize: string;
   installmentDuration: string;
   outrightPayment: string;
+  plotId: string;
   agent: string;
   createdOn: string;
 }
@@ -74,6 +77,7 @@ function createTableData(
   landSize: string,
   installmentDuration: string,
   outrightPayment: string,
+  plotId: string,
   agent: string,
   createdOn: string
 ): Data {
@@ -87,6 +91,7 @@ function createTableData(
     landSize,
     installmentDuration,
     outrightPayment,
+    plotId,
     agent,
     createdOn,
   };
@@ -141,6 +146,7 @@ function EnrollmentsTable({ data, page, limit, onLimitChange, onPageChange, onRo
         `${addCommas(x?.landSize) || "-"} SQM`,
         `${addCommas(x.installmentDuration) || "-"} Month(s)`,
         x.outrightPayment ? "Yes" : "No",
+        x?.plotId || "N/A",
         getUserName(x.agent),
         getDateTimeString(x.createdAt, "date-only")
       )

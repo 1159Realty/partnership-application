@@ -24,6 +24,7 @@ interface IEnrollment {
   updatedAt: string;
   moderatedBy: User;
   createdBy: User;
+  plotId: string;
 }
 
 interface EnrollmentPayload {
