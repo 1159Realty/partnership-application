@@ -10,6 +10,7 @@ import { ContentWrapper } from "../components/notificationAlert/styles";
 import { INotification } from "@/lib/api/notifications/types";
 import { Calendar, FileText, Handshake, Headset, User, UserSwitch, Warehouse } from "@phosphor-icons/react/dist/ssr";
 import { Icon as SvgIcon } from "@phosphor-icons/react";
+import { getUserName } from "@/services/string";
 
 export const useNotificationAlert = (notification: INotification | null) => {
   const { push } = useRouter();
@@ -132,6 +133,20 @@ export const useNotificationAlert = (notification: INotification | null) => {
           title: (
             <ContentWrapper>
               Your enrollment for <strong>{data?.property?.propertyName || ""}</strong> has been resumed.
+            </ContentWrapper>
+          ),
+          Icon: UserSwitch,
+          handleNavigation: handleNavigation(`${ROUTES["/enrollments"]}?enrollmentId=${data?.id}`),
+        });
+        break;
+      }
+      case "enrollment-complete": {
+        const data = parse<IEnrollment>(rawData);
+        setContent({
+          title: (
+            <ContentWrapper>
+              <strong>{getUserName(data?.client)}</strong> has completed payment for{" "}
+              <strong>{data?.property?.propertyName || ""}</strong>
             </ContentWrapper>
           ),
           Icon: UserSwitch,

@@ -1,5 +1,13 @@
-import { User } from "@/lib/api/user/user.types";
-import { agentPanelItems, clientPanelItems, managerPanelItems, operatorPanelItems } from "@/utils/constants";
+import {
+  agentPanelItems,
+  clientPanelItems,
+  managerPanelItems,
+  cstPanelItems,
+  salesPanelItems,
+  operationsPanelItems,
+  hrPanelItems,
+  accountingPanelItems,
+} from "@/utils/constants";
 
 export const CLIENT_ROLES = [
   // interest
@@ -54,7 +62,7 @@ export const AGENT_ROLES = [
 ] as const;
 export type AgentPermission = (typeof AGENT_ROLES)[number];
 
-export const OPERATOR_ROLES = [
+export const CST_ROLES = [
   // interest
   "view:interest",
   "update:interest",
@@ -69,33 +77,12 @@ export const OPERATOR_ROLES = [
   "view:enrollment",
   "create:enrollment",
 
-  //partnership
-  "view:partnership",
-  "update:partnership",
-  "delete:partnership",
-
   // invoice
   "view:invoice",
-
-  // client
-  "view:client",
-  "create:client",
-  "update:client",
-  "delete:client",
-
-  // agent
-  "view:agent",
-  "create:agent",
-  "update:agent",
-  "delete:agent",
-
-  // operator
-  "view:operator",
-  "create:operator",
 ] as const;
-export type OperatorPermission = (typeof OPERATOR_ROLES)[number];
+export type CstPermission = (typeof CST_ROLES)[number];
 
-export const HOD_MEDIA_ROLES = [
+export const CST_MANAGER_ROLES = [
   // interest
   "view:interest",
   "update:interest",
@@ -112,13 +99,16 @@ export const HOD_MEDIA_ROLES = [
   "update:enrollment",
   "delete:enrollment",
   "cancel:enrollment",
+  "resume:enrollment",
 
   // invoice
   "view:invoice",
-  "create:invoice",
   "update:invoice",
   "delete:invoice",
+] as const;
+export type CstMangerPermission = (typeof CST_MANAGER_ROLES)[number];
 
+export const HR_ROLES = [
   // client
   "view:client",
   "create:client",
@@ -131,42 +121,33 @@ export const HOD_MEDIA_ROLES = [
   "update:agent",
   "delete:agent",
 
-  // operator
-  "view:operator",
-  "create:operator",
-  "update:operator",
-  "delete:operator",
+  // cst
+  "view:cst",
+  "create:cst",
+  "update:cst",
+  "delete:cst",
 
-  // manager
-  "view:manager",
-  "create:manager",
+  // sales
+  "view:sales",
+  "create:sales",
+  "update:sales",
+  "delete:sales",
+
+  // operations
+  "view:operations",
+  "create:operations",
+  "update:operations",
+  "delete:operations",
+
+  // accounting
+  "view:accounting",
+  "create:accounting",
+  "update:accounting",
+  "delete:accounting",
 ] as const;
-export type HodMediaPermission = (typeof HOD_MEDIA_ROLES)[number];
+export type HrPermission = (typeof HR_ROLES)[number];
 
-export const HOD_SALES_ROLES = [
-  // interest
-  "view:interest",
-  "update:interest",
-  "delete:interest",
-
-  // appointment
-  "view:appointment",
-  "update:appointment",
-  "delete:appointment",
-
-  // enrollment
-  "view:enrollment",
-  "create:enrollment",
-  "update:enrollment",
-  "delete:enrollment",
-  "cancel:enrollment",
-
-  // invoice
-  "view:invoice",
-  "create:invoice",
-  "update:invoice",
-  "delete:invoice",
-
+export const HR_MANAGER_ROLES = [
   // client
   "view:client",
   "create:client",
@@ -179,209 +160,79 @@ export const HOD_SALES_ROLES = [
   "update:agent",
   "delete:agent",
 
-  // operator
-  "view:operator",
-  "create:operator",
-  "update:operator",
-  "delete:operator",
+  // cst
+  "view:cst",
+  "create:cst",
+  "update:cst",
+  "delete:cst",
 
-  // manager
-  "view:manager",
-  "create:manager",
+  // cst-manager
+  "view:cst-manager",
+  "create:cst-manager",
+  "update:cst-manager",
+  "delete:cst-manager",
+
+  // sales
+  "view:sales",
+  "create:sales",
+  "update:sales",
+  "delete:sales",
+
+  // sales-manager
+  "view:sales-manager",
+  "create:sales-manager",
+  "update:sales-manager",
+  "delete:sales-manager",
+
+  // operations
+  "view:operations",
+  "create:operations",
+  "update:operations",
+  "delete:operations",
+
+  // operations-manager
+  "view:operations-manager",
+  "create:operations-manager",
+  "update:operations-manager",
+  "delete:operations-manager",
+
+  // accounting
+  "view:accounting",
+  "create:accounting",
+  "update:accounting",
+  "delete:accounting",
+
+  // accounting-manager
+  "view:accounting-manager",
+  "create:accounting-manager",
+  "update:accounting-manager",
+  "delete:accounting-manager",
+
+  // hr
+  "view:hr",
+  "create:hr",
+  "update:hr",
+  "delete:hr",
 ] as const;
-export type HodSalesPermission = (typeof HOD_SALES_ROLES)[number];
+export type HrMangerPermission = (typeof HR_MANAGER_ROLES)[number];
 
-export const HOD_ACCOUNT_ROLES = [
-  // interest
-  "view:interest",
-  "update:interest",
-  "delete:interest",
+export const SALES_ROLES = [] as const;
+export type SalesPermission = (typeof SALES_ROLES)[number];
 
-  // appointment
-  "view:appointment",
-  "update:appointment",
-  "delete:appointment",
+export const SALES_MANAGER_ROLES = [] as const;
+export type SalesMangerPermission = (typeof SALES_MANAGER_ROLES)[number];
 
-  // enrollment
-  "view:enrollment",
-  "create:enrollment",
-  "update:enrollment",
-  "delete:enrollment",
-  "cancel:enrollment",
+export const OPERATIONS_ROLES = [] as const;
+export type OperationsPermission = (typeof OPERATIONS_ROLES)[number];
 
-  // invoice
-  "view:invoice",
-  "create:invoice",
-  "update:invoice",
-  "delete:invoice",
+export const OPERATIONS_MANAGER_ROLES = [] as const;
+export type OperationsMangerPermission = (typeof OPERATIONS_MANAGER_ROLES)[number];
 
-  // client
-  "view:client",
-  "create:client",
-  "update:client",
-  "delete:client",
+export const ACCOUNTING_ROLES = [] as const;
+export type AccountingPermission = (typeof ACCOUNTING_ROLES)[number];
 
-  // agent
-  "view:agent",
-  "create:agent",
-  "update:agent",
-  "delete:agent",
-
-  // operator
-  "view:operator",
-  "create:operator",
-  "update:operator",
-  "delete:operator",
-
-  // manager
-  "view:manager",
-  "create:manager",
-] as const;
-export type HodAccountPermission = (typeof HOD_MEDIA_ROLES)[number];
-
-export const HOD_OPERATIONS_ROLES = [
-  // interest
-  "view:interest",
-  "update:interest",
-  "delete:interest",
-
-  // appointment
-  "view:appointment",
-  "update:appointment",
-  "delete:appointment",
-
-  // enrollment
-  "view:enrollment",
-  "create:enrollment",
-  "update:enrollment",
-  "delete:enrollment",
-  "cancel:enrollment",
-
-  // invoice
-  "view:invoice",
-  "create:invoice",
-  "update:invoice",
-  "delete:invoice",
-
-  // client
-  "view:client",
-  "create:client",
-  "update:client",
-  "delete:client",
-
-  // agent
-  "view:agent",
-  "create:agent",
-  "update:agent",
-  "delete:agent",
-
-  // operator
-  "view:operator",
-  "create:operator",
-  "update:operator",
-  "delete:operator",
-
-  // manager
-  "view:manager",
-  "create:manager",
-] as const;
-export type HodOperationsPermission = (typeof HOD_OPERATIONS_ROLES)[number];
-
-export const HOD_LEGAL_ROLES = [
-  // interest
-  "view:interest",
-  "update:interest",
-  "delete:interest",
-
-  // appointment
-  "view:appointment",
-  "update:appointment",
-  "delete:appointment",
-
-  // enrollment
-  "view:enrollment",
-  "create:enrollment",
-  "update:enrollment",
-  "delete:enrollment",
-  "cancel:enrollment",
-
-  // invoice
-  "view:invoice",
-  "create:invoice",
-  "update:invoice",
-  "delete:invoice",
-
-  // client
-  "view:client",
-  "create:client",
-  "update:client",
-  "delete:client",
-
-  // agent
-  "view:agent",
-  "create:agent",
-  "update:agent",
-  "delete:agent",
-
-  // operator
-  "view:operator",
-  "create:operator",
-  "update:operator",
-  "delete:operator",
-
-  // manager
-  "view:manager",
-  "create:manager",
-] as const;
-export type HodLegalPermission = (typeof HOD_LEGAL_ROLES)[number];
-
-export const HOD_HR_ROLES = [
-  // interest
-  "view:interest",
-  "update:interest",
-  "delete:interest",
-
-  // appointment
-  "view:appointment",
-  "update:appointment",
-  "delete:appointment",
-
-  // enrollment
-  "view:enrollment",
-  "create:enrollment",
-  "update:enrollment",
-  "delete:enrollment",
-  "cancel:enrollment",
-
-  // invoice
-  "view:invoice",
-  "create:invoice",
-  "update:invoice",
-  "delete:invoice",
-
-  // client
-  "view:client",
-  "create:client",
-  "update:client",
-  "delete:client",
-
-  // agent
-  "view:agent",
-  "create:agent",
-  "update:agent",
-  "delete:agent",
-
-  // operator
-  "view:operator",
-  "create:operator",
-  "update:operator",
-  "delete:operator",
-
-  // manager
-  "view:manager",
-  "create:manager",
-] as const;
-export type HodHrPermission = (typeof HOD_HR_ROLES)[number];
+export const ACCOUNTING_MANAGER_ROLES = [] as const;
+export type AccountingManagerPermission = (typeof ACCOUNTING_MANAGER_ROLES)[number];
 
 export const MANAGER_ROLES = [
   // interest
@@ -426,15 +277,65 @@ export const MANAGER_ROLES = [
   "update:agent",
   "delete:agent",
 
-  // operator
-  "view:operator",
-  "create:operator",
-  "update:operator",
-  "delete:operator",
+  // cst
+  "view:cst",
+  "create:cst",
+  "update:cst",
+  "delete:cst",
 
-  // manager
-  "view:manager",
-  "create:manager",
+  // cst-manager
+  "view:cst-manager",
+  "create:cst-manager",
+  "update:cst-manager",
+  "delete:cst-manager",
+
+  // sales
+  "view:sales",
+  "create:sales",
+  "update:sales",
+  "delete:sales",
+
+  // sales-manager
+  "view:sales-manager",
+  "create:sales-manager",
+  "update:sales-manager",
+  "delete:sales-manager",
+
+  // operations
+  "view:operations",
+  "create:operations",
+  "update:operations",
+  "delete:operations",
+
+  // operations-manager
+  "view:operations-manager",
+  "create:operations-manager",
+  "update:operations-manager",
+  "delete:operations-manager",
+
+  // accounting
+  "view:accounting",
+  "create:accounting",
+  "update:accounting",
+  "delete:accounting",
+
+  // accounting-manager
+  "view:accounting-manager",
+  "create:accounting-manager",
+  "update:accounting-manager",
+  "delete:accounting-manager",
+
+  // hr
+  "view:hr",
+  "create:hr",
+  "update:hr",
+  "delete:hr",
+
+  // hr-manager
+  "view:hr-manager",
+  "create:hr-manager",
+  "update:hr-manager",
+  "delete:hr-manager",
 ] as const;
 export type ManagerPermission = (typeof MANAGER_ROLES)[number];
 
@@ -463,6 +364,12 @@ export const ADMIN_ROLES = [
   "update:invoice",
   "delete:invoice",
 
+  // release
+  "view:release",
+  "create:release",
+  "update:release",
+  "delete:release",
+
   // client
   "view:client",
   "create:client",
@@ -475,11 +382,65 @@ export const ADMIN_ROLES = [
   "update:agent",
   "delete:agent",
 
-  // operator
-  "view:operator",
-  "create:operator",
-  "update:operator",
-  "delete:operator",
+  // cst
+  "view:cst",
+  "create:cst",
+  "update:cst",
+  "delete:cst",
+
+  // cst-manager
+  "view:cst-manager",
+  "create:cst-manager",
+  "update:cst-manager",
+  "delete:cst-manager",
+
+  // sales
+  "view:sales",
+  "create:sales",
+  "update:sales",
+  "delete:sales",
+
+  // sales-manager
+  "view:sales-manager",
+  "create:sales-manager",
+  "update:sales-manager",
+  "delete:sales-manager",
+
+  // operations
+  "view:operations",
+  "create:operations",
+  "update:operations",
+  "delete:operations",
+
+  // operations-manager
+  "view:operations-manager",
+  "create:operations-manager",
+  "update:operations-manager",
+  "delete:operations-manager",
+
+  // accounting
+  "view:accounting",
+  "create:accounting",
+  "update:accounting",
+  "delete:accounting",
+
+  // accounting-manager
+  "view:accounting-manager",
+  "create:accounting-manager",
+  "update:accounting-manager",
+  "delete:accounting-manager",
+
+  // hr
+  "view:hr",
+  "create:hr",
+  "update:hr",
+  "delete:hr",
+
+  // hr-manager
+  "view:hr-manager",
+  "create:hr-manager",
+  "update:hr-manager",
+  "delete:hr-manager",
 
   // manager
   "view:manager",
@@ -492,23 +453,26 @@ export type AdminPermission = (typeof ADMIN_ROLES)[number];
 export const ROLES = {
   client: CLIENT_ROLES,
   agent: AGENT_ROLES,
-  operator: OPERATOR_ROLES,
+  cst: CLIENT_ROLES,
+  "cst-manager": CST_MANAGER_ROLES,
+  hr: HR_ROLES,
+  "hr-manager": HR_MANAGER_ROLES,
+  sales: SALES_ROLES,
+  "sales-manager": SALES_MANAGER_ROLES,
+  operations: OPERATIONS_ROLES,
+  "operations-manager": OPERATIONS_MANAGER_ROLES,
+  accounting: ACCOUNTING_ROLES,
+  "accounting-manager": ACCOUNTING_MANAGER_ROLES,
   manager: MANAGER_ROLES,
   admin: ADMIN_ROLES,
-  hodMedia: HOD_MEDIA_ROLES,
-  hodSales: HOD_HR_ROLES,
-  hodAccount: HOD_ACCOUNT_ROLES,
-  hodOperations: HOD_OPERATIONS_ROLES,
-  hodLegal: HOD_LEGAL_ROLES,
-  hodHr: HOD_HR_ROLES,
 };
 
 export type Role = keyof typeof ROLES;
 export type Permission = (typeof ROLES)[Role][number];
 
-export const hasPermission = (roleId: string | undefined, permission: Permission): boolean => {
+export const hasPermission = (roleId: string | undefined | null, permission: Permission): boolean => {
   if (!roleId) return false;
-  const role = ROLE_PAIR[roleId];
+  const role = getRole(roleId);
 
   return (ROLES[role] as readonly Permission[]).includes(permission);
 };
@@ -519,8 +483,21 @@ export const getRoleRoutes = (role: Role) => {
       return managerPanelItems;
     case "manager":
       return managerPanelItems;
-    case "operator":
-      return operatorPanelItems;
+    case "operations-manager":
+    case "operations":
+      return operationsPanelItems;
+    case "hr-manager":
+    case "hr":
+      return hrPanelItems;
+    case "cst-manager":
+    case "cst":
+      return cstPanelItems;
+    case "sales-manager":
+    case "sales":
+      return salesPanelItems;
+    case "accounting-manager":
+    case "accounting":
+      return accountingPanelItems;
     case "agent":
       return agentPanelItems;
     default:
@@ -528,143 +505,40 @@ export const getRoleRoutes = (role: Role) => {
   }
 };
 
-export const PERMISSION_ASSIGNMENTS = {
-  operator: {
-    create: [
-      {
-        label: "Client",
-        id: "client",
-      },
-      {
-        label: "Agent",
-        id: "agent",
-      },
-      {
-        label: "Operator",
-        id: "operator",
-      },
-    ],
-    update: [
-      {
-        label: "Client",
-        id: "client",
-      },
-      {
-        label: "Agent",
-        id: "agent",
-      },
-    ],
-  },
-  manager: {
-    create: [
-      {
-        label: "Client",
-        id: "client",
-      },
-      {
-        label: "Agent",
-        id: "agent",
-      },
-      {
-        label: "Operator",
-        id: "operator",
-      },
-      {
-        label: "Manger",
-        id: "manager",
-      },
-    ],
-    update: [
-      {
-        label: "Client",
-        id: "client",
-      },
-      {
-        label: "Agent",
-        id: "agent",
-      },
-      {
-        label: "Operator",
-        id: "operator",
-      },
-    ],
-  },
-  admin: {
-    create: [
-      {
-        label: "Client",
-        id: "client",
-      },
-      {
-        label: "Agent",
-        id: "agent",
-      },
-      {
-        label: "Operator",
-        id: "operator",
-      },
-      {
-        label: "Manger",
-        id: "manager",
-      },
-    ],
-    update: [
-      {
-        label: "Client",
-        id: "client",
-      },
-      {
-        label: "Agent",
-        id: "agent",
-      },
-      {
-        label: "Operator",
-        id: "operator",
-      },
-      {
-        label: "Manger",
-        id: "manager",
-      },
-    ],
-  },
-};
+export const USER_ROLES = [
+  "admin",
+  "manager",
+  "operations",
+  "operations-manager",
+  "hr",
+  "hr-manager",
+  "accounting",
+  "accounting-manager",
+  "sales",
+  "sales-manager",
+  "cst",
+  "cst-manager",
+  "agent",
+  "client",
+];
 
-export const ROLE_PAIR: { [key: string]: Role } = {
-  "a7b3c9d2e1-admin": "admin",
-  "x2y8z4q5w6-manager": "manager",
-  "m5n1p6r9t4-operator": "operator",
-  "k3l8j2h7v0-agent": "agent",
-  "s4f6g8h2j1-client": "client",
-  "g6b3q7u9j4-hod-media": "hodMedia",
-  "a3b7c2d9e1-hod-sales": "hodSales",
-  "x5y9z1w4v8-hod-account": "hodAccount",
-  "m2n8p4q6r3-hod-operations": "hodOperations",
-  "s1t7u3v5w9-hod-legal": "hodLegal",
-  "k4j8h2l6g1-hod-hr": "hodHr",
-};
-
-function getRoleId(value: Role): string | undefined {
-  return Object.keys(ROLE_PAIR).find((key) => ROLE_PAIR[key] === value);
+function getRole(roleId: string | null | undefined): Role {
+  if (!roleId) return "client";
+  return roleId as Role;
 }
 
-function getRole(roleId: string | null | undefined) {
-  if (!roleId) return "N/A";
-  return ROLE_PAIR[roleId];
-}
-
-// function getRoles() {
-//   return Object.entries(ROLE_PAIR)
-//     .filter(([, role]) => role !== "admin")
-//     .map(([key, role]) => ({ [role]: key }));
-// }
-
-function getRoles(user: User | null) {
+function getCreateRoles(userRole: string | null | undefined) {
   return (
-    Object.entries(ROLE_PAIR)
-      .filter(([, role]) => role !== "admin" && role !== "agent") // Exclude admin
+    USER_ROLES.filter((role) => role !== "admin" && role !== "agent") // Exclude admin
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      .filter(([, role]) => hasPermission(user?.roleId, `create:${role}` as any)) // Check "create" permission
-      .map(([key, role]) => ({ [role]: key }))
+      .filter((role) => hasPermission(userRole, `create:${role}` as any)) // Check "create" permission
+  );
+}
+
+function getHasRoleUpdatePermission(userRole: string | null | undefined, assigneeRole: string | null | undefined) {
+  return (
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    hasPermission(userRole, `update:${assigneeRole}` as any)
   );
 }
 
@@ -676,4 +550,4 @@ function getIsModerator(roleId: string | null | undefined): boolean {
   return !(role === "agent" || role === "client");
 }
 
-export { getRole, getRoles, getIsModerator, getRoleId };
+export { getRole, getCreateRoles, getHasRoleUpdatePermission, getIsModerator };

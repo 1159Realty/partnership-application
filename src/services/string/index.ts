@@ -39,7 +39,7 @@ function capitalizeAndSpace(text: string): string {
     .join(" ");
 }
 
-function getUserName(user: User | null, variant: "full" | "first" | "last" = "full"): string {
+function getUserName(user: User | null | undefined, variant: "full" | "first" | "last" = "full"): string {
   if (!user) return "N/A";
   if (variant === "first") return user?.firstName?.trim() ? user?.firstName : "N/A";
   if (variant === "last") return user?.lastName?.trim() ? user?.lastName : "N/A";

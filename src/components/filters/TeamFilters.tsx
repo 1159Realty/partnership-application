@@ -2,9 +2,9 @@
 
 import { Box, capitalize } from "@mui/material";
 import { SetState } from "@/utils/global-types";
-import { ROLE_PAIR } from "@/lib/session/roles";
 import { RoundedSelect, Search } from "../Inputs";
 import { FilterFlexWrappers } from "./filters.styles";
+import { USER_ROLES } from "@/lib/session/roles";
 
 export interface ITeamFilter {
   roleId?: string;
@@ -18,9 +18,7 @@ interface Props {
 }
 
 const TeamFilters = ({ setFilters, setQuery, query, filters }: Props) => {
-  const roles = Object.entries(ROLE_PAIR)
-    .filter(([, role]) => role !== "admin" && role !== "client")
-    .map(([key, role]) => ({ [role]: key }));
+  const roles = USER_ROLES.filter((role) => role !== "admin" && role !== "client");
 
   function handleChange(field: keyof ITeamFilter, value: string) {
     setFilters((prev) => ({ ...prev, [field]: value }));
@@ -43,10 +41,9 @@ const TeamFilters = ({ setFilters, setQuery, query, filters }: Props) => {
             label="Role filter"
             items={[
               ...roles.map((x) => {
-                const [key, value] = Object.entries(x)[0];
                 return {
-                  label: capitalize(key),
-                  id: value,
+                  label: capitalize(x),
+                  id: x,
                 };
               }),
               { label: "All", id: "" },

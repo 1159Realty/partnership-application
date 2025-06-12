@@ -12,7 +12,7 @@ import { TablePagination } from "@mui/material";
 import { PaginatedResponse } from "@/lib/api/api.types";
 import { User } from "@/lib/api/user/user.types";
 import { capitalizeAndSpace, getUserName } from "@/services/string";
-import { getRole, hasPermission } from "@/lib/session/roles";
+import { getHasRoleUpdatePermission, getRole } from "@/lib/session/roles";
 import { useAlertContext } from "@/contexts/AlertContext";
 import { useUserContext } from "@/contexts/UserContext";
 
@@ -79,7 +79,7 @@ function TeamTable({ onRowClick, data, page, limit, onLimitChange, onPageChange 
     data?.items?.map((x) =>
       createTableData(
         getUserName(x),
-        getRole(x?.roleId),
+        capitalizeAndSpace(getRole(x?.roleId)),
         getUserName(x?.roleAssignedBy),
         x?.email,
         x?.phoneNumber || "N/A",
@@ -93,49 +93,14 @@ function TeamTable({ onRowClick, data, page, limit, onLimitChange, onPageChange 
   function handleClick(user?: User) {
     if (!user?.id) return;
 
-    const memberRole = getRole(user?.roleId);
-    const currentUserRoleId = userData?.roleId;
-
-    if (memberRole === "admin") {
+    const isAuthorized = getHasRoleUpdatePermission(userData?.roleId, user?.roleId);
+    if (!isAuthorized) {
       setAlert({
         message: "Access denied",
         show: true,
         severity: "error",
       });
       return;
-    }
-
-    if (memberRole === "agent") {
-      if (!hasPermission(currentUserRoleId, "update:agent")) {
-        setAlert({
-          message: "Access denied",
-          show: true,
-          severity: "error",
-        });
-        return;
-      }
-    }
-
-    if (memberRole === "operator") {
-      if (!hasPermission(currentUserRoleId, "update:operator")) {
-        setAlert({
-          message: "Access denied",
-          show: true,
-          severity: "error",
-        });
-        return;
-      }
-    }
-
-    if (memberRole === "manager") {
-      if (!hasPermission(currentUserRoleId, "update:manager")) {
-        setAlert({
-          message: "Access denied",
-          show: true,
-          severity: "error",
-        });
-        return;
-      }
     }
 
     onRowClick?.(user);

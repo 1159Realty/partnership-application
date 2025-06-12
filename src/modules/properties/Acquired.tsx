@@ -12,16 +12,16 @@ import { Warehouse } from "@phosphor-icons/react/dist/ssr";
 import { IPropertyFilter } from "../home/HomeContext";
 import { useEnrollment } from "@/lib/api/enrollment/useEnrollment";
 import { IEnrollment } from "@/lib/api/enrollment/types";
-import { EnrolledDetail } from "./EnrolledDetail";
 import { useUserContext } from "@/contexts/UserContext";
 import { EnrollmentFilters } from "@/components/filters/EnrollmentFilters";
+import { AcquiredDetail } from "./AcquiredDetail";
 
 interface PropertiesProps {
   enrollmentData: PaginatedResponse<IEnrollment> | null;
   states: IState[] | null;
 }
 
-function Enrolled({ enrollmentData, states }: PropertiesProps) {
+function Acquired({ enrollmentData, states }: PropertiesProps) {
   const { fetchEnrollments } = useEnrollment();
   const { userData } = useUserContext();
 
@@ -44,11 +44,11 @@ function Enrolled({ enrollmentData, states }: PropertiesProps) {
     async function fetchEnrollmentsAsync() {
       const response = await fetchEnrollments({ ...filters, keyword: debouncedQuery, page, userId: userData?.id });
       if (response) {
-        setEnrollments(response);
+        setEnrollments({ ...response, items: enrollments?.items?.filter((x) => x?.status === "COMPLETED") || [] });
       }
     }
     fetchEnrollmentsAsync();
-  }, [fetchEnrollments, filters, debouncedQuery, page, userData?.id]);
+  }, [fetchEnrollments, filters, debouncedQuery, page, userData?.id, enrollments?.items]);
 
   return (
     <Box>
@@ -64,11 +64,7 @@ function Enrolled({ enrollmentData, states }: PropertiesProps) {
 
       {!hasItem ? (
         <Stack justifyContent={"center"} alignItems={"center"} width={"100%"} mt="32px">
-          <NoListItemCard
-            Icon={Warehouse}
-            noItemFoundDescription="You haven't been enrolled for any property"
-            noItemCreated={false}
-          />
+          <NoListItemCard Icon={Warehouse} noItemFoundDescription="You haven't acquired any property" noItemCreated={false} />
         </Stack>
       ) : (
         <Box>
@@ -94,9 +90,9 @@ function Enrolled({ enrollmentData, states }: PropertiesProps) {
           </Box>
         </Box>
       )}
-      <EnrolledDetail enrollment={enrollment} handleClose={() => setEnrollment(null)} />
+      <AcquiredDetail enrollment={enrollment} handleClose={() => setEnrollment(null)} />
     </Box>
   );
 }
 
-export { Enrolled };
+export { Acquired };

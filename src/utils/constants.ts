@@ -122,7 +122,47 @@ const agentPanelItems: IPanelItem[] = [
   { Icon: Headset, label: "Support", route: ROUTES["/support"] },
 ];
 
-const operatorPanelItems: IPanelItem[] = [
+const salesPanelItems: IPanelItem[] = [
+  { Icon: SquaresFour, label: "Home", route: ROUTES["/"] },
+  { Icon: Warehouse, label: "Properties", route: ROUTES["/property-management"] },
+  { Icon: MapPinLine, label: "Locations", route: ROUTES["/locations"] },
+  { Icon: Megaphone, label: "Campaign", route: ROUTES["/campaign"] },
+];
+
+const operationsPanelItems: IPanelItem[] = [
+  { Icon: SquaresFour, label: "Home", route: ROUTES["/"] },
+  { Icon: MapPinLine, label: "Locations", route: ROUTES["/locations"] },
+  { Icon: ChartLineUp, label: "Analytics", route: ROUTES["/analytics"] },
+];
+
+const hrPanelItems: IPanelItem[] = [
+  { Icon: SquaresFour, label: "Home", route: ROUTES["/"] },
+  { Icon: MapPinLine, label: "Locations", route: ROUTES["/locations"] },
+  { Icon: Handshake, label: "Partners", route: ROUTES["/partners"] },
+  { Icon: UsersThree, label: "Team", route: ROUTES["/teams"] },
+];
+
+const accountingPanelItems: IPanelItem[] = [
+  { Icon: SquaresFour, label: "Home", route: ROUTES["/"] },
+  { Icon: Warehouse, label: "Properties", route: ROUTES["/property-management"] },
+  { Icon: Receipt, label: "Invoices", route: ROUTES["/invoices"] },
+  { Icon: CreditCard, label: "Release", route: ROUTES["/release"] },
+  { Icon: MapPinLine, label: "Locations", route: ROUTES["/locations"] },
+];
+
+const cstPanelItems: IPanelItem[] = [
+  { Icon: SquaresFour, label: "Home", route: ROUTES["/"] },
+  { Icon: UserSwitch, label: "Enrollments", route: ROUTES["/enrollments"] },
+  { Icon: Receipt, label: "Invoices", route: ROUTES["/invoices"] },
+  { Icon: Warehouse, label: "Properties", route: ROUTES["/property-management"] },
+  { Icon: Calendar, label: "Appointments", route: ROUTES["/appointment-management"] },
+  { Icon: MapPinLine, label: "Locations", route: ROUTES["/locations"] },
+  { Icon: FileText, label: "Documents", route: ROUTES["/documents"] },
+  { Icon: Headset, label: "Support", route: ROUTES["/support-management"] },
+  { Icon: Megaphone, label: "Campaign", route: ROUTES["/campaign"] },
+];
+
+const managerPanelItems: IPanelItem[] = [
   { Icon: SquaresFour, label: "Home", route: ROUTES["/"] },
   { Icon: UserSwitch, label: "Enrollments", route: ROUTES["/enrollments"] },
   { Icon: Receipt, label: "Invoices", route: ROUTES["/invoices"] },
@@ -133,13 +173,9 @@ const operatorPanelItems: IPanelItem[] = [
   { Icon: Headset, label: "Support", route: ROUTES["/support-management"] },
   { Icon: Megaphone, label: "Campaign", route: ROUTES["/campaign"] },
   { Icon: Handshake, label: "Partners", route: ROUTES["/partners"] },
-  { Icon: UsersThree, label: "Team", route: ROUTES["/teams"] },
-];
-
-const managerPanelItems: IPanelItem[] = [
-  ...operatorPanelItems,
   { Icon: CreditCard, label: "Release", route: ROUTES["/release"] },
   { Icon: ChartLineUp, label: "Analytics", route: ROUTES["/analytics"] },
+  { Icon: UsersThree, label: "Team", route: ROUTES["/teams"] },
 ];
 
 const WEEKDAYS = ["SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"] as const;
@@ -154,7 +190,11 @@ export {
   BASE_URL,
   clientPanelItems,
   agentPanelItems,
-  operatorPanelItems,
+  cstPanelItems,
+  salesPanelItems,
+  operationsPanelItems,
+  hrPanelItems,
+  accountingPanelItems,
   managerPanelItems,
   NeutralLinks,
   WEEKDAYS,

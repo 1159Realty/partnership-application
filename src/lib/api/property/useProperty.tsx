@@ -1,5 +1,11 @@
 "use client";
-import { FetchPropertiesArgs, IProperty, PropertyFormPayload, UpdatePropertyFormPayload } from "./property.types";
+import {
+  FetchPropertiesArgs,
+  IProperty,
+  PropertyFormPayload,
+  PropertyMarketPrice,
+  UpdatePropertyFormPayload,
+} from "./property.types";
 import { z } from "zod";
 import { ApiResponse, PaginatedResponse } from "../api.types";
 import { PropertyFormState } from "@/components/forms/PropertyForm";
@@ -201,7 +207,26 @@ ${args?.includeDisabled ? `&includeDisabled=${args.includeDisabled}` : ""}`
     }
   }, []);
 
+  const addPropertyMarketValue = useCallback(
+    async (propertyId: string, propertyValues: PropertyMarketPrice[]): Promise<boolean> => {
+      try {
+        const response = await putClient<IProperty>(`property/${propertyId}`, {
+          propertyValues,
+        });
+        if (response?.statusCode === 200) {
+          return true;
+        }
+        return false;
+      } catch (error) {
+        console.error(formatError(error));
+        return false;
+      }
+    },
+    []
+  );
+
   return {
+    addPropertyMarketValue,
     createProperty,
     fetchProperties,
     updateProperty,

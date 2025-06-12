@@ -11,6 +11,7 @@ export type NotificationType =
   | "new-enrollment"
   | "enrollment-cancelled"
   | "enrollment-resumed"
+  | "enrollment-complete"
   //   appointment
   | "new-appointment"
   //   interests

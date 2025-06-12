@@ -12,7 +12,7 @@ import { ValidationError } from "@/services/validation/zod";
 import { ApiResult } from "@/utils/global-types";
 import { agentTypes, User, UserRoleFormPayload, UserRolePayload } from "@/lib/api/user/user.types";
 import { useUser } from "@/lib/api/user/useUser";
-import { getRole, getRoles } from "@/lib/session/roles";
+import { getRole, getCreateRoles } from "@/lib/session/roles";
 import { PaginatedResponse } from "@/lib/api/api.types";
 import { useDebounce } from "use-debounce";
 import { capitalizeAndSpace, getUserName } from "@/services/string";
@@ -163,11 +163,10 @@ function TeamForm({ onCreate, onClose, isOpen, user }: FormProps) {
               <Select
                 label="Role"
                 items={[
-                  ...getRoles(userData).map((x) => {
-                    const [key, value] = Object.entries(x)[0];
+                  ...getCreateRoles(userData?.roleId).map((x) => {
                     return {
-                      label: capitalize(key),
-                      id: value,
+                      label: capitalize(x),
+                      id: x,
                     };
                   }),
                 ]}

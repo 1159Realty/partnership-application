@@ -41,13 +41,6 @@ function PropertyAction({ property, handleClose }: PropertyActionProps) {
 
   const hasScheduled = appointments?.items?.some((x) => x?.property?.id === property?.id && property?.id);
 
-  function handleEnrollClient() {
-    if (!property) return;
-    handleClose();
-    setSchedulePropertyId(null);
-    setEnrollPropertyId(property.id);
-  }
-
   function handleScheduleAppointment() {
     if (!property) return;
     // handleClose();
@@ -96,18 +89,9 @@ function PropertyAction({ property, handleClose }: PropertyActionProps) {
         <Spinner />
       ) : (
         <Box pb="48px" mt="32px">
-          <Stack spacing={"32px"}>
+          <Stack spacing={"24px"}>
             <Box px="16px">
-              <Box>
-                <PropertyCard property={property} />
-              </Box>
-              {hasPermission(userData?.roleId, "create:enrollment") && (
-                <Stack mt="24px" spacing={"16px"}>
-                  <Button onClick={handleEnrollClient} fullWidth>
-                    Enroll Client
-                  </Button>
-                </Stack>
-              )}
+              <PropertyCard property={property} />
             </Box>
             <Divider />
 

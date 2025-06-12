@@ -3,12 +3,12 @@
 import { Drawer } from "@/components/drawer";
 import { PageTitleBtn } from "@/components/utils";
 import { FileUpload, TextField } from "@/components/Inputs";
-import { Button, LoadingButton } from "@/components/buttons";
+import { Button, IconButton, LoadingButton } from "@/components/buttons";
 import { Box, InputAdornment, Stack } from "@mui/material";
 import { ErrorText, MobileB1MGray900 } from "@/utils/typography";
 import { AutoComplete } from "../Inputs/AutoComplete";
 import { Divider } from "../divider";
-import { Plus } from "@phosphor-icons/react/dist/ssr";
+import { Plus, TipJar } from "@phosphor-icons/react/dist/ssr";
 import { useEffect, useState } from "react";
 import { useAlertContext } from "@/contexts/AlertContext";
 import { XCircle } from "@phosphor-icons/react";
@@ -21,7 +21,9 @@ import { FileType } from "@/lib/api/file-upload/file-upload.types";
 import { ApiResult } from "@/utils/global-types";
 import { usePropertyManagementContext } from "@/modules/propertyManagement/PropertyManagementContext";
 import { SelectWithStatus } from "../Inputs/Select";
-import { SEVERITY_COLORS } from "@/utils/colors";
+import { COLORS, SEVERITY_COLORS } from "@/utils/colors";
+import { Tooltip } from "../tooltip";
+import { AddMarketPrice } from "./AddPropertyMarketValue";
 
 export interface PropertyFormState {
   error: ValidationError<PropertyPayload>;
@@ -542,6 +544,8 @@ function UpdatePropertyForm({ onUpdate, property, handleClose }: UpdatePropertyF
   const { setAlert } = useAlertContext();
   const { updateProperty } = useProperty();
 
+  const [showMarketValue, setShowMarketValue] = useState(true);
+
   const [formState, setFormState] = useState<UpdatePropertyFormPayload>({
     id: "",
     propertyName: "",
@@ -624,101 +628,110 @@ function UpdatePropertyForm({ onUpdate, property, handleClose }: UpdatePropertyF
 
   return (
     <Drawer isOpen={Boolean(property)} handleClose={onClose}>
-      <div className="mt-16 pb-8">
-        <div className="mb-6">
-          <Box px="16px">
-            <PageTitleBtn hideCancel>Update property</PageTitleBtn>
-          </Box>
+      {showMarketValue ? (
+        <AddMarketPrice property={property} handleClose={() => setShowMarketValue(false)} />
+      ) : (
+        <div className="mt-16 pb-8">
+          <div className="mb-6">
+            <Stack direction={"row"} justifyContent={"space-between"} spacing={"10px"} px="16px">
+              <PageTitleBtn hideCancel>Update property </PageTitleBtn>
+              <Tooltip title="Market value">
+                <IconButton onClick={() => setShowMarketValue(true)} bg_color={COLORS.gray200}>
+                  <TipJar weight="duotone" />
+                </IconButton>
+              </Tooltip>
+            </Stack>
 
-          <div className="flex flex-col mt-8 gap-4">
-            <div className="flex flex-col gap-4  px-4">
-              <MobileB1MGray900>PROPERTY DESCRIPTION</MobileB1MGray900>
-              <Box>
-                <TextField
-                  fullWidth
-                  onChange={(e) => handleChange("propertyName", e.target.value)}
-                  name="propertyName"
-                  value={formState.propertyName}
-                  label="Name"
-                />
-                {error?.propertyName?.map((error, i) => (
-                  <Box key={i}>
-                    <ErrorText>{error}</ErrorText>
-                  </Box>
-                ))}
-              </Box>
+            <div className="flex flex-col mt-8 gap-4">
+              <div className="flex flex-col gap-4  px-4">
+                <MobileB1MGray900>PROPERTY DESCRIPTION</MobileB1MGray900>
+                <Box>
+                  <TextField
+                    fullWidth
+                    onChange={(e) => handleChange("propertyName", e.target.value)}
+                    name="propertyName"
+                    value={formState.propertyName}
+                    label="Name"
+                  />
+                  {error?.propertyName?.map((error, i) => (
+                    <Box key={i}>
+                      <ErrorText>{error}</ErrorText>
+                    </Box>
+                  ))}
+                </Box>
 
-              <Box>
-                <TextField
-                  fullWidth
-                  onChange={(e) => handleChange("totalLandSize", e.target.value)}
-                  name="totalLandSize"
-                  value={formState.totalLandSize}
-                  label="Total Size"
-                  slotProps={{
-                    input: {
-                      endAdornment: <InputAdornment position="start">SQM</InputAdornment>,
-                    },
-                  }}
-                />
-                {error?.totalLandSize?.map((error, i) => (
-                  <Box key={i}>
-                    <ErrorText>{error}</ErrorText>
-                  </Box>
-                ))}
-              </Box>
-            </div>
-            <Divider />
+                <Box>
+                  <TextField
+                    fullWidth
+                    onChange={(e) => handleChange("totalLandSize", e.target.value)}
+                    name="totalLandSize"
+                    value={formState.totalLandSize}
+                    label="Total Size"
+                    slotProps={{
+                      input: {
+                        endAdornment: <InputAdornment position="start">SQM</InputAdornment>,
+                      },
+                    }}
+                  />
+                  {error?.totalLandSize?.map((error, i) => (
+                    <Box key={i}>
+                      <ErrorText>{error}</ErrorText>
+                    </Box>
+                  ))}
+                </Box>
+              </div>
+              <Divider />
 
-            <div className="flex flex-col gap-4 px-4">
-              <MobileB1MGray900>PROPERTY STATUS</MobileB1MGray900>
-              <Box>
-                <SelectWithStatus
-                  label="Status"
-                  value={formState.status}
-                  items={[
-                    { id: "AVAILABLE", label: "Available", status: "#28A745" },
-                    { id: "SOLD_OUT", label: "Sold Out", status: SEVERITY_COLORS.danger.dark },
-                    { id: "RESERVED", label: "Reserved", status: SEVERITY_COLORS.warning.dark },
-                    { id: "DISABLED", label: "Archived", status: "darkgrey" },
-                  ]}
-                  onChange={(e) => handleChange("status", e.target.value as string)}
-                />
-                {error?.status?.map((error, i) => (
-                  <Box key={i}>
-                    <ErrorText>{error}</ErrorText>
-                  </Box>
-                ))}
-              </Box>
-            </div>
-            <Divider />
+              <div className="flex flex-col gap-4 px-4">
+                <MobileB1MGray900>PROPERTY STATUS</MobileB1MGray900>
+                <Box>
+                  <SelectWithStatus
+                    label="Status"
+                    value={formState.status}
+                    items={[
+                      { id: "AVAILABLE", label: "Available", status: "#28A745" },
+                      { id: "SOLD_OUT", label: "Sold Out", status: SEVERITY_COLORS.danger.dark },
+                      { id: "RESERVED", label: "Reserved", status: SEVERITY_COLORS.warning.dark },
+                      { id: "DISABLED", label: "Archived", status: "darkgrey" },
+                    ]}
+                    onChange={(e) => handleChange("status", e.target.value as string)}
+                  />
+                  {error?.status?.map((error, i) => (
+                    <Box key={i}>
+                      <ErrorText>{error}</ErrorText>
+                    </Box>
+                  ))}
+                </Box>
+              </div>
+              <Divider />
 
-            <div className="flex flex-col gap-4 px-4">
-              <MobileB1MGray900>PROPERTY BANNER</MobileB1MGray900>
-              <Box>
-                <FileUpload
-                  handleReset={() => handleReset("propertyPic")}
-                  files={files}
-                  setFiles={setFiles}
-                  label="Add property banner"
-                />
-                {error?.propertyPic?.map((error, i) => (
-                  <Box key={i}>
-                    <ErrorText>{error}</ErrorText>
-                  </Box>
-                ))}
-              </Box>
-            </div>
-            <Divider />
+              <div className="flex flex-col gap-4 px-4">
+                <MobileB1MGray900>PROPERTY BANNER</MobileB1MGray900>
+                <Box>
+                  <FileUpload
+                    handleReset={() => handleReset("propertyPic")}
+                    files={files}
+                    setFiles={setFiles}
+                    label="Add property banner"
+                  />
+                  {error?.propertyPic?.map((error, i) => (
+                    <Box key={i}>
+                      <ErrorText>{error}</ErrorText>
+                    </Box>
+                  ))}
+                </Box>
+              </div>
+              <Divider />
 
-            <div className="flex flex-col gap-4 px-4">
-              <LoadingButton loadingPosition="end" loading={loading} onClick={handleUpdateProperty}>
-                Update Property
-              </LoadingButton>
+              <div className="flex flex-col gap-4 px-4">
+                <LoadingButton loadingPosition="end" loading={loading} onClick={handleUpdateProperty}>
+                  Update Property
+                </LoadingButton>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
     </Drawer>
   );
 }

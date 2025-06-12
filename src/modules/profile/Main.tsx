@@ -14,7 +14,7 @@ import { useSession } from "@/lib/session/client/useSession";
 import { ConfirmationDialog } from "@/components/dialog/Confirmation";
 import { useUserContext } from "@/contexts/UserContext";
 import { capitalize, phoneNumberToReferralId } from "@/services/string";
-import { getRole, hasPermission, ROLE_PAIR } from "@/lib/session/roles";
+import { getRole, hasPermission } from "@/lib/session/roles";
 import { Bank, Copy, Pencil } from "@phosphor-icons/react/dist/ssr";
 import { Share } from "@/components/share";
 import { WEB_APP_URL } from "@/utils/constants";
@@ -40,7 +40,8 @@ function Main() {
   const [showPartnershipModal, setShowPartnershipModal] = useState(false);
   const [loadingPartnership, setLoadingPartnership] = useState(false);
 
-  const isAgent = getRole(userData?.roleId) === "agent";
+  const role = getRole(userData?.roleId);
+  const isAgent = role === "agent";
 
   const toggleEdit = () => {
     setShowEdit(!showEdit);
@@ -85,9 +86,9 @@ function Main() {
           </MobileH1SMGray900>
           <MobileCap2MGray600>{userData?.email || ""}</MobileCap2MGray600>
         </Stack>
-        {ROLE_PAIR[userData?.roleId || ""] !== "client" && (
+        {role !== "client" && (
           <StatusPill p="5px 15px!important" sx={{ borderRadius: "100px!important" }} status="warning">
-            {capitalize(ROLE_PAIR[userData?.roleId || ""])}
+            {capitalize(role)}
           </StatusPill>
         )}
         {hasPermission(userData?.roleId, "create:partnership") && (

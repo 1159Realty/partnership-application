@@ -14,7 +14,6 @@ import { useUser } from "@/lib/api/user/useUser";
 import { getUserName } from "@/services/string";
 import { COLORS } from "@/utils/colors";
 import { X } from "@phosphor-icons/react/dist/ssr";
-import { getRoleId } from "@/lib/session/roles";
 import { useRelease } from "@/lib/api/release/useRelease";
 
 interface SupportFormProps {
@@ -59,7 +58,7 @@ function ReleaseConfigurationForm({ show, onClose, usersData, onSubmit }: Suppor
 
   useEffect(() => {
     async function fetchUsersAsync() {
-      const response = await fetchUsers({ roleId: getRoleId("agent") });
+      const response = await fetchUsers({ roleId: "agent" });
       if (response) {
         setUsers(response);
       }

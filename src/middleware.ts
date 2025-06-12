@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { PROTECTED_ROUTES, ROUTES, UNPROTECTED_ROUTES, WEB_APP_URL } from "./utils/constants";
 import { getServerSession } from "./lib/session/server";
-import { getRoleRoutes, ROLE_PAIR } from "./lib/session/roles";
+import { getRole, getRoleRoutes } from "./lib/session/roles";
 
 function isProtectedRoute(path: string) {
   return PROTECTED_ROUTES.some((r) => path.includes(WEB_APP_URL + r));
@@ -20,7 +20,7 @@ export default async function middleware(request: NextRequest) {
   const fullPath = request.nextUrl.href.replace(WEB_APP_URL, "");
   const currentPath = `${WEB_APP_URL}${request.nextUrl.pathname}`;
 
-  const role = ROLE_PAIR[session?.user?.roleId || ""];
+  const role = getRole(session?.user?.roleId);
   const allowedRoleRoutes = [
     ...getRoleRoutes(role)
       .filter((x) => x.route !== ROUTES["/"])

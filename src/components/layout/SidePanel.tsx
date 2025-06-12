@@ -20,7 +20,7 @@ import { fadeVariants } from "@/utils/animation-variants";
 import { Backdrop } from "@/styles/globals.styles";
 import { useUserContext } from "@/contexts/UserContext";
 import { IPanelItem } from "@/utils/constants";
-import { getRoleRoutes, ROLE_PAIR } from "@/lib/session/roles";
+import { getRole, getRoleRoutes } from "@/lib/session/roles";
 
 interface SidePanelContentProps {
   onClose?: () => void;
@@ -30,12 +30,14 @@ const SidePanelContent = ({ onClose }: SidePanelContentProps) => {
   const pathname = usePathname();
   const { userData } = useUserContext();
 
+  const role = getRole(userData?.roleId);
+
   return (
     <SidePanelWrapper>
       <Image alt="Logo" width={40} height={40} src={Logo} />
       <PanelItemsWrapper>
         {userData?.roleId &&
-          getRoleRoutes(ROLE_PAIR[userData?.roleId]).map((pi) => (
+          getRoleRoutes(role).map((pi) => (
             <PanelItem
               onClose={onClose}
               key={pi.route}

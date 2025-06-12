@@ -72,6 +72,19 @@ interface FetchPropertiesArgs {
   limit?: number;
 }
 
+interface PropertyMarketPrice {
+  marketPrice: number;
+  size: number;
+}
+
 type PropertyStatus = "AVAILABLE" | "SOLD_OUT" | "RESERVED" | "DISABLED" | "ARCHIVED";
 
-export type { IProperty, PropertyPayload, PropertyFormPayload, FetchPropertiesArgs, PropertyStatus, UpdatePropertyFormPayload };
+export type {
+  IProperty,
+  PropertyPayload,
+  PropertyFormPayload,
+  FetchPropertiesArgs,
+  PropertyStatus,
+  UpdatePropertyFormPayload,
+  PropertyMarketPrice,
+};

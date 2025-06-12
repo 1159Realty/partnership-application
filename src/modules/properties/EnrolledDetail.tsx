@@ -57,7 +57,7 @@ function EnrolledDetail({ enrollment, handleClose }: InterestDetailProp) {
                 lineHeight={"20px"}
                 fontWeight={500}
               >
-                Congratulations! This property now belongs to you.
+                Congratulations! You have completed payment for this property.
               </Box>
             </Stack>
           )}
