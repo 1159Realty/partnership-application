@@ -31,6 +31,7 @@ type DocumentGroupPayload = {
   propertyId?: string;
   clientId?: string;
   documentGroupId?: string;
+  youtubeUrl?: string;
 };
 
 type DocumentGroupFormPayload = {
@@ -39,6 +40,7 @@ type DocumentGroupFormPayload = {
   propertyId?: AutoCompleteWithSubOptions;
   clientId?: AutoCompleteWithSubOptions;
   documentGroupId?: string;
+  youtubeUrl?: string;
 };
 
 type IDocument = {

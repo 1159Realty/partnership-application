@@ -79,6 +79,7 @@ function DocumentGroupForm({ onClose, onCreate, isOpen, documentGroup }: EnrollC
       propertyId: formState?.propertyId?.id,
       clientId: formState.clientId?.id,
       documentGroupId: documentGroup?.id,
+      youtubeUrl: formState?.youtubeUrl,
     };
 
     const { error, result } = await createDocumentGroup(initialState, payload);
@@ -134,6 +135,7 @@ function DocumentGroupForm({ onClose, onCreate, isOpen, documentGroup }: EnrollC
         setFormState({
           title: documentGroup?.title || "",
           description: documentGroup?.description,
+          youtubeUrl: documentGroup?.youtubeUrl,
         });
       }
     }
@@ -168,6 +170,21 @@ function DocumentGroupForm({ onClose, onCreate, isOpen, documentGroup }: EnrollC
               rows={4}
             />
             {error?.description?.map((error, i) => (
+              <Box key={i}>
+                <ErrorText>{error}</ErrorText>
+              </Box>
+            ))}
+          </Box>
+
+          <Box px="16px">
+            <TextField
+              fullWidth
+              onChange={(e) => handleChange("youtubeUrl", e.target.value)}
+              name="youtubeUrl"
+              value={formState.youtubeUrl}
+              label="Youtube link"
+            />
+            {error?.youtubeUrl?.map((error, i) => (
               <Box key={i}>
                 <ErrorText>{error}</ErrorText>
               </Box>
