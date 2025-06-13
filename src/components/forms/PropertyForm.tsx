@@ -8,22 +8,29 @@ import { Box, InputAdornment, Stack } from "@mui/material";
 import { ErrorText, MobileB1MGray900 } from "@/utils/typography";
 import { AutoComplete } from "../Inputs/AutoComplete";
 import { Divider } from "../divider";
-import { Plus, TipJar } from "@phosphor-icons/react/dist/ssr";
+import { Plus, CurrencyNgn } from "@phosphor-icons/react/dist/ssr";
 import { useEffect, useState } from "react";
 import { useAlertContext } from "@/contexts/AlertContext";
 import { XCircle } from "@phosphor-icons/react";
 import { ValidationError } from "@/services/validation/zod";
-import { IProperty, PropertyFormPayload, PropertyPayload, UpdatePropertyFormPayload } from "@/lib/api/property/property.types";
+import {
+  IProperty,
+  PROPERTY_LAND_TYPE,
+  PropertyFormPayload,
+  PropertyPayload,
+  UpdatePropertyFormPayload,
+} from "@/lib/api/property/property.types";
 import { useProperty } from "@/lib/api/property/useProperty";
 import { IArea, ILga, IState } from "@/lib/api/location/location.types";
 import { useLocation } from "@/lib/api/location/useLocation";
 import { FileType } from "@/lib/api/file-upload/file-upload.types";
 import { ApiResult } from "@/utils/global-types";
 import { usePropertyManagementContext } from "@/modules/propertyManagement/PropertyManagementContext";
-import { SelectWithStatus } from "../Inputs/Select";
+import { Select, SelectWithStatus } from "../Inputs/Select";
 import { COLORS, SEVERITY_COLORS } from "@/utils/colors";
 import { Tooltip } from "../tooltip";
 import { AddMarketPrice } from "./AddPropertyMarketValue";
+import { capitalizeAndSpace } from "@/services/string";
 
 export interface PropertyFormState {
   error: ValidationError<PropertyPayload>;
@@ -60,6 +67,9 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
     installmentInterest: 1.2,
     overDueInterest: 1.5,
     installmentPeriod: 32,
+    address: "",
+    landType: "",
+    youtubeUrl: "",
   });
   const [error, setError] = useState<ValidationError<PropertyPayload>>({});
   const [loading, setLoading] = useState(false);
@@ -212,6 +222,23 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
                   label="Name"
                 />
                 {error?.propertyName?.map((error, i) => (
+                  <Box key={i}>
+                    <ErrorText>{error}</ErrorText>
+                  </Box>
+                ))}
+              </Box>
+
+              <Box>
+                <Select
+                  label="Land size"
+                  value={formState.landType}
+                  items={PROPERTY_LAND_TYPE.map((x) => ({
+                    id: x,
+                    label: capitalizeAndSpace(x),
+                  }))}
+                  onChange={(e) => handleChange("landType", e.target.value as string)}
+                />
+                {error?.landType?.map((error, i) => (
                   <Box key={i}>
                     <ErrorText>{error}</ErrorText>
                   </Box>
@@ -432,6 +459,21 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
                   </Box>
                 ))}
               </Box>
+
+              <Box>
+                <TextField
+                  fullWidth
+                  onChange={(e) => handleChange("address", e.target.value)}
+                  name="address"
+                  value={formState.address}
+                  label="Land mark"
+                />
+                {error?.address?.map((error, i) => (
+                  <Box key={i}>
+                    <ErrorText>{error}</ErrorText>
+                  </Box>
+                ))}
+              </Box>
             </div>
             <Divider />
 
@@ -502,6 +544,21 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
             <div className="flex flex-col gap-4 px-4">
               <MobileB1MGray900>BANNER</MobileB1MGray900>
               <Box>
+                <TextField
+                  fullWidth
+                  onChange={(e) => handleChange("youtubeUrl", e.target.value)}
+                  name="youtubeUrl"
+                  value={formState.youtubeUrl}
+                  label="Youtube link"
+                />
+                {error?.youtubeUrl?.map((error, i) => (
+                  <Box key={i}>
+                    <ErrorText>{error}</ErrorText>
+                  </Box>
+                ))}
+              </Box>
+
+              <Box>
                 <FileUpload
                   handleReset={() => handleReset("propertyPic")}
                   files={files}
@@ -544,7 +601,7 @@ function UpdatePropertyForm({ onUpdate, property, handleClose }: UpdatePropertyF
   const { setAlert } = useAlertContext();
   const { updateProperty } = useProperty();
 
-  const [showMarketValue, setShowMarketValue] = useState(true);
+  const [showMarketValue, setShowMarketValue] = useState(false);
 
   const [formState, setFormState] = useState<UpdatePropertyFormPayload>({
     id: "",
@@ -552,6 +609,7 @@ function UpdatePropertyForm({ onUpdate, property, handleClose }: UpdatePropertyF
     propertyPic: "",
     totalLandSize: "",
     status: "",
+    youtubeUrl: "",
   });
   const [error, setError] = useState<ValidationError<PropertyPayload>>({});
   const [loading, setLoading] = useState(false);
@@ -606,6 +664,7 @@ function UpdatePropertyForm({ onUpdate, property, handleClose }: UpdatePropertyF
         propertyPic: property?.propertyPic || "",
         totalLandSize: property?.totalLandSize || "",
         status: property?.status || "AVAILABLE",
+        youtubeUrl: property?.youtubeUrl,
       });
 
       if (property?.propertyPic) {
@@ -637,7 +696,7 @@ function UpdatePropertyForm({ onUpdate, property, handleClose }: UpdatePropertyF
               <PageTitleBtn hideCancel>Update property </PageTitleBtn>
               <Tooltip title="Market value">
                 <IconButton onClick={() => setShowMarketValue(true)} bg_color={COLORS.gray200}>
-                  <TipJar weight="duotone" />
+                  <CurrencyNgn weight="duotone" />
                 </IconButton>
               </Tooltip>
             </Stack>
@@ -707,6 +766,20 @@ function UpdatePropertyForm({ onUpdate, property, handleClose }: UpdatePropertyF
 
               <div className="flex flex-col gap-4 px-4">
                 <MobileB1MGray900>PROPERTY BANNER</MobileB1MGray900>
+                <Box>
+                  <TextField
+                    fullWidth
+                    onChange={(e) => handleChange("youtubeUrl", e.target.value)}
+                    name="youtubeUrl"
+                    value={formState.youtubeUrl}
+                    label="Youtube link"
+                  />
+                  {error?.youtubeUrl?.map((error, i) => (
+                    <Box key={i}>
+                      <ErrorText>{error}</ErrorText>
+                    </Box>
+                  ))}
+                </Box>
                 <Box>
                   <FileUpload
                     handleReset={() => handleReset("propertyPic")}

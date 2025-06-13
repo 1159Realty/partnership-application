@@ -4,6 +4,7 @@ import { COLORS } from "@/utils/colors";
 import styled from "@emotion/styled";
 import { LoadingButton } from "@mui/lab";
 import { Button, Chip, IconButton as MuiIconButton } from "@mui/material";
+import Link from "next/link";
 import { darken } from "polished";
 
 interface IconButtonProps {
@@ -58,4 +59,22 @@ export const ArrowBackButton = styled.div`
 // Loading button
 export const StyledLoadingButton = styled(LoadingButton)<StyledButtonProps>`
   border-radius: ${({ not_rounded }) => (not_rounded === "true" ? "5px" : "40px")};
+`;
+
+// Loading button
+export const GoogleButtonWrapper = styled(Link)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 10px;
+  padding: 8px 10px;
+  border: 2px solid ${COLORS.gray200};
+  border-radius: 5px;
+  width: 100%;
+  cursor: pointer;
+
+  span {
+    color: black;
+    font-size: 16px;
+  }
 `;

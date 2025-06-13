@@ -11,6 +11,7 @@ import { COLORS, SEVERITY_COLORS } from "@/utils/colors";
 import { ROUTES } from "@/utils/constants";
 import Link from "next/link";
 import { addCommas } from "@/services/numbers";
+import ReactPlayer from "react-player";
 
 interface Props {
   handleClick?: (id: string) => void;
@@ -21,6 +22,7 @@ interface Props {
   landSize?: number;
   showLink?: boolean;
   showRemainingLandSize?: boolean;
+  showYoutube?: boolean;
 }
 
 function PropertyCard({
@@ -32,10 +34,13 @@ function PropertyCard({
   primaryId,
   landSize,
   showLink,
+  showYoutube,
 }: Props) {
   const { setAlert } = useAlertContext();
 
   const propertyUrl = `${ROUTES["/"]}?propertyId=${property?.id}`;
+  const youtubeUrl = property?.youtubeUrl?.trim();
+  const renderYoutube = Boolean(youtubeUrl && showYoutube);
 
   const onClick = () => {
     if (primaryId && handleClick) {
@@ -79,15 +84,18 @@ function PropertyCard({
   return (
     <PropertyCardWrapper>
       <PropertyImageWrapper onClick={onClick}>
-        <Image src={property?.propertyPic || ""} />
-        <PropertyImageDetailWrapper>
-          <Stack direction={"row"} justifyContent={"space-between"} alignItems={"center"} spacing={"10px"}>
-            <Pill>
-              {property?.area?.area}, {property?.lga?.lga}, {property?.state?.state}
-            </Pill>
-            {showStatus && <Pill bgcolor={getAvailability()?.bgColor}>{getAvailability()?.label}</Pill>}
-          </Stack>
-        </PropertyImageDetailWrapper>
+        {renderYoutube ? <ReactPlayer width={"100%"} url={youtubeUrl} /> : <Image src={property?.propertyPic || ""} />}
+
+        {!renderYoutube && (
+          <PropertyImageDetailWrapper>
+            <Stack direction={"row"} justifyContent={"space-between"} alignItems={"center"} spacing={"10px"}>
+              <Pill>
+                {property?.area?.area}, {property?.lga?.lga}, {property?.state?.state}
+              </Pill>
+              {showStatus && <Pill bgcolor={getAvailability()?.bgColor}>{getAvailability()?.label}</Pill>}
+            </Stack>
+          </PropertyImageDetailWrapper>
+        )}
       </PropertyImageWrapper>
       <PropertyCardDetailWrapper>
         <Stack direction={"row"} justifyContent={"space-between"} spacing={"10px"}>

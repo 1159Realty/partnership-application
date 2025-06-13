@@ -1,9 +1,12 @@
 import { Box, Stack } from "@mui/material";
 import Logo from "@/assets/images/logo.svg";
 import Image from "next/image";
-import { MobileCap2MGray500, MobileH2SMGray900 } from "@/utils/typography";
+import { MobileH2SMGray900 } from "@/utils/typography";
 import { SignUpForm } from "./SignupForm";
 import FooterLink from "@/components/layout/FooterLink";
+import { GoogleButton } from "@/components/buttons/GoogleButton";
+import Divider from "@mui/material/Divider";
+import { COLORS } from "@/utils/colors";
 
 const SignUp = () => {
   return (
@@ -11,9 +14,13 @@ const SignUp = () => {
       <Stack alignItems={"center"} justifyContent={"center"} textAlign={"center"} spacing={"8px"}>
         <Image style={{ borderRadius: "9px" }} width={60} height={55} src={Logo} alt="logo" />
         <MobileH2SMGray900>Create an account</MobileH2SMGray900>
-        <MobileCap2MGray500>Enter your details below correctly</MobileCap2MGray500>
       </Stack>
-      <SignUpForm />
+
+      <Stack mt="20px" spacing={"20px"}>
+        <GoogleButton />
+        <Divider sx={{ color: COLORS.gray600, mt: 1 }}>OR</Divider>
+        <SignUpForm />
+      </Stack>
       <FooterLink />
     </Box>
   );

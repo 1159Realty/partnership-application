@@ -9,7 +9,7 @@ import { register } from "@/lib/api/auth/server.auth";
 import { useSession } from "@/lib/session/client/useSession";
 import { ValidationError } from "@/services/validation/zod";
 import { ROUTES } from "@/utils/constants";
-import { ErrorText, MobileB1LightGray900, MobileB1MGray500 } from "@/utils/typography";
+import { ErrorText, MobileB1LightGray900, MobileB1MGray500, MobileCap2MGray500 } from "@/utils/typography";
 import { Box, InputAdornment, Stack } from "@mui/material";
 import { Eye, EyeSlash } from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
@@ -84,7 +84,10 @@ function SignUpForm() {
   }
 
   return (
-    <Stack spacing={"24px"} mt="32px">
+    <Stack spacing={"24px"}>
+      <Box textAlign={"center"}>
+        <MobileCap2MGray500>Enter your details below correctly</MobileCap2MGray500>
+      </Box>
       <Box>
         <TextField
           type="email"

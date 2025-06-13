@@ -65,7 +65,7 @@ const PROTECTED_ROUTES = [
   "/notifications",
 ] as const;
 
-const UNPROTECTED_ROUTES = ["/sign-in", "/sign-up", "/forgot-password", "/forgot-password"] as const;
+const UNPROTECTED_ROUTES = ["/sign-in", "/google-auth", "/sign-up", "/forgot-password", "/forgot-password"] as const;
 
 const FOOTER_ROUTES = ["/privacy-policy", "/terms-of-service", "/eula"] as const;
 
@@ -77,6 +77,7 @@ const ROUTES: Record<RouteKey, string> = Object.fromEntries(ROUTES_ARRAY.map((it
 
 const NO_LAYOUT_ROUTES = [
   ROUTES["/forgot-password"],
+  ROUTES["/google-auth"],
   ROUTES["/sign-in"],
   ROUTES["/sign-up"],
   ROUTES["/eula"],

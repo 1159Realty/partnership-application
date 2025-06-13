@@ -23,11 +23,9 @@ function InterestDetail({ interest, handleClose, onCancelInterest }: InterestDet
   return (
     <Drawer isOpen={Boolean(interest)} handleClose={handleClose}>
       <Box pb="48px" mt="32px">
-        <Stack spacing={"32px"}>
+        <Stack spacing={"24px"}>
           <Box px="16px">
-            <Box>
-              <PropertyCard property={interest?.property || null} />
-            </Box>
+            <PropertyCard showYoutube property={interest?.property || null} />
           </Box>
           <Divider />
 
@@ -35,7 +33,6 @@ function InterestDetail({ interest, handleClose, onCancelInterest }: InterestDet
             <Button fullWidth onClick={() => handleCancelInterest(interest)}>
               Cancel Interest
             </Button>
-            <Divider />
           </Stack>
           <Divider />
 

@@ -65,6 +65,7 @@ type IDocumentGroup = {
   updatedAt: string;
   createdBy: User;
   updatedBy: User;
+  youtubeUrl: string;
 };
 
 interface FetchDocumentGroupArgs {

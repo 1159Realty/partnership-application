@@ -4,7 +4,7 @@ import { PaginatedResponse } from "@/lib/api/api.types";
 import { Box, Grid2, Stack } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { NoListItemCard } from "@/components/cards/NoItemCard";
-import { Files, FileText, Plus } from "@phosphor-icons/react/dist/ssr";
+import { FileText, Plus } from "@phosphor-icons/react/dist/ssr";
 import { PageTitle } from "@/components/typography";
 import { getClientSession } from "@/lib/session/client";
 import { useUserContext } from "@/contexts/UserContext";
@@ -12,14 +12,11 @@ import { getIsModerator } from "@/lib/session/roles";
 import { IDocumentGroup } from "@/lib/api/document/document.types";
 import { useDocument } from "@/lib/api/document/useDocument";
 import { DocumentTable } from "@/components/tables/DocumentTable";
-import { Button, IconButton } from "@/components/buttons";
+import { Button } from "@/components/buttons";
 import { DocumentGroupForm } from "@/components/forms/DocumentGroupForm";
 import { DocumentGroupFilters, IDocumentGroupFilters } from "@/components/filters/DocumentGroupFilters";
 import { DescriptionCard } from "@/components/cards/DescriptionCard";
 import { Pagination } from "@/components/pagination";
-import Link from "next/link";
-import { ROUTES } from "@/utils/constants";
-import { transparentize } from "polished";
 
 interface Props {
   documentGroupsData: PaginatedResponse<IDocumentGroup> | null;
@@ -120,13 +117,7 @@ function Main({ documentGroupsData }: Props) {
             <Grid2 container spacing={{ xxs: 2, md: 3 }}>
               {documentGroups?.items.map((x, index) => (
                 <Grid2 key={index} size={{ xxs: 12, xs: 6, lg: 4 }}>
-                  <DescriptionCard title={x?.title} description={x?.description}>
-                    <Link href={`${ROUTES["/documents"]}/${x.id}`}>
-                      <IconButton bg_color={transparentize(0.92, "#2196F3")} custom_size="32px">
-                        <Files color="black" weight="duotone" />
-                      </IconButton>
-                    </Link>
-                  </DescriptionCard>
+                  <DescriptionCard documentGroup={x}></DescriptionCard>
                 </Grid2>
               ))}
             </Grid2>

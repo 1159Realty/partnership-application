@@ -3,6 +3,7 @@ import React from "react";
 import { IEnrollment } from "@/lib/api/enrollment/types";
 import { formatCurrency } from "@/services/numbers";
 import { PropertyOverviewKey, PropertyOverviewValue } from "./styles";
+import { capitalizeAndSpace } from "@/services/string";
 
 interface Props {
   enrollment: IEnrollment | null;
@@ -21,6 +22,14 @@ function AcquiredEnrollmentOverview({ enrollment }: Props) {
         <div className="flex flex-row justify-between gap-1">
           <PropertyOverviewKey>Area</PropertyOverviewKey>
           <PropertyOverviewValue>{enrollment?.property?.area?.area}</PropertyOverviewValue>
+        </div>
+        <div className="flex flex-row justify-between gap-1">
+          <PropertyOverviewKey>Land Mark</PropertyOverviewKey>
+          <PropertyOverviewValue>{enrollment?.property?.address || "N/A"}</PropertyOverviewValue>
+        </div>
+        <div className="flex flex-row justify-between gap-1">
+          <PropertyOverviewKey>Land Type</PropertyOverviewKey>
+          <PropertyOverviewValue>{capitalizeAndSpace(enrollment?.property?.landType || "") || "N/A"}</PropertyOverviewValue>
         </div>
         <div className="flex flex-row justify-between gap-1">
           <PropertyOverviewKey>Land Size</PropertyOverviewKey>

@@ -91,7 +91,7 @@ function PropertyAction({ property, handleClose }: PropertyActionProps) {
         <Box pb="48px" mt="32px">
           <Stack spacing={"24px"}>
             <Box px="16px">
-              <PropertyCard property={property} />
+              <PropertyCard showYoutube property={property} />
             </Box>
             <Divider />
 

@@ -2,13 +2,16 @@ import { IAvailableLandSize } from "@/utils/global-types";
 import { FileType } from "../file-upload/file-upload.types";
 import { ILga, IState, ISummarizedArea } from "../location/location.types";
 
+const PROPERTY_LAND_TYPE = ["INDUSTRIAL", "COMMERCIAL", "RESIDENTIAL", "FARMLAND", "MIXED"] as const;
+
+type PropertyLandType = (typeof PROPERTY_LAND_TYPE)[number];
+
 type PropertyPayload = {
   propertyName: string;
   propertyPic: string;
   stateId: string;
   lgaId: string;
   areaId: string;
-  address: string;
   totalLandSize: number;
   availableLandSizes: IAvailableLandSize[];
   paymentDurationOptions: number[];
@@ -16,6 +19,9 @@ type PropertyPayload = {
   installmentInterest: number;
   overDueInterest: number;
   installmentPeriod: number;
+  youtubeUrl?: string;
+  landType: string;
+  address: string;
 };
 
 type PropertyFormPayload = {
@@ -24,13 +30,15 @@ type PropertyFormPayload = {
   stateId: string;
   lgaId: string;
   areaId: string;
-  address?: string;
   totalLandSize: number | "";
   installmentInterest: number | "";
   overDueInterest: number | "";
   installmentPeriod: number | "";
   availableLandSizes: IAvailableLandSize[];
   paymentDurationOptions: number[];
+  youtubeUrl?: string;
+  landType: string;
+  address: string;
 };
 
 type UpdatePropertyFormPayload = {
@@ -38,6 +46,7 @@ type UpdatePropertyFormPayload = {
   propertyName: string;
   propertyPic: FileType | string;
   totalLandSize: number | "";
+  youtubeUrl?: string;
   status: string;
 };
 
@@ -48,7 +57,6 @@ type IProperty = {
   state: IState;
   lga: ILga;
   area: ISummarizedArea;
-  address: string;
   totalLandSize: number;
   remainingLandSize: number;
   availableLandSizes: IAvailableLandSize[];
@@ -59,6 +67,9 @@ type IProperty = {
   overDueInterest: number;
   createdAt: string;
   updatedAt: string;
+  address: string;
+  youtubeUrl: string;
+  landType: PropertyLandType;
 };
 
 interface FetchPropertiesArgs {
@@ -87,4 +98,7 @@ export type {
   PropertyStatus,
   UpdatePropertyFormPayload,
   PropertyMarketPrice,
+  PropertyLandType,
 };
+
+export { PROPERTY_LAND_TYPE };

@@ -63,6 +63,7 @@ export const PropertyImageDetailWrapper = styled.div`
   width: 100%;
   height: 100%;
   padding: 16px;
+  pointer-events: none;
 `;
 
 // Create Item Card
@@ -145,8 +146,8 @@ export const DocumentCardWrapper = styled(Box)`
 // Description Card
 export const DescriptionCardWrapper = styled.div`
   width: 100%;
-  background-color: ${COLORS.gray100};
-  border-radius: 14px;
+  background-color: ${COLORS.gray50};
+  border-radius: 11px;
   padding: 8px;
 `;
 export const DescriptionCardContentWrapper = styled.div`
@@ -157,6 +158,6 @@ export const DescriptionCardContentWrapper = styled.div`
 `;
 export const DescriptionCardContentText = styled.div`
   width: 100%;
-  min-height: 80px;
+  min-height: 60px;
   /* text-align: center; */
 `;

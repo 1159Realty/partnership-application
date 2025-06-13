@@ -55,6 +55,7 @@ async function login(initialState: LoginFormState, payload: LoginPayload): Promi
 
   return formState;
 }
+
 async function register(initialState: RegisterFormState, payload: RegisterPayload): Promise<RegisterFormState> {
   let formState = { ...initialState };
 
