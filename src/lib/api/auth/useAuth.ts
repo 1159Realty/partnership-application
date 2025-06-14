@@ -63,7 +63,7 @@ function useAuth() {
     const schema = z.object({
       newPassword: z.string().nonempty({ message: "This field is required" }),
       userId: z.string().optional(),
-      code: z.string().optional(),
+      token: z.string().optional(),
     });
 
     const validation = schema.safeParse(payload);
@@ -108,8 +108,8 @@ function useAuth() {
 
   const recoverPassword = useCallback(async (email: string): Promise<boolean> => {
     try {
-      const response = await postClient<boolean>(`forgot-password`, { email });
-      if (response?.statusCode === 200) {
+      const response = await postClient<boolean>(`auth/forgot-password`, { email });
+      if (response?.statusCode === 201) {
         return true;
       }
       return false;

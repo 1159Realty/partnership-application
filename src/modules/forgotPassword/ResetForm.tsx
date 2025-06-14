@@ -40,7 +40,7 @@ function ResetPasswordForm({ userId, token }: Props) {
   const [formState, setFormState] = useState<PasswordResetPayload>({
     newPassword: "",
     userId,
-    code: token,
+    token,
   });
 
   const [error, setError] = useState<ValidationError<PasswordResetPayload>>({});

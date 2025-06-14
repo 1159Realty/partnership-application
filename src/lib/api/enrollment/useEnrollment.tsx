@@ -148,10 +148,9 @@ function useEnrollment() {
     }
   }, []);
 
-  const addPlotId = useCallback(async (plotId: string): Promise<boolean> => {
+  const addPlotId = useCallback(async (enrollmentId: string, plotId: string): Promise<boolean> => {
     try {
-      // TODO handle no land size scenario
-      const response = await putClient(`enrolments/`, { plotId });
+      const response = await putClient(`enrolments/update-plot/${enrollmentId}`, { plotId });
       if (response?.statusCode === 200) {
         return true;
       } else if (response?.statusCode === 403 || response?.statusCode === 430) {

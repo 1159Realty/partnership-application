@@ -36,12 +36,13 @@ function EnrolledDetail({ enrollment, handleClose, onAddPlotId, handleCancel, ha
   const [hasError, setHasError] = useState(false);
 
   async function handleAddPlotId() {
+    if (!enrollment?.id) return;
     if (!plotId) {
       setHasError(true);
       return;
     }
     setLoading(true);
-    const res = await addPlotId(plotId);
+    const res = await addPlotId(enrollment.id, plotId);
     if (res) {
       setAlert({
         show: true,

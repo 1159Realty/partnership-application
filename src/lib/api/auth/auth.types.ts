@@ -8,7 +8,7 @@ interface LoginPayload {
 interface PasswordResetPayload {
   newPassword: string;
   userId: string;
-  code: string;
+  token: string;
 }
 interface RegisterPayload {
   email: string;
