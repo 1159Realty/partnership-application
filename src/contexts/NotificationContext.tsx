@@ -24,7 +24,7 @@ export const useNotificationContext = () => {
 
 export const NotificationContextProvider = ({ children }: Props) => {
   const { fetchUnreadNotificationsCount } = useNotifications();
-  const socket = useSocket("");
+  const socket = useSocket("https://dev-api.1159realty.com");
 
   const [unreadCount, setUnreadCount] = useState(0);
   const [newNotification, setNewNotification] = useState<INotification | null>(null);

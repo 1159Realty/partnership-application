@@ -24,10 +24,6 @@ function AcquiredEnrollmentOverview({ enrollment }: Props) {
           <PropertyOverviewValue>{enrollment?.property?.area?.area}</PropertyOverviewValue>
         </div>
         <div className="flex flex-row justify-between gap-1">
-          <PropertyOverviewKey>Land Mark</PropertyOverviewKey>
-          <PropertyOverviewValue>{enrollment?.property?.address || "N/A"}</PropertyOverviewValue>
-        </div>
-        <div className="flex flex-row justify-between gap-1">
           <PropertyOverviewKey>Land Type</PropertyOverviewKey>
           <PropertyOverviewValue>{capitalizeAndSpace(enrollment?.property?.landType || "") || "N/A"}</PropertyOverviewValue>
         </div>
@@ -42,6 +38,10 @@ function AcquiredEnrollmentOverview({ enrollment }: Props) {
         <div className="flex flex-row justify-between gap-1">
           <PropertyOverviewKey>Market value</PropertyOverviewKey>
           <PropertyOverviewValue> {formatCurrency(marketValue) || "N/A"}</PropertyOverviewValue>
+        </div>
+        <div className="flex flex-row justify-between gap-1">
+          <PropertyOverviewKey>Land Mark</PropertyOverviewKey>
+          <PropertyOverviewValue>{enrollment?.property?.address || "N/A"}</PropertyOverviewValue>
         </div>
         {/* TODO: implement interested people */}
       </div>

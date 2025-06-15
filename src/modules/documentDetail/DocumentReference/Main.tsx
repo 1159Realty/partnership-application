@@ -14,7 +14,7 @@ import { DocumentForm } from "@/components/forms/DocumentForm";
 import { useUserContext } from "@/contexts/UserContext";
 import { getIsModerator } from "@/lib/session/roles";
 import { Button } from "@/components/buttons";
-import { Plus, YoutubeLogo } from "@phosphor-icons/react/dist/ssr";
+import { Plus } from "@phosphor-icons/react/dist/ssr";
 import { ROUTES } from "@/utils/constants";
 import { DocumentTutorial } from "../DocumentTutorial";
 
@@ -113,20 +113,6 @@ function Main({ documentsData, documentGroupData }: Props) {
               )}
             </Stack>
           </Stack>
-        )}
-
-        {Boolean(documentGroupData?.youtubeUrl?.trim()) && (
-          <Box position={"fixed"} bottom={"30px"} right={"20px"}>
-            <Button
-              sx={{ px: "20px" }}
-              size="small"
-              color="info"
-              endIcon={<YoutubeLogo size={20} weight="bold" />}
-              onClick={() => setShowTutorial(true)}
-            >
-              See quick tutorial
-            </Button>
-          </Box>
         )}
       </Box>
       <DocumentForm

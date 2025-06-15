@@ -25,9 +25,10 @@ export interface PropertyFormState {
 interface Props {
   property: IProperty | null;
   handleClose?: () => void;
+  handleReloadProperties?: () => void;
 }
 
-function AddMarketPrice({ property, handleClose }: Props) {
+function AddMarketPrice({ property, handleClose, handleReloadProperties }: Props) {
   const { setAlert } = useAlertContext();
   const { addPropertyMarketValue } = useProperty();
 
@@ -59,7 +60,7 @@ function AddMarketPrice({ property, handleClose }: Props) {
       return;
     }
 
-    setMarketValue((prev) => [...prev, { marketPrice: priceValue, size: sizeValue }]);
+    setMarketValue((prev) => [...prev, { marketValue: priceValue, size: sizeValue }]);
     setSize("");
     setPricePerSize("");
   }
@@ -74,6 +75,7 @@ function AddMarketPrice({ property, handleClose }: Props) {
     const res = await addPropertyMarketValue(property.id, marketValue);
 
     if (res) {
+      handleReloadProperties?.();
       handleClose?.();
     }
     setLoading(false);
@@ -85,7 +87,7 @@ function AddMarketPrice({ property, handleClose }: Props) {
 
     setMarketValue(
       filtered?.map((x) => ({
-        marketPrice: x.marketValue!,
+        marketValue: x.marketValue!,
         size: x?.size,
       })) || []
     );
@@ -165,7 +167,7 @@ function AddMarketPrice({ property, handleClose }: Props) {
           {marketValue.map((i) => (
             <Stack direction={"row"} alignItems={"center"} spacing={"10px"} key={i.size}>
               <MobileB1MGray900>
-                {i?.size} SQM - ₦{i?.marketPrice}
+                {i?.size} SQM - ₦{i?.marketValue}
               </MobileB1MGray900>
               <XCircle
                 onClick={() => {

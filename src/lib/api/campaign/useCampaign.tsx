@@ -118,10 +118,11 @@ function useCampaign() {
       //   payload?.type === "EMAIL"
       //     ? z.string({ message: "This field is required" }).nonempty({ message: "This field is required" })
       //     : z.string().optional(),
-      designId:
-        payload?.type === "EMAIL"
-          ? z.string({ message: "This field is required" }).nonempty({ message: "This field is required" })
-          : z.string().optional(),
+      // designId:
+      //   payload?.type === "EMAIL"
+      //     ? z.string({ message: "This field is required" }).nonempty({ message: "This field is required" })
+      //     : z.string().optional(),
+      designId: z.string().optional(),
     });
 
     const validation = schema.safeParse(payload);

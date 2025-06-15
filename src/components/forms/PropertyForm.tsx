@@ -588,11 +588,12 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
 
 interface UpdatePropertyFormProps {
   onUpdate?: (property: IProperty) => void;
+  handleReloadProperties?: () => void;
   property: IProperty | null;
   handleClose?: () => void;
 }
 
-function UpdatePropertyForm({ onUpdate, property, handleClose }: UpdatePropertyFormProps) {
+function UpdatePropertyForm({ onUpdate, property, handleClose, handleReloadProperties }: UpdatePropertyFormProps) {
   const initialState: PropertyFormState = {
     error: {},
     result: null,
@@ -688,7 +689,14 @@ function UpdatePropertyForm({ onUpdate, property, handleClose }: UpdatePropertyF
   return (
     <Drawer isOpen={Boolean(property)} handleClose={onClose}>
       {showMarketValue ? (
-        <AddMarketPrice property={property} handleClose={() => setShowMarketValue(false)} />
+        <AddMarketPrice
+          handleReloadProperties={handleReloadProperties}
+          property={property}
+          handleClose={() => {
+            handleClose?.();
+            setShowMarketValue(false);
+          }}
+        />
       ) : (
         <div className="mt-16 pb-8">
           <div className="mb-6">

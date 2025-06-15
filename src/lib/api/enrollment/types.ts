@@ -2,7 +2,7 @@ import { AutoCompleteWithSubOptions } from "@/components/Inputs";
 import { IProperty } from "../property/property.types";
 import { User } from "../user/user.types";
 
-const ENROLLMENT_STATUSES = ["PENDING", "ONGOING", "CANCELLED", "COMPLETED", "FREEZE"] as const;
+const ENROLLMENT_STATUSES = ["ONGOING", "CANCELLED", "COMPLETED", "FREEZE"] as const;
 type EnrollmentStatus = (typeof ENROLLMENT_STATUSES)[number];
 
 const leadTypes = ["COMPANY", "PRIVATE"] as const;

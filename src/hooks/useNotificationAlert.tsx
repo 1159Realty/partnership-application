@@ -11,6 +11,7 @@ import { INotification } from "@/lib/api/notifications/types";
 import { Calendar, FileText, Handshake, Headset, User, UserSwitch, Warehouse } from "@phosphor-icons/react/dist/ssr";
 import { Icon as SvgIcon } from "@phosphor-icons/react";
 import { getUserName } from "@/services/string";
+import { IAppointment } from "@/lib/api/appointment/appointment.types";
 
 export const useNotificationAlert = (notification: INotification | null) => {
   const { push } = useRouter();
@@ -157,8 +158,9 @@ export const useNotificationAlert = (notification: INotification | null) => {
 
       // Appointment
       case "new-appointment": {
+        const data = parse<IAppointment>(rawData);
         setContent({
-          title: <ContentWrapper>You have a new appointment.</ContentWrapper>,
+          title: <ContentWrapper>{getUserName(data?.createdBy)} booked an appointment.</ContentWrapper>,
           Icon: Calendar,
           handleNavigation: handleNavigation(`${ROUTES["/appointments"]}`),
         });

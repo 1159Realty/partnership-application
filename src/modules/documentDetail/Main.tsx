@@ -7,13 +7,15 @@ import { Box, Stack } from "@mui/material";
 import { useState } from "react";
 
 import { Button, IconButton } from "@/components/buttons";
-import { Folders, Gear, YoutubeLogo } from "@phosphor-icons/react/dist/ssr";
+import { Folders, Gear, Question } from "@phosphor-icons/react/dist/ssr";
 import { ROUTES } from "@/utils/constants";
 import { COLORS } from "@/utils/colors";
 import { DocumentGroupForm } from "@/components/forms/DocumentGroupForm";
 import { DocumentTutorial } from "./DocumentTutorial";
 import { Pill } from "@/components/pills";
 import Link from "next/link";
+import { useUserContext } from "@/contexts/UserContext";
+import { getIsModerator } from "@/lib/session/roles";
 
 interface Props {
   documentsData: PaginatedResponse<IDocument> | null;
@@ -21,8 +23,12 @@ interface Props {
 }
 
 function Main({ documentGroupData }: Props) {
+  const { userData } = useUserContext();
+
   const [showTutorial, setShowTutorial] = useState(false);
   const [showDocumentGroup, setShowDocumentGroup] = useState(false);
+
+  const isModerator = getIsModerator(userData?.roleId);
 
   return (
     <Box>
@@ -30,9 +36,11 @@ function Main({ documentGroupData }: Props) {
         <Stack direction={"row"} alignItems={"center"} justifyContent={"center"}>
           <PageTitle backUrl={ROUTES["/documents"]} mr={"5px"}></PageTitle>
         </Stack>
-        <IconButton onClick={() => setShowDocumentGroup(true)} bg_color={COLORS.gray200}>
-          <Gear weight="duotone" />
-        </IconButton>
+        {isModerator && (
+          <IconButton onClick={() => setShowDocumentGroup(true)} bg_color={COLORS.gray200}>
+            <Gear weight="duotone" />
+          </IconButton>
+        )}
       </Stack>
 
       <Stack mx="auto" maxWidth={500} spacing={"32px"} mt="40px" alignItems={"center"}>
@@ -63,22 +71,20 @@ function Main({ documentGroupData }: Props) {
         <Stack justifyContent={"center"} direction={"row"} flexWrap={"wrap"} rowGap={"20px"}>
           <Link href={`/documents/${documentGroupData?.id}/reference`}>
             <Button variant="outlined" sx={{ mr: "20px" }}>
-              View Reference
+              See Reference
             </Button>
           </Link>
 
           <Link href={`/documents/${documentGroupData?.id}/uploads`}>
-            <Button sx={{ mr: "20px" }}>Upload Document</Button>
+            <Button sx={{ mr: "20px" }}>Upload Files</Button>
           </Link>
         </Stack>
       </Stack>
-      {Boolean(documentGroupData?.youtubeUrl?.trim()) && (
-        <Box position={"fixed"} bottom={"30px"} right={"20px"}>
-          <IconButton color="error" onClick={() => setShowTutorial(true)}>
-            <YoutubeLogo weight="fill" />
-          </IconButton>
-        </Box>
-      )}
+      <Box position={"fixed"} bottom={"30px"} right={"20px"}>
+        <IconButton color="info" onClick={() => setShowTutorial(true)}>
+          <Question weight="fill" />
+        </IconButton>
+      </Box>
       <DocumentTutorial onClose={() => setShowTutorial(false)} isOpen={showTutorial} documentGroup={documentGroupData} />
 
       <DocumentGroupForm

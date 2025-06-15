@@ -12,19 +12,17 @@ import { ValidationError } from "@/services/validation/zod";
 import { ApiResult } from "@/utils/global-types";
 import { PaginatedResponse } from "@/lib/api/api.types";
 import { useDebounce } from "use-debounce";
-import { Select } from "../Inputs/Select";
 import { X } from "@phosphor-icons/react/dist/ssr";
 import { useCampaign } from "@/lib/api/campaign/useCampaign";
 import {
   CampaignFormPayload,
   CampaignPayload,
-  campaignTypeArr,
   ICampaign,
   ICampaignRecipientsGroup,
   ICampaignTemplate,
   IDesign,
 } from "@/lib/api/campaign/types";
-import { capitalizeAndSpace, getUserName } from "@/services/string";
+import { getUserName } from "@/services/string";
 import { User } from "@/lib/api/user/user.types";
 import { useUser } from "@/lib/api/user/useUser";
 import { COLORS } from "@/utils/colors";
@@ -48,7 +46,7 @@ interface Props {
   usersData: PaginatedResponse<User> | null;
 }
 
-function CampaignForm({ onCreate, onClose, isOpen, designsData, templatesData, recipientsGroupData, usersData }: Props) {
+function CampaignForm({ onCreate, onClose, isOpen, templatesData, recipientsGroupData, usersData }: Props) {
   const initialState: CampaignFormState = {
     error: {},
     result: null,
@@ -56,7 +54,7 @@ function CampaignForm({ onCreate, onClose, isOpen, designsData, templatesData, r
 
   const { setAlert } = useAlertContext();
 
-  const { fetchDesign, fetchCampaignTemplates, fetchCampaignRecipientsGroups, createCampaign } = useCampaign();
+  const { fetchCampaignTemplates, fetchCampaignRecipientsGroups, createCampaign } = useCampaign();
   const { fetchUsers } = useUser();
 
   const [formState, setFormState] = useState<CampaignFormPayload>({
@@ -69,9 +67,9 @@ function CampaignForm({ onCreate, onClose, isOpen, designsData, templatesData, r
 
   const [selectedRecipient, setSelectedRecipient] = useState<AutoCompleteWithSubOptions | null>(null);
 
-  const [designs, setDesigns] = useState(designsData);
-  const [designQuery, setDesignQuery] = useState("");
-  const [debouncedDesignQuery] = useDebounce(designQuery, 700);
+  // const [designs, setDesigns] = useState(designsData);
+  // const [designQuery, setDesignQuery] = useState("");
+  // const [debouncedDesignQuery] = useDebounce(designQuery, 700);
 
   const [templates, setTemplates] = useState(templatesData);
   const [templateQuery, setTemplateQuery] = useState("");
@@ -155,16 +153,16 @@ function CampaignForm({ onCreate, onClose, isOpen, designsData, templatesData, r
     setFormState(tempFormState);
   }
 
-  useEffect(() => {
-    async function get() {
-      const response = await fetchDesign({ keyword: debouncedDesignQuery });
-      if (response) {
-        setDesigns(response);
-      }
-    }
+  // useEffect(() => {
+  //   async function get() {
+  //     const response = await fetchDesign({ keyword: debouncedDesignQuery });
+  //     if (response) {
+  //       setDesigns(response);
+  //     }
+  //   }
 
-    get();
-  }, [debouncedDesignQuery, fetchDesign]);
+  //   get();
+  // }, [debouncedDesignQuery, fetchDesign]);
 
   useEffect(() => {
     async function get() {
@@ -222,7 +220,7 @@ function CampaignForm({ onCreate, onClose, isOpen, designsData, templatesData, r
               ))}
             </Box>
 
-            <Box>
+            {/* <Box>
               <Select
                 label="Campaign Type"
                 items={campaignTypeArr.map((x) => ({
@@ -239,7 +237,7 @@ function CampaignForm({ onCreate, onClose, isOpen, designsData, templatesData, r
                   <ErrorText>{error}</ErrorText>
                 </Box>
               ))}
-            </Box>
+            </Box> */}
             <Box>
               <TextField
                 onChange={(e) => handleChange("subject", e.target.value)}
@@ -289,7 +287,7 @@ function CampaignForm({ onCreate, onClose, isOpen, designsData, templatesData, r
 
             {!formState?.templateId && (
               <>
-                {formState.type === "EMAIL" && (
+                {/* {formState.type === "EMAIL" && (
                   <>
                     <Box>
                       <AutoCompleteWithSub
@@ -321,7 +319,7 @@ function CampaignForm({ onCreate, onClose, isOpen, designsData, templatesData, r
                       ))}
                     </Box>
                   </>
-                )}
+                )} */}
 
                 <Box>
                   <TextField

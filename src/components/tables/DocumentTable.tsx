@@ -12,7 +12,7 @@ import { TablePagination } from "@mui/material";
 import { getDateTimeString } from "@/services/dateTime";
 import { PaginatedResponse } from "@/lib/api/api.types";
 import { IDocumentGroup } from "@/lib/api/document/document.types";
-import { getUserName } from "@/services/string";
+import { getUserName, truncateString } from "@/services/string";
 import { useRouter } from "next/navigation";
 import { ROUTES } from "@/utils/constants";
 
@@ -75,7 +75,7 @@ function DocumentTable({ data, page, limit, onLimitChange, onPageChange }: Docum
     data?.items?.map((x) =>
       createDocumentTableData(
         x?.title,
-        x?.description,
+        truncateString(x?.description),
         getUserName(x?.client),
         x?.property?.propertyName || "N/A",
         getUserName(x?.createdBy),

@@ -213,8 +213,8 @@ ${args?.includeDisabled ? `&includeDisabled=${args.includeDisabled}` : ""}`
   const addPropertyMarketValue = useCallback(
     async (propertyId: string, propertyValues: PropertyMarketPrice[]): Promise<boolean> => {
       try {
-        const response = await putClient<IProperty>(`property/${propertyId}`, {
-          propertyValues,
+        const response = await putClient<IProperty>(`properties/update-market-value/${propertyId}`, {
+          availableLandSizes: propertyValues,
         });
         if (response?.statusCode === 200) {
           return true;

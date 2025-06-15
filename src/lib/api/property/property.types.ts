@@ -84,7 +84,7 @@ interface FetchPropertiesArgs {
 }
 
 interface PropertyMarketPrice {
-  marketPrice: number;
+  marketValue: number;
   size: number;
 }
 

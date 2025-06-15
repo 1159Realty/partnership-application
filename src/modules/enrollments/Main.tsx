@@ -210,6 +210,7 @@ function Main({ enrollmentsData, states, usersData, enrollmentData }: Properties
         handleResume={showResumeModal}
         enrollment={enrollment}
         handleClose={() => setEnrollment(null)}
+        onAddPlotId={() => setReload(!reload)}
       />
       <EnrollClientForm onCreate={onCreate} showEnrollClient={showEnrollUserForm} onClose={() => setShowEnrollUserForm(false)} />
       <ConfirmationDialog

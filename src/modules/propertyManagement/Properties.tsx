@@ -29,6 +29,7 @@ function Properties({ propertiesData, states }: PropertiesProps) {
   const [page, setPage] = useState(1);
   const [property, setProperty] = useState<IProperty | null>(null);
   const [properties, setPropertiesData] = useState<PaginatedResponse<IProperty> | null>(propertiesData);
+  const [reload, setReload] = useState(false);
 
   const hasItem = Boolean(properties?.items?.length);
 
@@ -70,7 +71,7 @@ function Properties({ propertiesData, states }: PropertiesProps) {
       }
     }
     getProperties();
-  }, [fetchProperties, filters, debouncedQuery, page]);
+  }, [fetchProperties, filters, debouncedQuery, page, reload]);
 
   return (
     <Box>
@@ -118,7 +119,12 @@ function Properties({ propertiesData, states }: PropertiesProps) {
         </Box>
       )}
       <CreatePropertyForm states={states} onCreate={onCreate} />
-      <UpdatePropertyForm property={property} onUpdate={onUpdate} handleClose={() => setProperty(null)} />
+      <UpdatePropertyForm
+        handleReloadProperties={() => setReload(!reload)}
+        property={property}
+        onUpdate={onUpdate}
+        handleClose={() => setProperty(null)}
+      />
     </Box>
   );
 }

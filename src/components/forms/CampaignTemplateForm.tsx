@@ -2,7 +2,7 @@
 
 import { Drawer } from "@/components/drawer";
 import { PageTitleBtn } from "@/components/utils";
-import { AutoCompleteWithSub, TextField } from "@/components/Inputs";
+import { TextField } from "@/components/Inputs";
 import { LoadingButton } from "@/components/buttons";
 import { Box, Stack } from "@mui/material";
 import { ErrorText } from "@/utils/typography";
@@ -11,17 +11,8 @@ import { useAlertContext } from "@/contexts/AlertContext";
 import { ValidationError } from "@/services/validation/zod";
 import { ApiResult } from "@/utils/global-types";
 import { PaginatedResponse } from "@/lib/api/api.types";
-import { useDebounce } from "use-debounce";
-import { Select } from "../Inputs/Select";
 import { useCampaign } from "@/lib/api/campaign/useCampaign";
-import {
-  CampaignTemplateFormPayload,
-  CampaignTemplatePayload,
-  campaignTypeArr,
-  ICampaignTemplate,
-  IDesign,
-} from "@/lib/api/campaign/types";
-import { capitalizeAndSpace } from "@/services/string";
+import { CampaignTemplateFormPayload, CampaignTemplatePayload, ICampaignTemplate, IDesign } from "@/lib/api/campaign/types";
 
 export interface CampaignTemplateFormState {
   error: ValidationError<CampaignTemplateFormPayload>;
@@ -36,7 +27,7 @@ interface Props {
   designsData: PaginatedResponse<IDesign> | null;
 }
 
-function CampaignTemplateForm({ onCreate, onClose, isOpen, designsData, data }: Props) {
+function CampaignTemplateForm({ onCreate, onClose, isOpen, data }: Props) {
   const initialState: CampaignTemplateFormState = {
     error: {},
     result: null,
@@ -44,7 +35,7 @@ function CampaignTemplateForm({ onCreate, onClose, isOpen, designsData, data }: 
 
   const { setAlert } = useAlertContext();
 
-  const { fetchDesign, createCampaignTemplate } = useCampaign();
+  const { createCampaignTemplate } = useCampaign();
 
   const [formState, setFormState] = useState<CampaignTemplateFormPayload>({
     name: "",
@@ -55,9 +46,9 @@ function CampaignTemplateForm({ onCreate, onClose, isOpen, designsData, data }: 
   const [error, setError] = useState<ValidationError<CampaignTemplatePayload>>({});
   const [loading, setLoading] = useState(false);
 
-  const [designs, setDesigns] = useState(designsData);
-  const [designQuery, setDesignQuery] = useState("");
-  const [debouncedDesignQuery] = useDebounce(designQuery, 700);
+  // const [designs, setDesigns] = useState(designsData);
+  // const [designQuery, setDesignQuery] = useState("");
+  // const [debouncedDesignQuery] = useDebounce(designQuery, 700);
 
   const handleClose = () => {
     onClose?.();
@@ -101,16 +92,16 @@ function CampaignTemplateForm({ onCreate, onClose, isOpen, designsData, data }: 
     setError((prev) => ({ ...prev, [field]: undefined, error: undefined }));
   }
 
-  useEffect(() => {
-    async function get() {
-      const response = await fetchDesign();
-      if (response) {
-        setDesigns(response);
-      }
-    }
+  // useEffect(() => {
+  //   async function get() {
+  //     const response = await fetchDesign();
+  //     if (response) {
+  //       setDesigns(response);
+  //     }
+  //   }
 
-    get();
-  }, [debouncedDesignQuery, fetchDesign]);
+  //   get();
+  // }, [debouncedDesignQuery, fetchDesign]);
 
   useEffect(() => {
     if (!data) return;
@@ -149,7 +140,7 @@ function CampaignTemplateForm({ onCreate, onClose, isOpen, designsData, data }: 
               ))}
             </Box>
 
-            <Box>
+            {/* <Box>
               <Select
                 label="Template type"
                 items={campaignTypeArr.map((x) => ({
@@ -166,11 +157,11 @@ function CampaignTemplateForm({ onCreate, onClose, isOpen, designsData, data }: 
                   <ErrorText>{error}</ErrorText>
                 </Box>
               ))}
-            </Box>
+            </Box> */}
 
             {formState.type === "EMAIL" && (
               <>
-                <Box>
+                {/* <Box>
                   <AutoCompleteWithSub
                     renderInputLabel="Design"
                     onBlur={() => setDesignQuery("")}
@@ -198,7 +189,7 @@ function CampaignTemplateForm({ onCreate, onClose, isOpen, designsData, data }: 
                       <ErrorText>{error}</ErrorText>
                     </Box>
                   ))}
-                </Box>
+                </Box> */}
 
                 <Box>
                   <TextField

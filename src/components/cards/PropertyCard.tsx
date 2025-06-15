@@ -12,6 +12,7 @@ import { ROUTES } from "@/utils/constants";
 import Link from "next/link";
 import { addCommas } from "@/services/numbers";
 import ReactPlayer from "react-player";
+import { capitalizeAndSpace } from "@/services/string";
 
 interface Props {
   handleClick?: (id: string) => void;
@@ -89,9 +90,12 @@ function PropertyCard({
         {!renderYoutube && (
           <PropertyImageDetailWrapper>
             <Stack direction={"row"} justifyContent={"space-between"} alignItems={"center"} spacing={"10px"}>
-              <Pill>
-                {property?.area?.area}, {property?.lga?.lga}, {property?.state?.state}
-              </Pill>
+              {Boolean(property?.landType?.trim()) && (
+                <Pill>
+                  {/* {property?.area?.area}, {property?.lga?.lga}, {property?.state?.state} */}
+                  {capitalizeAndSpace(property?.landType || "")}
+                </Pill>
+              )}
               {showStatus && <Pill bgcolor={getAvailability()?.bgColor}>{getAvailability()?.label}</Pill>}
             </Stack>
           </PropertyImageDetailWrapper>

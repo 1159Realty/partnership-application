@@ -23,12 +23,13 @@ function PropertyOverview({ property, landSize }: Props) {
           <PropertyOverviewValue>{property?.area?.area}</PropertyOverviewValue>
         </div>
         <div className="flex flex-row justify-between gap-1">
-          <PropertyOverviewKey>Land Mark</PropertyOverviewKey>
-          <PropertyOverviewValue>{property?.address || "N/A"}</PropertyOverviewValue>
-        </div>
-        <div className="flex flex-row justify-between gap-1">
           <PropertyOverviewKey>Payment Method</PropertyOverviewKey>
           <PropertyOverviewValue>Outright{property?.paymentDurationOptions.length ? ", Installment" : ""}</PropertyOverviewValue>
+        </div>
+
+        <div className="flex flex-row justify-between gap-1">
+          <PropertyOverviewKey>Land Type</PropertyOverviewKey>
+          <PropertyOverviewValue>{capitalizeAndSpace(property?.landType || "") || "N/A"}</PropertyOverviewValue>
         </div>
         <div className="flex flex-row justify-between gap-1">
           <PropertyOverviewKey>Land Sizes</PropertyOverviewKey>
@@ -37,8 +38,8 @@ function PropertyOverview({ property, landSize }: Props) {
           </PropertyOverviewValue>
         </div>
         <div className="flex flex-row justify-between gap-1">
-          <PropertyOverviewKey>Land Type</PropertyOverviewKey>
-          <PropertyOverviewValue>{capitalizeAndSpace(property?.landType || "") || "N/A"}</PropertyOverviewValue>
+          <PropertyOverviewKey>Land Mark</PropertyOverviewKey>
+          <PropertyOverviewValue>{property?.address || "N/A"}</PropertyOverviewValue>
         </div>
         {/* TODO: implement interested people */}
       </div>
