@@ -238,22 +238,24 @@ function CampaignForm({ onCreate, onClose, isOpen, templatesData, recipientsGrou
                 </Box>
               ))}
             </Box> */}
-            <Box>
-              <TextField
-                onChange={(e) => handleChange("subject", e.target.value)}
-                name="subject"
-                value={formState?.subject}
-                label="Subject"
-              />
+            {!Boolean(formState?.templateId) && (
+              <Box>
+                <TextField
+                  onChange={(e) => handleChange("subject", e.target.value)}
+                  name="subject"
+                  value={formState?.subject}
+                  label="Subject"
+                />
 
-              {error?.subject?.map((error, i) => (
-                <Box key={i}>
-                  <ErrorText>{error}</ErrorText>
-                </Box>
-              ))}
-            </Box>
+                {error?.subject?.map((error, i) => (
+                  <Box key={i}>
+                    <ErrorText>{error}</ErrorText>
+                  </Box>
+                ))}
+              </Box>
+            )}
 
-            {!formState?.designId && !formState?.message?.trim() && (
+            {!formState?.designId && !formState?.message?.trim() && !formState?.subject?.trim() && (
               <Box>
                 <AutoCompleteWithSub
                   renderInputLabel="Template"

@@ -35,13 +35,15 @@ function useCampaign() {
     const schema = z.object({
       name: z.string().nonempty({ message: "This field is required" }),
       type: z.string().nonempty({ message: "This field is required" }),
-      subject: z.string({ message: "This field is required" }).nonempty({ message: "This field is required" }),
-      designId: z.string().optional(),
-      message: z.string().optional(),
-      templateId: z.string().optional(),
-      scheduledAt: z.string().optional(),
+      subject: Boolean(payload?.templateId)
+        ? z.any().optional()
+        : z.string({ message: "This field is required" }).nonempty({ message: "This field is required" }),
+      designId: z.any().optional(),
+      message: z.any().optional(),
+      templateId: z.any().optional(),
+      scheduledAt: z.any().optional(),
       recipientsGroupId: Boolean(payload?.recipientIds?.length)
-        ? z.string().optional()
+        ? z.any().optional()
         : z
             .string({ message: "This field is required if no recipients are provided!" })
             .nonempty({ message: "This field is required if recipients are not provided!" }),
