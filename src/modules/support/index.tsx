@@ -1,11 +1,13 @@
 import { fetchSupportCategories, fetchSupportTickets } from "@/lib/api/support/server";
 import { ModulePageWrapper } from "@/styles/globals.styles";
 import { Main } from "./Main";
+import { getServerSession } from "@/lib/session/server";
 
 export default async function Support() {
-  // TODO: filter by userid
+  const session = await getServerSession();
+
   const supportDataResponse = fetchSupportTickets({
-    // userId: session?.user?.id,
+    userId: session?.user?.id,
     limit: 6,
     status: "IN_PROGRESS",
   });

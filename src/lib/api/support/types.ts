@@ -4,11 +4,7 @@ import { User } from "../user/user.types";
 const supportTypesArray = ["PAYMENT", "PROPERTY", "AGENT"] as const;
 type SupportType = (typeof supportTypesArray)[number];
 
-const supportStatusArray = [
-  "IN_PROGRESS",
-  //  "PENDING",
-  "RESOLVED",
-] as const;
+const supportStatusArray = ["IN_PROGRESS", "RESOLVED"] as const;
 type SupportStatus = (typeof supportStatusArray)[number];
 
 interface ISupport {

@@ -42,7 +42,7 @@ function Main({ supportData, supportCategoriesData }: Props) {
     async function getProperties() {
       const response = await fetchSupportTickets({
         // TODO: filter by userid
-        // userId: userData?.id,
+        userId: userData?.id,
         status: currentStatus,
         limit: 6,
         page,
@@ -77,13 +77,7 @@ function Main({ supportData, supportCategoriesData }: Props) {
       <StatusWrapper>
         {supportStatusArray.map((x) => (
           <Box key={x} mr="10px">
-            <PillWithBadge
-              text={capitalizeAndSpace(x)}
-              // TODO: add status total to badge
-              // badgeValue={2 - i}
-              isActive={currentStatus === x}
-              onClick={() => setCurrentStatus(x)}
-            />
+            <PillWithBadge text={capitalizeAndSpace(x)} isActive={currentStatus === x} onClick={() => setCurrentStatus(x)} />
           </Box>
         ))}
       </StatusWrapper>
