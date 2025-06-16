@@ -13,7 +13,7 @@ import { PageTitle } from "@/components/typography";
 import { useSession } from "@/lib/session/client/useSession";
 import { ConfirmationDialog } from "@/components/dialog/Confirmation";
 import { useUserContext } from "@/contexts/UserContext";
-import { capitalize, phoneNumberToReferralId } from "@/services/string";
+import { capitalize, capitalizeAndSpace, phoneNumberToReferralId } from "@/services/string";
 import { getRole, hasPermission } from "@/lib/session/roles";
 import { Bank, Copy, Pencil } from "@phosphor-icons/react/dist/ssr";
 import { Share } from "@/components/share";
@@ -122,7 +122,7 @@ function Main() {
           </Stack>
           <Stack spacing={"8px"}>
             <Font5001421Gray900>{userData?.phoneNumber}</Font5001421Gray900>
-            <Font5001421Gray900>{capitalize(userData?.gender || "") || "N/A"}</Font5001421Gray900>
+            <Font5001421Gray900>{capitalizeAndSpace(userData?.gender || "") || "N/A"}</Font5001421Gray900>
             <Font5001421Gray900>{userData?.state?.state || "N/A"}</Font5001421Gray900>{" "}
             <Font5001421Gray900>{userData?.residentialAddress?.trim() || "N/A"}</Font5001421Gray900>
             {isAgent && (

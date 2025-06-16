@@ -133,7 +133,7 @@ const ClientOnboarding = () => {
         stateId: userData?.state?.id || "",
         lgaId: userData?.lga?.id || "",
         gender: userData?.gender || "",
-        trafficSource: userData?.trafficSource || "",
+        trafficSource: userData?.trafficSource,
       });
 
       if (userData.profilePic) {

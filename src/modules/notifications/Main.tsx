@@ -10,6 +10,7 @@ import { BellRinging } from "@phosphor-icons/react/dist/ssr";
 import React, { useEffect, useState } from "react";
 import Card from "./Card";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { useNotificationContext } from "@/contexts/NotificationContext";
 
 interface Props {
   notificationsData: PaginatedResponse<INotification> | null;
@@ -17,6 +18,7 @@ interface Props {
 
 function Main({ notificationsData }: Props) {
   const { fetchNotifications, markAllNotificationsAsRead } = useNotifications();
+  const { setUnreadCount } = useNotificationContext();
 
   const [notifications, setNotifications] = useState(notificationsData);
   const [page, setPage] = useState(1);
@@ -45,6 +47,7 @@ function Main({ notificationsData }: Props) {
   };
 
   useEffect(() => {
+    setUnreadCount(0);
     async function get() {
       const response = await fetchNotifications();
       if (response) {
@@ -53,7 +56,7 @@ function Main({ notificationsData }: Props) {
       await markAllNotificationsAsRead();
     }
     get();
-  }, [fetchNotifications, markAllNotificationsAsRead]);
+  }, [fetchNotifications, markAllNotificationsAsRead, setUnreadCount]);
 
   return (
     <Box>

@@ -56,7 +56,7 @@ function useSupport() {
     let formState = { ...initialState };
 
     const schema = z.object({
-      supportCategoryId: z.string().nonempty({ message: "This field is required" }),
+      supportCategoryId: z.string({ message: "This field is required" }).nonempty({ message: "This field is required" }),
       message: z.string().nonempty({ message: "This field is required" }),
     });
 

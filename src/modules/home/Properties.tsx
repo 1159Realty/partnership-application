@@ -54,7 +54,7 @@ function Properties({ propertiesData: propertiesDataProp, availabilityData, stat
 
   useEffect(() => {
     async function getProperties() {
-      const response = await fetchProperties({ ...filters, propertyName: debouncedQuery, page, limit: 10 });
+      const response = await fetchProperties({ ...filters, propertyName: debouncedQuery, page });
       if (response) {
         setPropertiesData(response);
       }

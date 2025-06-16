@@ -30,7 +30,7 @@ export interface INotification {
   unReadCount: number;
   isRead: boolean;
   type: NotificationType;
-  data: string;
+  data: unknown;
   timeStamp: string;
 }
 

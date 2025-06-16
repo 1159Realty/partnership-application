@@ -26,7 +26,7 @@ const Header = ({ avatarUrl, pathname }: HeaderProps) => {
         <Tooltip title="Notifications">
           <Link href={"/notifications"}>
             <IconButton bg_color={pathname === "/notifications" ? COLORS.greenNormal : undefined} custom_size="45px">
-              <Badge badgeContent={unreadCount || 0} color="secondary">
+              <Badge badgeContent={pathname === "/notifications" ? 0 : unreadCount} color="secondary">
                 <Bell color="black" weight="bold" />
               </Badge>
             </IconButton>

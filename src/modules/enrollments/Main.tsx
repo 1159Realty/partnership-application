@@ -13,7 +13,7 @@ import { IEnrollment } from "@/lib/api/enrollment/types";
 import { EnrollClientForm } from "@/components/forms/EnrollClientForm";
 import { PageTitle } from "@/components/typography";
 import { Button } from "@/components/buttons";
-import { getRole } from "@/lib/session/roles";
+import { getRole, hasPermission } from "@/lib/session/roles";
 import { useUserContext } from "@/contexts/UserContext";
 import { EnrollmentsTable } from "@/components/tables/EnrollmentsTable";
 import { EnrolledDetail } from "./EnrolledDetail";
@@ -53,6 +53,8 @@ function Main({ enrollmentsData, states, usersData, enrollmentData }: Properties
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
   const [reload, setReload] = useState(false);
+
+  const canCreateEnrollment = hasPermission(userData?.roleId, "create:enrollment");
 
   const hasItem = Boolean(enrollments?.items?.length);
   const [debouncedQuery] = useDebounce(query, 700);
@@ -154,7 +156,7 @@ function Main({ enrollmentsData, states, usersData, enrollmentData }: Properties
             <Box textTransform={"capitalize"}>Enrollments</Box>
           </PageTitle>
         </Stack>
-        {hasItem && (
+        {hasItem && canCreateEnrollment && (
           <Button onClick={() => setShowEnrollUserForm(true)} startIcon={<Plus weight="bold" />}>
             Add new
           </Button>
@@ -186,10 +188,10 @@ function Main({ enrollmentsData, states, usersData, enrollmentData }: Properties
         <Stack justifyContent={"center"} alignItems={"center"} width={"100%"} mt="32px">
           <NoListItemCard
             action="Enroll client"
-            onClick={() => setShowEnrollUserForm(true)}
+            onClick={canCreateEnrollment ? () => setShowEnrollUserForm(true) : undefined}
             Icon={Warehouse}
-            noItemCreatedDescription={`Client has no properties`}
-            noItemFoundDescription="No properties found"
+            noItemCreatedDescription={`You haven't enrolled any clients`}
+            noItemFoundDescription="No enrollments found"
             noItemCreated={Boolean(!enrollments?.items?.length && !enrollmentsData?.items?.length)}
           />
         </Stack>

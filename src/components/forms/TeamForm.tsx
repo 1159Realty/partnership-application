@@ -55,6 +55,8 @@ function TeamForm({ onCreate, onClose, isOpen, user }: FormProps) {
   const [debouncedQuery] = useDebounce(query, 700);
   const isUpdate = Boolean(user);
 
+  const accessRoles = getCreateRoles(userData?.roleId);
+
   const handleClose = () => {
     onClose?.();
   };
@@ -133,11 +135,13 @@ function TeamForm({ onCreate, onClose, isOpen, user }: FormProps) {
                 renderInputLabel="User"
                 onBlur={() => setQuery("")}
                 options={
-                  users?.items?.map((x) => ({
-                    label: getUserName(x),
-                    sub: `${x?.email}"`,
-                    id: x?.id,
-                  })) || []
+                  users?.items
+                    ?.filter((x) => accessRoles?.includes(x?.roleId))
+                    ?.map((x) => ({
+                      label: getUserName(x),
+                      sub: `${x?.email}"`,
+                      id: x?.id,
+                    })) || []
                 }
                 onChange={(_, value) => {
                   if (value) {

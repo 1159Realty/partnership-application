@@ -21,8 +21,9 @@ interface Props {
 }
 
 function Main({ supportData, supportCategoriesData }: Props) {
-  const { fetchSupportTickets, resolveSupport } = useSupport();
+  const { fetchSupportTickets, resolveSupport, fetchSupportCategories } = useSupport();
 
+  const [supportCategories, setSupportCategories] = useState(supportCategoriesData);
   const [supportTickets, setSupportTickets] = useState(supportData);
   const [supportTicket, setSupportTicket] = useState<ISupport | null>(null);
   const [resolving, setResolving] = useState(false);
@@ -62,6 +63,16 @@ function Main({ supportData, supportCategoriesData }: Props) {
     getProperties();
   }, [fetchSupportTickets, filters, limit, page, reload]);
 
+  useEffect(() => {
+    async function getProperties() {
+      const response = await fetchSupportCategories();
+      if (response) {
+        setSupportCategories(response);
+      }
+    }
+    getProperties();
+  }, [fetchSupportCategories]);
+
   return (
     <Box>
       <Stack mb="20" rowGap={"10px"} direction={"row"} alignItems={"center"} justifyContent={"space-between"} flexWrap={"wrap"}>
@@ -70,7 +81,7 @@ function Main({ supportData, supportCategoriesData }: Props) {
             <Box textTransform={"capitalize"}>Support</Box>
           </PageTitle>
         </Stack>
-        <SupportManagementFilters filters={filters} supportCategories={supportCategoriesData} setFilters={setFilters} />
+        <SupportManagementFilters filters={filters} supportCategories={supportCategories} setFilters={setFilters} />
       </Stack>
 
       <Stack alignItems={"flex-end"}>

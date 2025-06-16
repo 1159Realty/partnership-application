@@ -90,12 +90,7 @@ function PropertyCard({
         {!renderYoutube && (
           <PropertyImageDetailWrapper>
             <Stack direction={"row"} justifyContent={"space-between"} alignItems={"center"} spacing={"10px"}>
-              {Boolean(property?.landType?.trim()) && (
-                <Pill>
-                  {/* {property?.area?.area}, {property?.lga?.lga}, {property?.state?.state} */}
-                  {capitalizeAndSpace(property?.landType || "")}
-                </Pill>
-              )}
+              {Boolean(property?.landType?.trim()) && <Pill>{capitalizeAndSpace(property?.landType || "")}</Pill>}
               {showStatus && <Pill bgcolor={getAvailability()?.bgColor}>{getAvailability()?.label}</Pill>}
             </Stack>
           </PropertyImageDetailWrapper>

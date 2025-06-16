@@ -4,6 +4,17 @@ import { User } from "../user/user.types";
 const commissionStatusArr = ["PAID", "PENDING", "CANCELLED"] as const;
 type CommissionStatus = (typeof commissionStatusArr)[number];
 
+const AGENT_PERFORMANCE_TOTAL_TYPES = [
+  "CLIENTS_TOTAL",
+  "TOTAL_REVENUE_AMOUNT",
+  "PENDING_REVENUE_AMOUNT",
+  "RECEIVED_REVENUE_AMOUNT",
+  "TOTAL_COMMISSION_AMOUNT",
+  "PENDING_COMMISSION_AMOUNT",
+  "RECEIVED_COMMISSION_AMOUNT",
+];
+type AgentPerformanceTotalType = (typeof AGENT_PERFORMANCE_TOTAL_TYPES)[number];
+
 interface ICommission {
   commissionNum: number;
   id: string;
@@ -36,7 +47,7 @@ interface FetchAgentPerformanceReportArgs {
   month?: string;
   year?: string;
   keyword?: string;
-  sort?: string;
+  totalType?: AgentPerformanceTotalType;
 }
 
 interface IAgentPerformanceReport {
@@ -58,5 +69,6 @@ export type {
   ICommissionTotal,
   IAgentPerformanceReport,
   FetchAgentPerformanceReportArgs,
+  AgentPerformanceTotalType,
 };
-export { commissionStatusArr };
+export { commissionStatusArr, AGENT_PERFORMANCE_TOTAL_TYPES };

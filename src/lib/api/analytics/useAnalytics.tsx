@@ -86,9 +86,7 @@ function useAnalytics() {
       const response = await getClient<PaginatedResponse<IAgentPerformanceReport> | null>(
         `analytics/agent-performance-report?page=${args?.page || 1}&limit=${args?.limit || 10}${
           args?.month ? `&month=${args.month}` : ""
-        }${args?.year ? `&year=${args.year}` : ""}${args?.keyword ? `&keyword=${args.keyword}` : ""}${
-          args?.sort ? `&sort=${args.sort}` : ""
-        }`
+        }${args?.year ? `&year=${args.year}` : ""}${args?.totalType ? `&totalType=${args.totalType}` : ""}`
       );
 
       if (response?.statusCode === 200) {

@@ -122,7 +122,7 @@ ${args?.sort ? `&sort=${args.sort}` : ""}`);
         .optional(),
       gender: z.string().optional(),
       stateId: z.string().optional(),
-      trafficSource: z.string().optional(),
+      trafficSource: z.any().optional(),
       referralId: z.string().optional(),
     });
 
@@ -222,7 +222,7 @@ ${args?.sort ? `&sort=${args.sort}` : ""}`);
         }
       }),
       gender: z.string().optional(),
-      trafficSource: z.string().optional(),
+      trafficSource: z.any().optional(),
       referralId: z.string().optional(),
     });
 

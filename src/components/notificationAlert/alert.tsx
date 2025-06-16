@@ -7,6 +7,8 @@ import { IconButton } from "../buttons";
 import { BellRinging, X } from "@phosphor-icons/react/dist/ssr";
 import { useNotificationContext } from "@/contexts/NotificationContext";
 import { useNotificationAlert } from "../../hooks/useNotificationAlert";
+import { useRouter } from "next/navigation";
+import { ROUTES } from "@/utils/constants";
 
 export const slideVariants = {
   open: { y: 0, transition: { type: "tween", stiffness: 350, damping: 27 } },
@@ -17,10 +19,19 @@ function NotificationAlert() {
   const { newNotification } = useNotificationContext();
   const { content, setContent } = useNotificationAlert(newNotification);
 
+  const { push } = useRouter();
+
   return (
     <AnimatePresence>
       {Boolean(content) ? (
-        <AlertWrapper variants={slideVariants} initial="closed" animate={"open"} exit={"closed"} key={Boolean(content) ? 1 : 2}>
+        <AlertWrapper
+          onClick={() => push(ROUTES["/notifications"])}
+          variants={slideVariants}
+          initial="closed"
+          animate={"open"}
+          exit={"closed"}
+          key={Boolean(content) ? 1 : 2}
+        >
           <Alert
             action={
               <IconButton

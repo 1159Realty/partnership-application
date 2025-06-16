@@ -25,9 +25,10 @@ interface Props {
 
 function Main({ supportData, supportCategoriesData }: Props) {
   const { userData } = useUserContext();
-  const { fetchSupportTickets } = useSupport();
+  const { fetchSupportTickets, fetchSupportCategories } = useSupport();
 
   const [supportTickets, setSupportTickets] = useState(supportData);
+  const [supportCategories, setSupportCategories] = useState(supportCategoriesData);
   const [showCreateSupport, setShowCreateSupport] = useState(false);
 
   const [page, setPage] = useState(1);
@@ -53,6 +54,16 @@ function Main({ supportData, supportCategoriesData }: Props) {
     getProperties();
   }, [fetchSupportTickets, page, reload, currentStatus, userData?.id]);
 
+  useEffect(() => {
+    async function getProperties() {
+      const response = await fetchSupportCategories();
+      if (response) {
+        setSupportCategories(response);
+      }
+    }
+    getProperties();
+  }, [fetchSupportCategories]);
+
   return (
     <Box>
       <Stack mb="32px" rowGap={"10px"} direction={"row"} alignItems={"center"} justifyContent={"space-between"} flexWrap={"wrap"}>
@@ -63,6 +74,19 @@ function Main({ supportData, supportCategoriesData }: Props) {
           </Button>
         )}
       </Stack>
+      <StatusWrapper>
+        {supportStatusArray.map((x) => (
+          <Box key={x} mr="10px">
+            <PillWithBadge
+              text={capitalizeAndSpace(x)}
+              // TODO: add status total to badge
+              // badgeValue={2 - i}
+              isActive={currentStatus === x}
+              onClick={() => setCurrentStatus(x)}
+            />
+          </Box>
+        ))}
+      </StatusWrapper>
       {!hasItem ? (
         <Stack justifyContent={"center"} alignItems={"center"} width={"100%"} mt="32px">
           <NoListItemCard
@@ -78,20 +102,6 @@ function Main({ supportData, supportCategoriesData }: Props) {
         </Stack>
       ) : (
         <Box>
-          <StatusWrapper>
-            {supportStatusArray.map((x) => (
-              <Box key={x} mr="10px">
-                <PillWithBadge
-                  text={capitalizeAndSpace(x)}
-                  // TODO: add status total to badge
-                  // badgeValue={2 - i}
-                  isActive={currentStatus === x}
-                  onClick={() => setCurrentStatus(x)}
-                />
-              </Box>
-            ))}
-          </StatusWrapper>
-
           <Stack spacing={"30px"} mt="30px">
             <Grid2 container spacing={{ xxs: 2, md: 3 }}>
               {supportTickets?.items?.map((x) => (
@@ -117,7 +127,7 @@ function Main({ supportData, supportCategoriesData }: Props) {
         </Box>
       )}
       <SupportForm
-        supportCategories={supportCategoriesData}
+        supportCategories={supportCategories}
         isOpen={showCreateSupport}
         onClose={() => setShowCreateSupport(false)}
         onCreate={() => setReload(!reload)}

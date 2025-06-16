@@ -20,7 +20,7 @@ function Card({ notification }: Props) {
       onClick={() => content?.handleNavigation()}
       borderRadius={"5px"}
       padding={"15px 20px"}
-      bgcolor={COLORS.gray50}
+      bgcolor={notification?.isRead ? COLORS.gray50 : "#e1e1eb"}
       spacing={"10px"}
       direction={"row"}
       alignItems={"center"}

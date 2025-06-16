@@ -75,7 +75,6 @@ export const CST_ROLES = [
 
   // enrollment
   "view:enrollment",
-  "create:enrollment",
   "update-plot-id:enrollment",
 
   // invoice
@@ -96,7 +95,6 @@ export const CST_MANAGER_ROLES = [
 
   // enrollment
   "view:enrollment",
-  "create:enrollment",
   "update:enrollment",
   "update-plot-id:enrollment",
   "delete:enrollment",
@@ -249,7 +247,6 @@ export const MANAGER_ROLES = [
 
   // enrollment
   "view:enrollment",
-  "create:enrollment",
   "update:enrollment",
   "update-plot-id:enrollment",
   "delete:enrollment",
@@ -355,7 +352,6 @@ export const ADMIN_ROLES = [
 
   // enrollment
   "view:enrollment",
-  "create:enrollment",
   "update:enrollment",
   "update-plot-id:enrollment",
   "delete:enrollment",

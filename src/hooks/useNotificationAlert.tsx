@@ -34,9 +34,9 @@ export const useNotificationAlert = (notification: INotification | null) => {
       return () => push(url);
     };
 
-    const parse = <T,>(str: string): T | null => {
+    const parse = <T,>(data: unknown): T | null => {
       try {
-        return JSON.parse(str);
+        return data as T;
       } catch {
         return null;
       }
@@ -93,8 +93,13 @@ export const useNotificationAlert = (notification: INotification | null) => {
       // Property
       case "new-property": {
         const data = parse<IProperty>(rawData);
+
         setContent({
-          title: <ContentWrapper>A new property is available.</ContentWrapper>,
+          title: (
+            <ContentWrapper>
+              New Listing Alert: <strong>{data?.propertyName || ""}</strong> is now available
+            </ContentWrapper>
+          ),
           Icon: Warehouse,
           handleNavigation: handleNavigation(`${ROUTES["/"]}?propertyId=${data?.id}`),
         });
@@ -111,7 +116,7 @@ export const useNotificationAlert = (notification: INotification | null) => {
             </ContentWrapper>
           ),
           Icon: UserSwitch,
-          handleNavigation: handleNavigation(`${ROUTES["/enrollments"]}?enrollmentId=${data?.id}`),
+          handleNavigation: handleNavigation(`${ROUTES["/properties"]}`),
         });
         break;
       }

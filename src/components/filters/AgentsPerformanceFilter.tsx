@@ -12,18 +12,11 @@ import { SetState } from "@/utils/global-types";
 import { objectHasValue } from "@/services/objects";
 import { Search, Select, TextField } from "../Inputs";
 import { months } from "@/utils/constants";
-
-const options = [
-  { id: "totalRevenueAmount", label: "Revenue generated" },
-  { id: "pendingRevenueAmount", label: "Pending revenue" },
-  { id: "receivedRevenueAmount", label: "Collected revenue" },
-  { id: "totalCommissionAmount", label: "Commissions total" },
-  { id: "pendingCommissionAmount", label: "Pending commissions" },
-  { id: "receivedCommissionAmount", label: "Collected commissions" },
-];
+import { AGENT_PERFORMANCE_TOTAL_TYPES } from "@/lib/api/commission/types";
+import { capitalizeAndSpace } from "@/services/string";
 
 export interface IAgentsPerformanceFilter {
-  sort?: string;
+  totalType?: string;
   year?: string;
   month?: string;
 }
@@ -93,11 +86,17 @@ const AgentsPerformanceFilter = ({ setFilters, filters, setQuery, query }: Props
             <Select
               fullWidth
               label="Sort by"
-              items={[{ label: "None", id: "" }, ...options.map((x) => x)]}
+              items={[
+                { label: "None", id: "" },
+                ...AGENT_PERFORMANCE_TOTAL_TYPES.map((x) => ({
+                  label: capitalizeAndSpace(x),
+                  id: x.replaceAll("_", ""),
+                })),
+              ]}
               onChange={(e) => {
-                handleChange("sort", e.target.value);
+                handleChange("totalType", e.target.value);
               }}
-              value={localFilters?.sort}
+              value={localFilters?.totalType}
             />
 
             <Select

@@ -1,9 +1,10 @@
 "use client";
 
-import { useSocket } from "@/hooks/useSocket";
 import { INotification } from "@/lib/api/notifications/types";
 import { useNotifications } from "@/lib/api/notifications/useNotifications";
+import { getClientSession } from "@/lib/session/client";
 import { createContext, useContext, useEffect, useState } from "react";
+import { io } from "socket.io-client";
 
 export interface Props {
   children?: React.ReactNode;
@@ -24,7 +25,21 @@ export const useNotificationContext = () => {
 
 export const NotificationContextProvider = ({ children }: Props) => {
   const { fetchUnreadNotificationsCount } = useNotifications();
-  const socket = useSocket("https://dev-api.1159realty.com");
+  // const socket = useSocket();
+
+  const session = getClientSession();
+
+  const socket = io("https://dev-api.1159realty.com", {
+    // Recommended options for Cloudflare Workers
+    transports: ["websocket"],
+    upgrade: false,
+    reconnection: true,
+    reconnectionAttempts: 5,
+    reconnectionDelay: 1000,
+    auth: {
+      token: session?.token?.access || "",
+    },
+  });
 
   const [unreadCount, setUnreadCount] = useState(0);
   const [newNotification, setNewNotification] = useState<INotification | null>(null);
@@ -52,16 +67,43 @@ export const NotificationContextProvider = ({ children }: Props) => {
   useEffect(() => {
     if (!socket) return;
 
-    socket.on("new-notification", (data: INotification) => {
+    // Connection established
+    socket.on("connect", () => {});
+
+    // Receive messages from server
+    socket.on("message", () => {});
+
+    // Receive messages from server
+    socket.on("notification", () => {});
+
+    // Custom events can be added similarly
+    // socket.on('custom-event', (data) => { ... });
+
+    // Connection error
+    socket.on("connect_error", (err) => {
+      console.error("Connection Error", "disconnected");
+      console.error("Connection error: " + err);
+    });
+
+    // Disconnected
+    socket.on("disconnect", (reason) => {
+      console.error("Disconnected", "disconnected");
+      console.error("Disconnected: " + reason);
+    });
+
+    socket.on("notification", (data: INotification) => {
       if (!data) return;
+      fetchUnreadNotificationsCount().then((count) => {
+        setUnreadCount((prev) => count || prev);
+      });
+
       setNewNotification(data);
-      setUnreadCount((prev) => data?.unReadCount || prev + 1);
     });
 
     return () => {
       socket.off("new-notification");
     };
-  }, [socket]);
+  }, [fetchUnreadNotificationsCount, socket]);
 
   const value = {
     unreadCount,

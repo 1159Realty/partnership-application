@@ -1,7 +1,7 @@
 "use client";
 
 import { PaginatedResponse } from "../api.types";
-import { getClient, postClient, putClient } from "../client.api";
+import { getClient, putClient } from "../client.api";
 import { formatError } from "@/services/errors";
 import { useCallback } from "react";
 import { FetchNotificationArgs, INotification } from "./types";
@@ -27,9 +27,9 @@ function useNotifications() {
 
   const fetchUnreadNotificationsCount = useCallback(async (): Promise<number | null> => {
     try {
-      const response = await postClient<number | null>(`partnerships`);
+      const response = await getClient<{ count: number } | null>(`notifications/unread-count`);
       if (response?.statusCode === 200) {
-        return response?.result;
+        return response?.result?.count || null;
       }
       return null;
     } catch (error) {
@@ -38,10 +38,10 @@ function useNotifications() {
     }
   }, []);
 
-  const markNotificationsAsRead = useCallback(async (ids: string[]): Promise<boolean> => {
+  const markNotificationsAsRead = useCallback(async (notificationIds: string[]): Promise<boolean> => {
     try {
-      const response = await putClient<INotification>(`partnerships`, {
-        ids,
+      const response = await putClient<INotification>(`notifications/markAsRead`, {
+        notificationIds,
       });
       if (response?.statusCode === 200) {
         return true;
@@ -55,7 +55,7 @@ function useNotifications() {
 
   const markAllNotificationsAsRead = useCallback(async (): Promise<boolean> => {
     try {
-      const response = await putClient<INotification>(`partnerships`);
+      const response = await putClient<INotification>(`notifications/markAllAsRead`);
       if (response?.statusCode === 200) {
         return true;
       }
