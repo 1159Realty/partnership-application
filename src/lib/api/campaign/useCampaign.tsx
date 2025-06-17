@@ -116,6 +116,7 @@ function useCampaign() {
       name: z.string().nonempty({ message: "This field is required" }),
       type: z.string().nonempty({ message: "This field is required" }),
       message: z.string().nonempty({ message: "This field is required" }),
+      subject: z.string({ message: "This field is required" }).nonempty({ message: "This field is required" }),
       // subject:
       //   payload?.type === "EMAIL"
       //     ? z.string({ message: "This field is required" }).nonempty({ message: "This field is required" })

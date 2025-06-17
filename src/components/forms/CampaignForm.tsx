@@ -98,7 +98,7 @@ function CampaignForm({ onCreate, onClose, isOpen, templatesData, recipientsGrou
       type: formState.type,
       designId: formState?.designId?.id,
       message: formState?.message,
-      subject: formState?.subject,
+      subject: formState?.subject?.trim() || undefined,
       templateId: formState?.templateId?.id,
       recipientsGroupId: formState?.recipientsGroupId?.id?.split("__")?.[0],
       brevoListId,

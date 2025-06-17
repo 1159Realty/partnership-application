@@ -14,7 +14,7 @@ import { PaginatedResponse } from "@/lib/api/api.types";
 import { StatusPill } from "../pills";
 import { Check, CircleNotch } from "@phosphor-icons/react/dist/ssr";
 import { formatCurrency } from "@/services/numbers";
-import { getUserName } from "@/services/string";
+import { capitalizeAndSpace, getUserName } from "@/services/string";
 import { IRelease, ReleaseStatus } from "@/lib/api/release/types";
 import { Button } from "../buttons";
 
@@ -104,12 +104,19 @@ function ReleaseTable({ onRowClick, data, page, limit, onLimitChange, onPageChan
     data?.items?.map((x) =>
       createData(
         getStatus(x?.status),
-        x?.type,
+        capitalizeAndSpace(x?.type),
         getDateTimeString(x?.releaseDate, "date-only") || "N/A",
         formatCurrency(x?.amount),
-        getUserName(x?.recipient),
+        getUserName(x?.type === "COMMISSION" ? x?.commission?.agent : x?.revocation?.client),
 
-        <Button onClick={() => onRowClick?.(x)} color="info" disableElevation={false} not_rounded padding="5px 12px">
+        <Button
+          disabled={x?.status === "PAID"}
+          onClick={() => onRowClick?.(x)}
+          color="info"
+          disableElevation={false}
+          not_rounded
+          padding="5px 12px"
+        >
           Approve
         </Button>
       )

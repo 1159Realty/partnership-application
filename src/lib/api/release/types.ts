@@ -1,4 +1,5 @@
 import { ICommission } from "../commission/types";
+import { IEnrollment } from "../enrollment/types";
 import { User } from "../user/user.types";
 
 const releaseTypeArray = ["COMMISSION", "REVOCATION"] as const;
@@ -9,6 +10,16 @@ type ReleaseStatus = (typeof releaseArray)[number];
 
 const releaseConfigTypeArray = ["ALL_EXCEPT", "ONLY_FOR", "MANUAL"] as const;
 type ReleaseConfigType = (typeof releaseConfigTypeArray)[number];
+
+interface IRevocation {
+  id: string;
+  amount: number;
+  enrolment: IEnrollment;
+  client: User;
+  moderatedBy: User;
+  createdAt: string;
+  updatedAt: string;
+}
 
 interface IRelease {
   id: string;
@@ -21,8 +32,7 @@ interface IRelease {
   updatedAt: string;
   recipient: User;
   commission: ICommission;
-  revocation: unknown;
-  // TODO: Add the correct type for revocation
+  revocation: IRevocation;
 }
 
 interface FetchReleasesArgs {
@@ -39,9 +49,13 @@ interface FetchReleaseRecipientArgs {
 }
 
 interface IReleaseRecipient {
+  allowAutoPayout: boolean;
+  createdAt: string;
+  updatedAt: string;
   id: string;
   release: IRelease;
-  recipient: User;
+  moderatedBy: User;
+  user: User;
   // TODO: Add the correct type for revocation
 }
 
@@ -53,5 +67,6 @@ export type {
   ReleaseType,
   FetchReleaseRecipientArgs,
   IReleaseRecipient,
+  IRevocation,
 };
 export { releaseArray, releaseConfigTypeArray, releaseTypeArray };

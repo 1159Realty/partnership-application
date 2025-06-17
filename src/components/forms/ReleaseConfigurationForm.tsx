@@ -7,34 +7,32 @@ import { Button, IconButton, LoadingButton } from "../buttons";
 import { MobileB1MGray500, MobileB1MGray900, MobileB2MGray900, MobileH2SM } from "@/utils/typography";
 import { Divider } from "../divider";
 import { PaginatedResponse } from "@/lib/api/api.types";
-import { User } from "@/lib/api/user/user.types";
 import { useEffect, useState } from "react";
 import { useDebounce } from "use-debounce";
-import { useUser } from "@/lib/api/user/useUser";
 import { getUserName } from "@/services/string";
 import { COLORS } from "@/utils/colors";
 import { X } from "@phosphor-icons/react/dist/ssr";
 import { useRelease } from "@/lib/api/release/useRelease";
+import { IReleaseRecipient } from "@/lib/api/release/types";
 
 interface SupportFormProps {
   show: boolean;
   onClose?: () => void;
-  usersData: PaginatedResponse<User> | null;
+  recipientsData: PaginatedResponse<IReleaseRecipient> | null;
   onSubmit?: () => void;
 }
 
-function ReleaseConfigurationForm({ show, onClose, usersData, onSubmit }: SupportFormProps) {
-  const { addRecipients } = useRelease();
-  const { fetchUsers } = useUser();
+function ReleaseConfigurationForm({ show, onClose, recipientsData, onSubmit }: SupportFormProps) {
+  const { addRecipients, fetchReleaseRecipients } = useRelease();
 
   const [selectedRecipient, setSelectedRecipient] = useState<AutoCompleteWithSubOptions | null>(null);
   const [selectedRecipients, setSelectedRecipients] = useState<AutoCompleteWithSubOptions[]>([]);
   const [addingRecipients, setAddingRecipients] = useState(false);
 
-  const [users, setUsers] = useState<PaginatedResponse<User> | null>(usersData);
+  const [recipients, setRecipients] = useState<PaginatedResponse<IReleaseRecipient> | null>(recipientsData);
 
-  const [usersQuery, setUsersQuery] = useState("");
-  const [debouncedQuery] = useDebounce(usersQuery, 700);
+  const [recipientsQuery, setRecipientsQuery] = useState("");
+  const [debouncedQuery] = useDebounce(recipientsQuery, 700);
 
   function handleAddRecipient() {
     if (!selectedRecipient || selectedRecipients.some((x) => x.id === selectedRecipient.id)) return;
@@ -57,14 +55,14 @@ function ReleaseConfigurationForm({ show, onClose, usersData, onSubmit }: Suppor
   }
 
   useEffect(() => {
-    async function fetchUsersAsync() {
-      const response = await fetchUsers({ roleId: "agent" });
+    async function get() {
+      const response = await fetchReleaseRecipients({ keyword: debouncedQuery });
       if (response) {
-        setUsers(response);
+        setRecipients(response);
       }
     }
-    fetchUsersAsync();
-  }, [fetchUsers, debouncedQuery]);
+    get();
+  }, [debouncedQuery, fetchReleaseRecipients]);
 
   return (
     <Drawer isOpen={show} handleClose={onClose}>
@@ -79,11 +77,11 @@ function ReleaseConfigurationForm({ show, onClose, usersData, onSubmit }: Suppor
             </Box>
             <AutoCompleteWithSub
               renderInputLabel="Recipient"
-              onBlur={() => setUsersQuery("")}
+              onBlur={() => setRecipientsQuery("")}
               options={
-                users?.items?.map((i) => ({
-                  label: getUserName(i),
-                  sub: `${i?.email}`,
+                recipients?.items?.map((i) => ({
+                  label: getUserName(i?.user),
+                  sub: `${i?.user?.email}`,
                   id: i?.id,
                 })) || []
               }
@@ -97,7 +95,7 @@ function ReleaseConfigurationForm({ show, onClose, usersData, onSubmit }: Suppor
                 if (!value) {
                   setSelectedRecipient(null);
                 }
-                setUsersQuery(value);
+                setRecipientsQuery(value);
               }}
               value={selectedRecipient?.label || ""}
             />

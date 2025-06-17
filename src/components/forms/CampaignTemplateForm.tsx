@@ -41,6 +41,7 @@ function CampaignTemplateForm({ onCreate, onClose, isOpen, data }: Props) {
     name: "",
     type: "EMAIL",
     message: "",
+    subject: "",
   });
 
   const [error, setError] = useState<ValidationError<CampaignTemplatePayload>>({});

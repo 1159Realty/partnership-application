@@ -24,6 +24,7 @@ interface ICommission {
   amount: number;
   createdAt: string;
   updatedAt: string;
+  agent: User;
 }
 
 interface FetchCommissionsArgs {

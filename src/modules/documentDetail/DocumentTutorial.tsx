@@ -32,7 +32,7 @@ function DocumentTutorial({ onClose, isOpen, documentGroup }: Props) {
         {Boolean(documentGroup?.youtubeUrl?.trim()) && (
           <Box px="16px">
             <TutorialPlayerWrapper>
-              <ReactPlayer width={"100%"} url={documentGroup?.youtubeUrl || ""} />
+              <ReactPlayer controls width={"100%"} url={documentGroup?.youtubeUrl || ""} />
             </TutorialPlayerWrapper>
           </Box>
         )}

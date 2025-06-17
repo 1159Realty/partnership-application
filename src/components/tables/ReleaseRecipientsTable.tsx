@@ -15,7 +15,7 @@ import { IReleaseRecipient } from "@/lib/api/release/types";
 import { Button } from "../buttons";
 
 interface Column {
-  id: "name" | "email" | "phoneNumber" | "state" | "gender" | "trafficSource" | "action";
+  id: "status" | "name" | "email" | "phoneNumber" | "state" | "gender" | "trafficSource" | "action";
   label: string;
   minWidth?: number;
   align?: "right";
@@ -23,6 +23,7 @@ interface Column {
 }
 
 const columns: readonly Column[] = [
+  { id: "status", label: "Status", minWidth: 170 },
   { id: "name", label: "Name", minWidth: 170 },
   { id: "email", label: "Email", minWidth: 170 },
   { id: "phoneNumber", label: "Phone number", minWidth: 170 },
@@ -33,6 +34,7 @@ const columns: readonly Column[] = [
 ];
 
 interface Data {
+  status: string;
   name: string;
   email: string;
   phoneNumber: string;
@@ -43,6 +45,7 @@ interface Data {
 }
 
 function createTableData(
+  status: string,
   name: string,
   email: string,
   phoneNumber: string,
@@ -51,7 +54,7 @@ function createTableData(
   trafficSource: string,
   action: React.ReactNode
 ): Data {
-  return { name, email, phoneNumber, state, gender, trafficSource, action };
+  return { status, name, email, phoneNumber, state, gender, trafficSource, action };
 }
 
 interface Props {
@@ -67,14 +70,15 @@ function ReleaseRecipientsTable({ data, page, limit, onLimitChange, onPageChange
   const rows =
     data?.items?.map((x) =>
       createTableData(
-        getUserName(x?.recipient),
-        x?.recipient?.email,
-        x?.recipient?.phoneNumber || "N/A",
-        x?.recipient?.state?.state || "N/A",
-        capitalizeAndSpace(x?.recipient?.gender || "") || "N/A",
-        capitalizeAndSpace(x?.recipient?.trafficSource || "") || "N/A",
+        x?.allowAutoPayout ? "Enabled" : "Disabled",
+        getUserName(x?.user),
+        x?.user?.email,
+        x?.user?.phoneNumber || "N/A",
+        x?.user?.state?.state || "N/A",
+        capitalizeAndSpace(x?.user?.gender || "") || "N/A",
+        capitalizeAndSpace(x?.user?.trafficSource || "") || "N/A",
         <Button onClick={() => onRowClick?.(x)} color="error" disableElevation={false} not_rounded padding="5px 12px">
-          Remove
+          Disable
         </Button>
       )
     ) || [];

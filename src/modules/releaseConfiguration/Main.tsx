@@ -15,14 +15,13 @@ import { ReleaseConfigurationForm } from "@/components/forms/ReleaseConfiguratio
 import { useDebounce } from "use-debounce";
 import { ReleaseRecipientsTable } from "@/components/tables/ReleaseRecipientsTable";
 import { ConfirmationDialog } from "@/components/dialog/Confirmation";
-import { User as IUser } from "@/lib/api/user/user.types";
 
 interface Props {
   releaseRecipientsData: PaginatedResponse<IReleaseRecipient> | null;
-  usersData: PaginatedResponse<IUser> | null;
+  recipientsData: PaginatedResponse<IReleaseRecipient> | null;
 }
 
-function Main({ releaseRecipientsData, usersData }: Props) {
+function Main({ releaseRecipientsData, recipientsData }: Props) {
   const { fetchReleaseRecipients, removeRecipients, addAllRecipients, removeAllRecipients } = useRelease();
 
   const [recipient, setRecipient] = useState<IReleaseRecipient | null>(null);
@@ -54,7 +53,7 @@ function Main({ releaseRecipientsData, usersData }: Props) {
   async function handleRemove() {
     if (!recipient) return;
     setRemoveRecipientLoading(true);
-    await removeRecipients([recipient?.recipient?.id]);
+    await removeRecipients([recipient?.id]);
     setReload(!reload);
     setRemoveRecipientLoading(false);
     setRecipient(null);
@@ -89,7 +88,7 @@ function Main({ releaseRecipientsData, usersData }: Props) {
       }
     }
     getRecipients();
-  }, [fetchReleaseRecipients, debouncedSearchQuery, limit, page]);
+  }, [fetchReleaseRecipients, debouncedSearchQuery, limit, page, reload]);
 
   return (
     <Box>
@@ -112,13 +111,13 @@ function Main({ releaseRecipientsData, usersData }: Props) {
           />
         </Box>
 
-        <Button onClick={() => setIsOpen(true)}>Add Recipients</Button>
+        <Button onClick={() => setIsOpen(true)}>Enable auto release</Button>
       </Stack>
 
       <Stack mt="24px" rowGap={"10px"} direction={"row"} alignItems={"center"} justifyContent={"space-between"} flexWrap={"wrap"}>
-        <Button onClick={() => setShowClearAll(true)}>Clear all</Button>
+        <Button onClick={() => setShowClearAll(true)}>Disable all</Button>
         <Button onClick={() => setShowAddAll(true)} variant="outlined">
-          Add all
+          Enable all
         </Button>
       </Stack>
 
@@ -146,12 +145,12 @@ function Main({ releaseRecipientsData, usersData }: Props) {
       <ReleaseConfigurationForm
         onSubmit={() => setReload(!reload)}
         onClose={() => setIsOpen(false)}
-        usersData={usersData}
+        recipientsData={recipientsData}
         show={isOpen}
       />
 
       <ConfirmationDialog
-        message="Are you sure you want to remove this recipient?"
+        message="Are you sure you want to enable auto release for this recipient?"
         isOpen={Boolean(recipient)}
         onClose={() => setRecipient(null)}
         onConfirm={handleRemove}
@@ -159,14 +158,14 @@ function Main({ releaseRecipientsData, usersData }: Props) {
       />
 
       <ConfirmationDialog
-        message="Are you sure you want to clear all recipients?"
+        message="Are you sure you want to disable auto release for all recipients?"
         isOpen={showClearAll}
         onClose={() => setShowClearAll(false)}
         onConfirm={handleClearAll}
         loading={loadingClearAll}
       />
       <ConfirmationDialog
-        message="Are you sure you want to add all recipients?"
+        message="Are you sure you want to enable auto release for all recipients?"
         isOpen={showAddAll}
         onClose={() => setShowAddAll(false)}
         onConfirm={handleAddAll}

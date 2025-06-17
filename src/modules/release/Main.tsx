@@ -54,13 +54,13 @@ function Main({ releasesData }: Props) {
   }
 
   useEffect(() => {
-    async function getProperties() {
+    async function get() {
       const response = await fetchReleases({ ...filters, page: page + 1, limit });
       if (response) {
         setReleases(response);
       }
     }
-    getProperties();
+    get();
   }, [fetchReleases, filters, limit, page, reload]);
 
   return (
