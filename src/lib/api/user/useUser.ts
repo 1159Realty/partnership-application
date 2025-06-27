@@ -175,9 +175,9 @@ ${args?.sort ? `&sort=${args.sort}` : ""}`);
       if (response?.statusCode !== 200 && response?.statusCode !== 201) {
         // Show error if request was not successful
         if (response?.error) {
-          formState = { result: null, error: { requestError: response?.message || "Something went wrong" } };
-        } else {
           formState = { result: null, error: { requestError: "Something went wrong" } };
+        } else {
+          formState = { result: null, error: { requestError: response?.message || "Something went wrong" } };
         }
       }
     } else {

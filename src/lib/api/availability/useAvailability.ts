@@ -84,7 +84,7 @@ function useAvailability() {
       }
       if (response?.statusCode !== 200 && response?.statusCode !== 201) {
         // Show error if request was not successful
-        formState = { result: null, error: { requestError: "Something went wrong" } };
+        formState = { result: null, error: { requestError: response?.message || "Something went wrong" } };
       }
     } else {
       // Show validation errors if any

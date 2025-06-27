@@ -96,7 +96,7 @@ function useProperty() {
       }
       if (response?.statusCode !== 200 && response?.statusCode !== 201) {
         // Show error if request was not successful
-        formState = { result: null, error: { requestError: "Something went wrong" } };
+        formState = { result: null, error: { requestError: response?.message || "Something went wrong" } };
       }
     } else {
       // Show validation errors if any
@@ -112,7 +112,7 @@ function useProperty() {
       propertyName: z.string().nonempty({ message: "This field is required" }),
       status: z.string().nonempty({ message: "This field is required" }),
       totalLandSize: z.number({ message: "Land size must be a number" }).min(1, { message: "Land Size must be greater than 0" }),
-      youtubeUrl: z.string().optional(),
+      youtubeUrl: z.any().optional(),
       propertyPic: z.any().superRefine((file, ctx) => {
         if (!file?.size) {
           ctx.addIssue({
@@ -157,6 +157,8 @@ function useProperty() {
           }
         } else if (response?.statusCode === 413) {
           formState = { result: null, error: { requestError: "File too large! Max file size is 3mb." } };
+        } else if (response?.statusCode === 400) {
+          formState = { result: null, error: { requestError: response?.message || "" } };
         }
       } catch (error) {
         // Log error to console
@@ -167,7 +169,7 @@ function useProperty() {
       }
       if (response?.statusCode !== 200 && response?.statusCode !== 201) {
         // Show error if request was not successful
-        formState = { result: null, error: { requestError: "Something went wrong" } };
+        formState = { result: null, error: { requestError: response?.message || response?.message || "Something went wrong" } };
       }
     } else {
       // Show validation errors if any

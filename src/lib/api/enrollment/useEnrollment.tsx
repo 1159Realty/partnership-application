@@ -109,7 +109,7 @@ function useEnrollment() {
         if (response?.statusCode === 430) {
           formState = { result: null, error: { requestError: "Insufficient land size" } };
         } else {
-          formState = { result: null, error: { requestError: "Something went wrong" } };
+          formState = { result: null, error: { requestError: response?.message || "Something went wrong" } };
         }
       }
     } else {
