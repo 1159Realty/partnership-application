@@ -5,7 +5,7 @@ import { User } from "../user/user.types";
 const releaseTypeArray = ["COMMISSION", "REVOCATION"] as const;
 type ReleaseType = (typeof releaseTypeArray)[number];
 
-const releaseArray = ["PAID", "PENDING"] as const;
+const releaseArray = ["PAID", "PENDING", "SUBMITTED"] as const;
 type ReleaseStatus = (typeof releaseArray)[number];
 
 const releaseConfigTypeArray = ["ALL_EXCEPT", "ONLY_FOR", "MANUAL"] as const;

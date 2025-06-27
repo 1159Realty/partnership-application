@@ -91,6 +91,15 @@ function ReleaseTable({ onRowClick, data, page, limit, onLimitChange, onPageChan
         </StatusPill>
       );
     }
+    if (status === "SUBMITTED") {
+      return (
+        <StatusPill status="neutral">
+          <Stack direction={"row"} spacing={"3px"} alignItems={"center"}>
+            <Check weight="bold" /> <span>Submitted</span>
+          </Stack>
+        </StatusPill>
+      );
+    }
     return (
       <StatusPill status="warning">
         <Stack direction={"row"} spacing={"3px"} alignItems={"center"}>
@@ -110,7 +119,7 @@ function ReleaseTable({ onRowClick, data, page, limit, onLimitChange, onPageChan
         getUserName(x?.type === "COMMISSION" ? x?.commission?.agent : x?.revocation?.client),
 
         <Button
-          disabled={x?.status === "PAID"}
+          disabled={x?.status === "PAID" || x?.status === "SUBMITTED"}
           onClick={() => onRowClick?.(x)}
           color="info"
           disableElevation={false}
