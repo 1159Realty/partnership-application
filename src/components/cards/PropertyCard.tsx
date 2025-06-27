@@ -85,7 +85,11 @@ function PropertyCard({
   return (
     <PropertyCardWrapper>
       <PropertyImageWrapper onClick={onClick}>
-        {renderYoutube ? <ReactPlayer width={"100%"} url={youtubeUrl} /> : <Image src={property?.propertyPic || ""} />}
+        {renderYoutube ? (
+          <ReactPlayer width={"100%"} url={youtubeUrl} />
+        ) : (
+          <Image src={property?.propertyPic || "https://www.blenheimlettings.co.uk/wp-content/uploads/2022/09/no-image.png"} />
+        )}
 
         {!renderYoutube && (
           <PropertyImageDetailWrapper>
