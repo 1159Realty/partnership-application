@@ -23,11 +23,9 @@ interface Column {
     | "property"
     | "status"
     | "price"
-    | "migratedTotal"
     | "totalAmount"
     | "balanceLeft"
     | "landSize"
-    | "migratedDuration"
     | "installmentDuration"
     | "outrightPayment"
     | "plotId"
@@ -45,11 +43,9 @@ const columns: readonly Column[] = [
   { id: "property", label: "Property", minWidth: 170 },
   { id: "status", label: "Status", minWidth: 170 },
   { id: "price", label: "Price", minWidth: 170 },
-  { id: "migratedTotal", label: "Migrated Total Amount", minWidth: 170 },
   { id: "totalAmount", label: "Total Amount", minWidth: 170 },
   { id: "balanceLeft", label: "Balance Left", minWidth: 170 },
   { id: "landSize", label: "Land Size", minWidth: 170 },
-  { id: "migratedDuration", label: "Migrated Installment Duration", minWidth: 170 },
   { id: "installmentDuration", label: "Installment Duration", minWidth: 170 },
   { id: "outrightPayment", label: "Outright Payment", minWidth: 170 },
   { id: "plotId", label: "Plot Id", minWidth: 170 },
@@ -62,11 +58,9 @@ interface Data {
   property: string;
   status: React.ReactNode;
   price: string;
-  migratedTotal: string;
   totalAmount: string;
   balanceLeft: string;
   landSize: string;
-  migratedDuration: string;
   installmentDuration: string;
   outrightPayment: string;
   plotId: string;
@@ -78,11 +72,9 @@ function createTableData(
   property: string,
   status: React.ReactNode,
   price: string,
-  migratedTotal: string,
   totalAmount: string,
   balanceLeft: string,
   landSize: string,
-  migratedDuration: string,
   installmentDuration: string,
   outrightPayment: string,
   plotId: string,
@@ -94,11 +86,9 @@ function createTableData(
     property,
     status,
     price,
-    migratedTotal,
     totalAmount,
     balanceLeft,
     landSize,
-    migratedDuration,
     installmentDuration,
     outrightPayment,
     plotId,
@@ -151,11 +141,9 @@ function EnrollmentsTable({ data, page, limit, onLimitChange, onPageChange, onRo
         x?.property?.propertyName || "N/A",
         getInvoiceStatus(x?.status),
         formatCurrency(x?.price),
-        formatCurrency(x?.migratedTotal),
         formatCurrency(x?.totalAmount),
         formatCurrency(x?.balanceLeft),
         `${addCommas(x?.landSize) || "-"} SQM`,
-        `${addCommas(x.migratedDuration) || "-"} Month(s)`,
         `${addCommas(x.installmentDuration) || "-"} Month(s)`,
         x.outrightPayment ? "Yes" : "No",
         x?.plotId || "N/A",

@@ -25,6 +25,9 @@ interface IEnrollment {
   moderatedBy: User;
   createdBy: User;
   plotId: string;
+  migratedTotal: number;
+  migratedDuration: number;
+  isMigrated: boolean;
 }
 
 interface EnrollmentPayload {

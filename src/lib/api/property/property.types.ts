@@ -70,6 +70,7 @@ type IProperty = {
   address: string;
   youtubeUrl: string;
   landType: PropertyLandType;
+  isMigrated: boolean;
 };
 
 interface FetchPropertiesArgs {
