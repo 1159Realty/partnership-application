@@ -34,7 +34,7 @@ function PropertyOverview({ property, landSize }: Props) {
         <div className="flex flex-row justify-between gap-1">
           <PropertyOverviewKey>Land Sizes</PropertyOverviewKey>
           <PropertyOverviewValue>
-            {landSize || property?.availableLandSizes?.map((x) => x.size).join("SQM, ")}SQM
+            {landSize || property?.availableLandSizes?.map((x) => x.size).join(", ")} (SQM)
           </PropertyOverviewValue>
         </div>
         <div className="flex flex-row justify-between gap-1">

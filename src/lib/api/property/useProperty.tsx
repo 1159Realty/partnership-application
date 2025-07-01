@@ -26,7 +26,7 @@ function useProperty() {
       areaId: z.string().nonempty({ message: "This field is required" }),
       address: z.string().nonempty({ message: "This field is required" }),
       landType: z.string().nonempty({ message: "This field is required" }),
-      youtubeUrl: z.string().optional(),
+      instagramUrl: z.string().optional(),
       totalLandSize: z
         .number({ message: "Total land size must be a number" })
         .min(1, { message: "Overdue interest must be greater than 0" }),
@@ -112,7 +112,7 @@ function useProperty() {
       propertyName: z.string().nonempty({ message: "This field is required" }),
       status: z.string().nonempty({ message: "This field is required" }),
       totalLandSize: z.number({ message: "Land size must be a number" }).min(1, { message: "Land Size must be greater than 0" }),
-      youtubeUrl: z.any().optional(),
+      instagramUrl: z.any().optional(),
       propertyPic: z.any().superRefine((file, ctx) => {
         if (!file?.size) {
           ctx.addIssue({

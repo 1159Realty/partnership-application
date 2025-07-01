@@ -28,7 +28,7 @@ function useDocument() {
       description: z.string().nonempty({ message: "This field is required" }),
       clientId: z.string().optional(),
       propertyId: z.string().optional(),
-      youtubeUrl: z.string().optional(),
+      instagramUrl: z.string().optional(),
     });
 
     const validation = schema.safeParse(payload);
@@ -44,7 +44,7 @@ function useDocument() {
         data = {
           title: data?.title,
           description: data?.description,
-          youtubeUrl: data?.youtubeUrl,
+          instagramUrl: data?.instagramUrl,
         };
       }
 

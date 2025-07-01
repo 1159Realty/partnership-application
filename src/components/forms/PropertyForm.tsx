@@ -69,7 +69,7 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
     installmentPeriod: 32,
     address: "",
     landType: "",
-    youtubeUrl: "",
+    instagramUrl: "",
   });
   const [error, setError] = useState<ValidationError<PropertyPayload>>({});
   const [loading, setLoading] = useState(false);
@@ -230,7 +230,7 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
 
               <Box>
                 <Select
-                  label="Land size"
+                  label="Land Type"
                   value={formState.landType}
                   items={PROPERTY_LAND_TYPE.map((x) => ({
                     id: x,
@@ -546,12 +546,12 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
               <Box>
                 <TextField
                   fullWidth
-                  onChange={(e) => handleChange("youtubeUrl", e.target.value)}
-                  name="youtubeUrl"
-                  value={formState.youtubeUrl}
-                  label="Youtube link"
+                  onChange={(e) => handleChange("instagramUrl", e.target.value)}
+                  name="instagramUrl"
+                  value={formState.instagramUrl}
+                  label="Instagram link"
                 />
-                {error?.youtubeUrl?.map((error, i) => (
+                {error?.instagramUrl?.map((error, i) => (
                   <Box key={i}>
                     <ErrorText>{error}</ErrorText>
                   </Box>
@@ -610,7 +610,7 @@ function UpdatePropertyForm({ onUpdate, property, handleClose, handleReloadPrope
     propertyPic: "",
     totalLandSize: "",
     status: "",
-    youtubeUrl: "",
+    instagramUrl: "",
   });
   const [error, setError] = useState<ValidationError<PropertyPayload>>({});
   const [loading, setLoading] = useState(false);
@@ -665,7 +665,7 @@ function UpdatePropertyForm({ onUpdate, property, handleClose, handleReloadPrope
         propertyPic: property?.propertyPic || "",
         totalLandSize: property?.totalLandSize || "",
         status: property?.status || "AVAILABLE",
-        youtubeUrl: property?.youtubeUrl,
+        instagramUrl: property?.instagramUrl,
       });
 
       if (property?.propertyPic) {
@@ -777,12 +777,12 @@ function UpdatePropertyForm({ onUpdate, property, handleClose, handleReloadPrope
                 <Box>
                   <TextField
                     fullWidth
-                    onChange={(e) => handleChange("youtubeUrl", e.target.value)}
-                    name="youtubeUrl"
-                    value={formState.youtubeUrl}
-                    label="Youtube link"
+                    onChange={(e) => handleChange("instagramUrl", e.target.value)}
+                    name="instagramUrl"
+                    value={formState.instagramUrl}
+                    label="Instagram link"
                   />
-                  {error?.youtubeUrl?.map((error, i) => (
+                  {error?.instagramUrl?.map((error, i) => (
                     <Box key={i}>
                       <ErrorText>{error}</ErrorText>
                     </Box>

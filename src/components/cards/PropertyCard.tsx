@@ -11,8 +11,8 @@ import { COLORS, SEVERITY_COLORS } from "@/utils/colors";
 import { ROUTES } from "@/utils/constants";
 import Link from "next/link";
 import { addCommas } from "@/services/numbers";
-import ReactPlayer from "react-player";
 import { capitalizeAndSpace } from "@/services/string";
+import { InstagramVideoPlayer } from "../videoPlayer/InstagramVideoPlayer";
 
 interface Props {
   handleClick?: (id: string) => void;
@@ -23,7 +23,7 @@ interface Props {
   landSize?: number;
   showLink?: boolean;
   showRemainingLandSize?: boolean;
-  showYoutube?: boolean;
+  showVideo?: boolean;
 }
 
 function PropertyCard({
@@ -35,13 +35,13 @@ function PropertyCard({
   primaryId,
   landSize,
   showLink,
-  showYoutube,
+  showVideo,
 }: Props) {
   const { setAlert } = useAlertContext();
 
   const propertyUrl = `${ROUTES["/"]}?propertyId=${property?.id}`;
-  const youtubeUrl = property?.youtubeUrl?.trim();
-  const renderYoutube = Boolean(youtubeUrl && showYoutube);
+  const instagramUrl = property?.instagramUrl?.trim();
+  const renderVideo = Boolean(instagramUrl && showVideo);
 
   const onClick = () => {
     if (primaryId && handleClick) {
@@ -84,22 +84,20 @@ function PropertyCard({
 
   return (
     <PropertyCardWrapper>
-      <PropertyImageWrapper onClick={onClick}>
-        {renderYoutube ? (
-          <ReactPlayer width={"100%"} url={youtubeUrl} />
-        ) : (
+      {renderVideo ? (
+        <InstagramVideoPlayer reload={Boolean(property)} url={instagramUrl!} />
+      ) : (
+        <PropertyImageWrapper onClick={onClick}>
           <Image src={property?.propertyPic || "https://www.blenheimlettings.co.uk/wp-content/uploads/2022/09/no-image.png"} />
-        )}
-
-        {!renderYoutube && (
           <PropertyImageDetailWrapper>
             <Stack direction={"row"} justifyContent={"space-between"} alignItems={"center"} spacing={"10px"}>
               {Boolean(property?.landType?.trim()) && <Pill>{capitalizeAndSpace(property?.landType || "")}</Pill>}
               {showStatus && <Pill bgcolor={getAvailability()?.bgColor}>{getAvailability()?.label}</Pill>}
             </Stack>
           </PropertyImageDetailWrapper>
-        )}
-      </PropertyImageWrapper>
+        </PropertyImageWrapper>
+      )}
+
       <PropertyCardDetailWrapper>
         <Stack direction={"row"} justifyContent={"space-between"} spacing={"10px"}>
           {showLink ? (
@@ -117,7 +115,7 @@ function PropertyCard({
           )}
         </Stack>
 
-        <MobileCap2MGray500>{landSize || property?.availableLandSizes?.map((x) => x.size).join(" SQM, ")} SQM</MobileCap2MGray500>
+        <MobileCap2MGray500>{landSize || property?.availableLandSizes?.map((x) => x.size).join(", ")} (SQM)</MobileCap2MGray500>
       </PropertyCardDetailWrapper>
     </PropertyCardWrapper>
   );

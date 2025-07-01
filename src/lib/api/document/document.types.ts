@@ -31,7 +31,7 @@ type DocumentGroupPayload = {
   propertyId?: string;
   clientId?: string;
   documentGroupId?: string;
-  youtubeUrl?: string;
+  instagramUrl?: string;
 };
 
 type DocumentGroupFormPayload = {
@@ -40,7 +40,7 @@ type DocumentGroupFormPayload = {
   propertyId?: AutoCompleteWithSubOptions;
   clientId?: AutoCompleteWithSubOptions;
   documentGroupId?: string;
-  youtubeUrl?: string;
+  instagramUrl?: string;
 };
 
 type IDocument = {
@@ -67,7 +67,7 @@ type IDocumentGroup = {
   updatedAt: string;
   createdBy: User;
   updatedBy: User;
-  youtubeUrl: string;
+  instagramUrl: string;
 };
 
 interface FetchDocumentGroupArgs {

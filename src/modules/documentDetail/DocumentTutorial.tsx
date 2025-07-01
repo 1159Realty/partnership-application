@@ -3,13 +3,12 @@
 import { Drawer } from "@/components/drawer";
 import { Box, Stack } from "@mui/material";
 import { MobileB1LightGray900 } from "@/utils/typography";
-import ReactPlayer from "react-player";
-import { TutorialPlayerWrapper } from "./styles";
 import { COLORS } from "@/utils/colors";
 import { IDocumentGroup } from "@/lib/api/document/document.types";
 import { Button } from "@/components/buttons";
 import { getIsModerator } from "@/lib/session/roles";
 import { useUserContext } from "@/contexts/UserContext";
+import { InstagramVideoPlayer } from "@/components/videoPlayer/InstagramVideoPlayer";
 
 interface Props {
   onClose?: () => void;
@@ -29,11 +28,9 @@ function DocumentTutorial({ onClose, isOpen, documentGroup }: Props) {
   return (
     <Drawer isOpen={isOpen} handleClose={handleClose}>
       <Stack spacing={"24px"} pb="48px" mt="60px">
-        {Boolean(documentGroup?.youtubeUrl?.trim()) && (
+        {Boolean(documentGroup?.instagramUrl?.trim()) && (
           <Box px="16px">
-            <TutorialPlayerWrapper>
-              <ReactPlayer controls width={"100%"} url={documentGroup?.youtubeUrl || ""} />
-            </TutorialPlayerWrapper>
+            <InstagramVideoPlayer reload={isOpen} url={documentGroup?.instagramUrl || ""} />
           </Box>
         )}
 

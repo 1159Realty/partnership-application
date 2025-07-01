@@ -1,5 +1,4 @@
 import { PropertyManagementWrapper } from "./propertyManagement.styles";
-import { ManageProperty } from "./ManageProperty";
 import { fetchStates } from "@/lib/api/location/server.location";
 import { Properties } from "./Properties";
 import { PropertyManagementContextProvider } from "./PropertyManagementContext";
@@ -14,7 +13,6 @@ async function PropertyManagement() {
     <PropertyManagementContextProvider>
       <PropertyManagementWrapper>
         <Properties propertiesData={propertiesData} states={states} />
-        <ManageProperty />
       </PropertyManagementWrapper>
     </PropertyManagementContextProvider>
   );

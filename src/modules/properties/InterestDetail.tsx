@@ -25,7 +25,7 @@ function InterestDetail({ interest, handleClose, onCancelInterest }: InterestDet
       <Box pb="48px" mt="32px">
         <Stack spacing={"24px"}>
           <Box px="16px">
-            <PropertyCard showYoutube property={interest?.property || null} />
+            <PropertyCard showVideo property={interest?.property || null} />
           </Box>
           <Divider />
 
