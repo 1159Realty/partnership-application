@@ -17,7 +17,17 @@ import { useAlertContext } from "@/contexts/AlertContext";
 import { useUserContext } from "@/contexts/UserContext";
 
 interface Column {
-  id: "name" | "role" | "assignedBy" | "email" | "phoneNumber" | "state" | "lga" | "gender" | "trafficSource";
+  id:
+    | "name"
+    | "role"
+    | "assignedBy"
+    | "email"
+    | "phoneNumber"
+    | "country"
+    | "state"
+    | "residentialAddress"
+    | "gender"
+    | "trafficSource";
   label: string;
   minWidth?: number;
   align?: "right";
@@ -30,8 +40,9 @@ const columns: readonly Column[] = [
   { id: "assignedBy", label: "Assigned by", minWidth: 170 },
   { id: "email", label: "Email", minWidth: 170 },
   { id: "phoneNumber", label: "Phone number", minWidth: 170 },
+  { id: "country", label: "Country", minWidth: 170 },
   { id: "state", label: "State", minWidth: 170 },
-  { id: "lga", label: "Local government", minWidth: 170 },
+  { id: "residentialAddress", label: "Address", minWidth: 170 },
   { id: "gender", label: "Gender", minWidth: 170 },
   { id: "trafficSource", label: "Source", minWidth: 170 },
 ];
@@ -42,8 +53,9 @@ interface Data {
   assignedBy: string;
   email: string;
   phoneNumber: string;
+  country: string;
   state: string;
-  lga: string;
+  residentialAddress: string;
   gender: string;
   trafficSource: string;
 }
@@ -54,12 +66,13 @@ function createTableData(
   assignedBy: string,
   email: string,
   phoneNumber: string,
+  country: string,
   state: string,
-  lga: string,
+  residentialAddress: string,
   gender: string,
   trafficSource: string
 ): Data {
-  return { name, role, assignedBy, email, phoneNumber, state, lga, gender, trafficSource };
+  return { name, role, assignedBy, email, phoneNumber, country, state, residentialAddress, gender, trafficSource };
 }
 
 interface Props {
@@ -83,8 +96,9 @@ function TeamTable({ onRowClick, data, page, limit, onLimitChange, onPageChange 
         getUserName(x?.roleAssignedBy),
         x?.email,
         x?.phoneNumber || "N/A",
+        x?.country || "N/A",
         x?.state?.state || "N/A",
-        x?.lga?.lga || "N/A",
+        x?.residentialAddress || "N/A",
         capitalizeAndSpace(x?.gender || "") || "N/A",
         capitalizeAndSpace(x?.trafficSource || "") || "N/A"
       )

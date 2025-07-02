@@ -62,7 +62,8 @@ function Main({ usersData }: Props) {
         limit,
         byModerators: true,
         keyword: debounceQuery,
-        roleId: filters?.roleId,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        roleId: filters?.roleId as any,
       });
 
       setUsers(response);
