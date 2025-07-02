@@ -2,7 +2,7 @@
 
 import { Drawer } from "@/components/drawer";
 import { AutoComplete, FileUpload, Select, TextField } from "@/components/Inputs";
-import { GENDERS, User, UserFormPayload, UserPayload } from "@/lib/api/user/user.types";
+import { COUNTRIES, GENDERS, User, UserFormPayload, UserPayload } from "@/lib/api/user/user.types";
 import { useEffect, useState } from "react";
 import { ValidationError } from "@/services/validation/zod";
 import { FileType } from "@/lib/api/file-upload/file-upload.types";
@@ -152,10 +152,10 @@ function UpdateProfile({ onClose }: UpdateProfileProps) {
         firstName: userData.firstName || "",
         lastName: userData.lastName || "",
         phoneNumber: userData.phoneNumber || "",
-        residentialAddress: userData.residentialAddress || "",
         profilePic: userData?.profilePic || "",
+        country: userData.country || "",
         stateId: userData?.state?.id || "",
-        lgaId: userData?.lga?.id || "",
+        residentialAddress: userData.residentialAddress || "",
         gender: userData?.gender || "",
         trafficSource: userData?.trafficSource,
       });
@@ -248,32 +248,44 @@ function UpdateProfile({ onClose }: UpdateProfileProps) {
       <Divider />
 
       <Box px="16px">
-        <AutoComplete
-          fullWidth
-          isOptionEqualToValue={(option, value) => option.id === value.id}
-          options={(states || []).map((s) => ({ label: s.state, id: s.id }))}
-          renderInputLabel="State"
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          onChange={(_, value: any) => {
-            if (value.id) {
-              handleChange("stateId", value.id);
-            }
+        <Select
+          label="Country"
+          items={COUNTRIES.map((x) => ({ id: x, label: capitalizeAndSpace(x) }))}
+          onChange={(e) => {
+            handleChange("country", e.target.value as string);
           }}
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          onInputChange={(_, value: any) => {
-            if (!value) {
-              handleChange("lgaId", "");
-            }
-          }}
-          value={(states || []).find((s) => s.id === formState?.stateId)?.state || ""}
+          name="country"
+          value={formState?.country}
         />
-        {error?.stateId?.map((error, i) => (
+        {error?.country?.map((error, i) => (
           <Box key={i}>
             <ErrorText>{error}</ErrorText>
           </Box>
         ))}
       </Box>
 
+      {Boolean(formState?.country?.trim() === "NIGERIA") && (
+        <Box px="16px">
+          <AutoComplete
+            fullWidth
+            isOptionEqualToValue={(option, value) => option.id === value.id}
+            options={(states || []).map((s) => ({ label: s.state, id: s.id }))}
+            renderInputLabel="State"
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            onChange={(_, value: any) => {
+              if (value.id) {
+                handleChange("stateId", value.id);
+              }
+            }}
+            value={(states || []).find((s) => s.id === formState?.stateId)?.state || ""}
+          />
+          {error?.stateId?.map((error, i) => (
+            <Box key={i}>
+              <ErrorText>{error}</ErrorText>
+            </Box>
+          ))}
+        </Box>
+      )}
       <Box px="16px">
         <TextField
           onChange={(e) => handleChange("residentialAddress", e.target.value)}

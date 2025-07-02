@@ -13,7 +13,7 @@ import { AgentCommissionContainer, TransactionCardContainer } from "./client.sty
 import { ButtonPill, StatusPill } from "../pills";
 import { Check, CheckSquare } from "@phosphor-icons/react/dist/ssr";
 import { useUserContext } from "@/contexts/UserContext";
-import { hasPermission } from "@/lib/session/roles";
+import { getIsModerator, hasPermission } from "@/lib/session/roles";
 import { useInvoice } from "@/lib/api/invoice/useInvoice";
 import { PaginatedResponse } from "@/lib/api/api.types";
 import { IInvoice } from "@/lib/api/invoice/invoice.types";
@@ -199,7 +199,7 @@ function TransactionCard({ invoice, handleResolvePayment, handleUpdateInvoices, 
 
   const ownerUserCanSeeInvoice = hasPermission(roleId, "download:invoice") && isCurrentUserEnrollment && enrollmentActive;
 
-  const moderatorCanResolveInvoice = hasPermission(roleId, "update:invoice") && enrollmentActive && invoice.status === "PENDING";
+  const moderatorCanResolveInvoice = hasPermission(roleId, "resolve:invoice") && enrollmentActive && invoice.status === "PENDING";
 
   return (
     <Stack>
@@ -209,7 +209,7 @@ function TransactionCard({ invoice, handleResolvePayment, handleUpdateInvoices, 
           <MobileB1LightGray900>{getDateTimeString(invoice.dueDate, "date-only")}</MobileB1LightGray900>
           {invoice?.status === "OVERDUE" && <MobileB1LightGray900>Overdue amount</MobileB1LightGray900>}
           {paymentDetails && <MobileB1LightGray900>{paymentDetails?.type}</MobileB1LightGray900>}
-          {hasPermission(roleId, "update:invoice") && Boolean(invoice?.moderatedBy) && (
+          {getIsModerator(userData?.roleId) && Boolean(invoice?.moderatedBy) && (
             <MobileB1LightGray900>Resolved by</MobileB1LightGray900>
           )}
         </Stack>
@@ -224,7 +224,7 @@ function TransactionCard({ invoice, handleResolvePayment, handleUpdateInvoices, 
           </StatusPill>
           {invoice?.status === "OVERDUE" && <MobileB1LightGray900>₦{addCommas(invoice?.overDueAmount)}</MobileB1LightGray900>}
           {paymentDetails && <MobileB1LightGray900>{paymentDetails?.date}</MobileB1LightGray900>}
-          {hasPermission(roleId, "update:invoice") && Boolean(invoice?.moderatedBy) && (
+          {getIsModerator(userData?.roleId) && Boolean(invoice?.moderatedBy) && (
             <MobileB1LightGray900>{getUserName(invoice?.moderatedBy)}</MobileB1LightGray900>
           )}
         </Stack>

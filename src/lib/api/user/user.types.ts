@@ -1,6 +1,7 @@
 import { AutoCompleteWithSubOptions } from "@/components/Inputs";
 import { FileType } from "../file-upload/file-upload.types";
-import { ILga, IState } from "../location/location.types";
+import { IState } from "../location/location.types";
+import { Role } from "@/lib/session/roles";
 
 const agentTypes = ["COMPANY", "PRIVATE"] as const;
 type AgentType = (typeof agentTypes)[number];
@@ -10,12 +11,12 @@ interface User {
   firstName: string;
   lastName: string;
   email: string;
-  residentialAddress: string;
   phoneNumber: string;
-  roleId: string;
+  roleId: Role;
   profilePic: string;
+  country: Country;
   state: IState;
-  lga: ILga;
+  residentialAddress: string;
   gender: Gender;
   trafficSource: InvitationSource;
   isCompleted: boolean;
@@ -33,10 +34,10 @@ type UserFormPayload = {
   firstName: string;
   lastName: string;
   phoneNumber: string;
-  residentialAddress?: string;
   profilePic?: FileType | string;
+  country?: string;
   stateId?: string;
-  lgaId?: string;
+  residentialAddress?: string;
   gender?: Gender | "";
   trafficSource?: InvitationSource | "";
   referralId?: string;
@@ -46,10 +47,10 @@ type UserPayload = {
   firstName: string;
   lastName: string;
   phoneNumber: string;
-  residentialAddress?: string;
   profilePic?: string;
+  country?: string;
   stateId?: string;
-  lgaId?: string;
+  residentialAddress?: string;
   gender?: string;
   trafficSource?: string;
   referralId?: string;
@@ -61,11 +62,14 @@ type InvitationSource = (typeof INVITATIONSOURCES)[number];
 const GENDERS = ["MALE", "FEMALE", "RATHER_NOT_SAY"] as const;
 type Gender = (typeof GENDERS)[number];
 
+const COUNTRIES = ["NIGERIA", "OTHERS"] as const;
+type Country = (typeof COUNTRIES)[number];
+
 type FetchUsersArg = {
   page?: number;
   limit?: number;
   keyword?: string;
-  roleId?: string;
+  roleId?: Role;
   referralId?: string;
   byClientOnly?: boolean;
   byModerators?: boolean;
@@ -116,7 +120,7 @@ interface TrafficReport {
   total: number;
 }
 
-export { INVITATIONSOURCES, GENDERS, agentTypes };
+export { INVITATIONSOURCES, GENDERS, agentTypes, COUNTRIES };
 
 export type {
   User,
@@ -135,4 +139,5 @@ export type {
   ClientReportTotal,
   GenderReport,
   TrafficReport,
+  Country,
 };

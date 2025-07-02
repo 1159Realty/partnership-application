@@ -71,6 +71,10 @@ function EnrollClientForm({ showEnrollClient, onClose, onCreate, propertyId, cli
   const [clientQuery, setClientQuery] = useState("");
   const [debouncedQuery] = useDebounce(clientQuery, 700);
 
+  const [agents, setAgents] = useState<PaginatedResponse<User> | null>(null);
+  const [agentsQuery, setAgentsQuery] = useState("");
+  const [debouncedAgentQuery] = useDebounce(agentsQuery, 700);
+
   const [property, setProperty] = useState<IProperty | null>(null);
   const [properties, setProperties] = useState<PaginatedResponse<IProperty> | null>(null);
   const [propertyQuery, setPropertyQuery] = useState("");
@@ -91,7 +95,7 @@ function EnrollClientForm({ showEnrollClient, onClose, onCreate, propertyId, cli
     setLoading(true);
     const payload: EnrollmentValidationPayload = {
       outrightPayment: formState.outrightPayment,
-      agentId: getRole(userData?.roleId) === "agent" ? userData?.id : undefined,
+      agentId: getRole(userData?.roleId) === "agent" ? userData?.id : formState?.agentId?.id,
       propertyId: propertyId || formState?.propertyId?.id,
       clientId: clientId || formState.clientId?.id || "",
       landSize: +formState.landSize,
@@ -144,6 +148,20 @@ function EnrollClientForm({ showEnrollClient, onClose, onCreate, propertyId, cli
     }
     fetchUsersAsync();
   }, [fetchUsers, debouncedQuery, userData?.roleId, userData?.phoneNumber]);
+
+  useEffect(() => {
+    async function fetchUsersAsync() {
+      const response = await fetchUsers({
+        roleId: "agent",
+        keyword: debouncedQuery,
+      });
+
+      if (response) {
+        setAgents(response);
+      }
+    }
+    fetchUsersAsync();
+  }, [fetchUsers, debouncedAgentQuery, userData?.roleId, debouncedQuery]);
 
   useEffect(() => {
     async function fetchPropertiesAsync() {
@@ -226,6 +244,39 @@ function EnrollClientForm({ showEnrollClient, onClose, onCreate, propertyId, cli
                 value={formState.clientId?.label || ""}
               />
               {error?.clientId?.map((error, i) => (
+                <Box key={i}>
+                  <ErrorText>{error}</ErrorText>
+                </Box>
+              ))}
+            </Box>
+          )}
+
+          {userData?.roleId !== "agent" && (
+            <Box px="16px">
+              <AutoCompleteWithSub
+                renderInputLabel="Agent"
+                onBlur={() => setAgentsQuery("")}
+                options={
+                  agents?.items?.map((i) => ({
+                    label: getUserName(i),
+                    sub: `${i?.email}"`,
+                    id: i?.id,
+                  })) || []
+                }
+                onChange={(_, value) => {
+                  if (value) {
+                    handleChange("agentId", value);
+                  }
+                }}
+                onInputChange={(_, value) => {
+                  if (!value) {
+                    handleChange("agentId", null);
+                  }
+                  setAgentsQuery(value);
+                }}
+                value={formState.agentId?.label || ""}
+              />
+              {error?.agentId?.map((error, i) => (
                 <Box key={i}>
                   <ErrorText>{error}</ErrorText>
                 </Box>

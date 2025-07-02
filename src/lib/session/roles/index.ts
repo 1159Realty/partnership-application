@@ -7,6 +7,9 @@ import {
   operationsPanelItems,
   hrPanelItems,
   accountingPanelItems,
+  accountingManagerPanelItems,
+  mediaManagerPanelItems,
+  cstManagerPanelItems,
 } from "@/utils/constants";
 
 export const CLIENT_ROLES = [
@@ -70,6 +73,7 @@ export const CST_ROLES = [
 
   // appointment
   "view:appointment",
+  "create:enrollment",
   "update:appointment",
   "delete:appointment",
 
@@ -95,6 +99,7 @@ export const CST_MANAGER_ROLES = [
 
   // enrollment
   "view:enrollment",
+  "create:enrollment",
   "update:enrollment",
   "update-plot-id:enrollment",
   "delete:enrollment",
@@ -103,51 +108,10 @@ export const CST_MANAGER_ROLES = [
 
   // invoice
   "view:invoice",
-  "update:invoice",
-  "delete:invoice",
 ] as const;
 export type CstMangerPermission = (typeof CST_MANAGER_ROLES)[number];
 
 export const HR_ROLES = [
-  // client
-  "view:client",
-  "create:client",
-  "update:client",
-  "delete:client",
-
-  // agent
-  "view:agent",
-  "create:agent",
-  "update:agent",
-  "delete:agent",
-
-  // cst
-  "view:cst",
-  "create:cst",
-  "update:cst",
-  "delete:cst",
-
-  // sales
-  "view:sales",
-  "create:sales",
-  "update:sales",
-  "delete:sales",
-
-  // operations
-  "view:operations",
-  "create:operations",
-  "update:operations",
-  "delete:operations",
-
-  // accounting
-  "view:accounting",
-  "create:accounting",
-  "update:accounting",
-  "delete:accounting",
-] as const;
-export type HrPermission = (typeof HR_ROLES)[number];
-
-export const HR_MANAGER_ROLES = [
   // client
   "view:client",
   "create:client",
@@ -214,7 +178,76 @@ export const HR_MANAGER_ROLES = [
   "update:hr",
   "delete:hr",
 ] as const;
-export type HrMangerPermission = (typeof HR_MANAGER_ROLES)[number];
+export type HrMangerPermission = (typeof HR_ROLES)[number];
+
+// export const HR_MANAGER_ROLES = [
+//   // client
+//   "view:client",
+//   "create:client",
+//   "update:client",
+//   "delete:client",
+
+//   // agent
+//   "view:agent",
+//   "create:agent",
+//   "update:agent",
+//   "delete:agent",
+
+//   // cst
+//   "view:cst",
+//   "create:cst",
+//   "update:cst",
+//   "delete:cst",
+
+//   // cst-manager
+//   "view:cst-manager",
+//   "create:cst-manager",
+//   "update:cst-manager",
+//   "delete:cst-manager",
+
+//   // sales
+//   "view:sales",
+//   "create:sales",
+//   "update:sales",
+//   "delete:sales",
+
+//   // sales-manager
+//   "view:sales-manager",
+//   "create:sales-manager",
+//   "update:sales-manager",
+//   "delete:sales-manager",
+
+//   // operations
+//   "view:operations",
+//   "create:operations",
+//   "update:operations",
+//   "delete:operations",
+
+//   // operations-manager
+//   "view:operations-manager",
+//   "create:operations-manager",
+//   "update:operations-manager",
+//   "delete:operations-manager",
+
+//   // accounting
+//   "view:accounting",
+//   "create:accounting",
+//   "update:accounting",
+//   "delete:accounting",
+
+//   // accounting-manager
+//   "view:accounting-manager",
+//   "create:accounting-manager",
+//   "update:accounting-manager",
+//   "delete:accounting-manager",
+
+//   // hr
+//   "view:hr",
+//   "create:hr",
+//   "update:hr",
+//   "delete:hr",
+// ] as const;
+// export type HrMangerPermission = (typeof HR_MANAGER_ROLES)[number];
 
 export const SALES_ROLES = [] as const;
 export type SalesPermission = (typeof SALES_ROLES)[number];
@@ -228,10 +261,53 @@ export type OperationsPermission = (typeof OPERATIONS_ROLES)[number];
 export const OPERATIONS_MANAGER_ROLES = [] as const;
 export type OperationsMangerPermission = (typeof OPERATIONS_MANAGER_ROLES)[number];
 
-export const ACCOUNTING_ROLES = [] as const;
+export const ACCOUNTING_ROLES = [
+  "view:interest",
+  "update:interest",
+  "delete:interest",
+
+  // appointment
+  "view:appointment",
+  "update:appointment",
+  "delete:appointment",
+
+  // enrollment
+  "view:enrollment",
+  "create:enrollment",
+  "update:enrollment",
+  "update-plot-id:enrollment",
+  "delete:enrollment",
+
+  // invoice
+  "view:invoice",
+] as const;
 export type AccountingPermission = (typeof ACCOUNTING_ROLES)[number];
 
-export const ACCOUNTING_MANAGER_ROLES = [] as const;
+export const ACCOUNTING_MANAGER_ROLES = [
+  // interest
+  "view:interest",
+  "update:interest",
+  "delete:interest",
+
+  // appointment
+  "view:appointment",
+  "update:appointment",
+  "delete:appointment",
+
+  // enrollment
+  "view:enrollment",
+  "create:enrollment",
+  "update:enrollment",
+  "update-plot-id:enrollment",
+  "delete:enrollment",
+  "cancel:enrollment",
+  "resume:enrollment",
+
+  // invoice
+  "view:invoice",
+  "update:invoice",
+  "resolve:invoice",
+] as const;
 export type AccountingManagerPermission = (typeof ACCOUNTING_MANAGER_ROLES)[number];
 
 export const MANAGER_ROLES = [
@@ -247,6 +323,7 @@ export const MANAGER_ROLES = [
 
   // enrollment
   "view:enrollment",
+  "create:enrollment",
   "update:enrollment",
   "update-plot-id:enrollment",
   "delete:enrollment",
@@ -352,6 +429,7 @@ export const ADMIN_ROLES = [
 
   // enrollment
   "view:enrollment",
+  "create:enrollment",
   "update:enrollment",
   "update-plot-id:enrollment",
   "delete:enrollment",
@@ -452,19 +530,31 @@ export type AdminPermission = (typeof ADMIN_ROLES)[number];
 
 export const ROLES = {
   client: CLIENT_ROLES,
+
   agent: AGENT_ROLES,
-  cst: CLIENT_ROLES,
+
+  cst: CST_ROLES,
   "cst-manager": CST_MANAGER_ROLES,
+
   hr: HR_ROLES,
-  "hr-manager": HR_MANAGER_ROLES,
-  sales: SALES_ROLES,
+
   "sales-manager": SALES_MANAGER_ROLES,
+
   operations: OPERATIONS_ROLES,
-  "operations-manager": OPERATIONS_MANAGER_ROLES,
+
   accounting: ACCOUNTING_ROLES,
   "accounting-manager": ACCOUNTING_MANAGER_ROLES,
+
+  media: ACCOUNTING_ROLES,
+  "media-manager": ACCOUNTING_MANAGER_ROLES,
+
   manager: MANAGER_ROLES,
+
   admin: ADMIN_ROLES,
+
+  // "operations-manager": OPERATIONS_MANAGER_ROLES,
+  // "hr-manager": HR_MANAGER_ROLES,
+  // sales: SALES_ROLES,
 };
 
 export type Role = keyof typeof ROLES;
@@ -483,23 +573,27 @@ export const getRoleRoutes = (role: Role) => {
       return managerPanelItems;
     case "manager":
       return managerPanelItems;
-    case "operations-manager":
+    // case "operations-manager":
     case "operations":
       return operationsPanelItems;
-    case "hr-manager":
+    // case "hr-manager":
     case "hr":
       return hrPanelItems;
     case "cst-manager":
+      return cstManagerPanelItems;
     case "cst":
       return cstPanelItems;
     case "sales-manager":
-    case "sales":
+      // case "sales":
       return salesPanelItems;
     case "accounting-manager":
+      return accountingManagerPanelItems;
     case "accounting":
       return accountingPanelItems;
     case "agent":
       return agentPanelItems;
+    case "media-manager":
+      return mediaManagerPanelItems;
     default:
       return clientPanelItems;
   }
@@ -508,13 +602,13 @@ export const getRoleRoutes = (role: Role) => {
 export const USER_ROLES = [
   "admin",
   "manager",
-  "operations",
+  // "operations",
   "operations-manager",
   "hr",
-  "hr-manager",
+  // "hr-manager",
   "accounting",
   "accounting-manager",
-  "sales",
+  // "sales",
   "sales-manager",
   "cst",
   "cst-manager",

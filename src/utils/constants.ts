@@ -127,40 +127,55 @@ const salesPanelItems: IPanelItem[] = [
   { Icon: SquaresFour, label: "Home", route: ROUTES["/"] },
   { Icon: Warehouse, label: "Properties", route: ROUTES["/property-management"] },
   { Icon: MapPinLine, label: "Locations", route: ROUTES["/locations"] },
-  { Icon: Megaphone, label: "Campaign", route: ROUTES["/campaign"] },
+  { Icon: ChartLineUp, label: "Analytics", route: ROUTES["/analytics"] },
 ];
 
 const operationsPanelItems: IPanelItem[] = [
   { Icon: SquaresFour, label: "Home", route: ROUTES["/"] },
+  { Icon: Calendar, label: "Appointments", route: ROUTES["/appointment-management"] },
   { Icon: MapPinLine, label: "Locations", route: ROUTES["/locations"] },
   { Icon: ChartLineUp, label: "Analytics", route: ROUTES["/analytics"] },
 ];
 
 const hrPanelItems: IPanelItem[] = [
   { Icon: SquaresFour, label: "Home", route: ROUTES["/"] },
-  { Icon: MapPinLine, label: "Locations", route: ROUTES["/locations"] },
   { Icon: Handshake, label: "Partners", route: ROUTES["/partners"] },
   { Icon: UsersThree, label: "Team", route: ROUTES["/teams"] },
 ];
 
-const accountingPanelItems: IPanelItem[] = [
+const accountingManagerPanelItems: IPanelItem[] = [
   { Icon: SquaresFour, label: "Home", route: ROUTES["/"] },
   { Icon: Warehouse, label: "Properties", route: ROUTES["/property-management"] },
   { Icon: Receipt, label: "Invoices", route: ROUTES["/invoices"] },
+  { Icon: UserSwitch, label: "Enrollments", route: ROUTES["/enrollments"] },
   { Icon: CreditCard, label: "Release", route: ROUTES["/release"] },
-  { Icon: MapPinLine, label: "Locations", route: ROUTES["/locations"] },
+  { Icon: Headset, label: "Support", route: ROUTES["/support-management"] },
+  { Icon: ChartLineUp, label: "Analytics", route: ROUTES["/analytics"] },
+];
+
+const accountingPanelItems: IPanelItem[] = [
+  { Icon: SquaresFour, label: "Home", route: ROUTES["/"] },
+  { Icon: Receipt, label: "Invoices", route: ROUTES["/invoices"] },
+  { Icon: UserSwitch, label: "Enrollments", route: ROUTES["/enrollments"] },
 ];
 
 const cstPanelItems: IPanelItem[] = [
   { Icon: SquaresFour, label: "Home", route: ROUTES["/"] },
+  { Icon: FileText, label: "Documents", route: ROUTES["/documents"] },
   { Icon: UserSwitch, label: "Enrollments", route: ROUTES["/enrollments"] },
   { Icon: Receipt, label: "Invoices", route: ROUTES["/invoices"] },
-  { Icon: Warehouse, label: "Properties", route: ROUTES["/property-management"] },
   { Icon: Calendar, label: "Appointments", route: ROUTES["/appointment-management"] },
-  { Icon: MapPinLine, label: "Locations", route: ROUTES["/locations"] },
-  { Icon: FileText, label: "Documents", route: ROUTES["/documents"] },
   { Icon: Headset, label: "Support", route: ROUTES["/support-management"] },
-  { Icon: Megaphone, label: "Campaign", route: ROUTES["/campaign"] },
+];
+
+const cstManagerPanelItems: IPanelItem[] = [
+  { Icon: SquaresFour, label: "Home", route: ROUTES["/"] },
+  { Icon: FileText, label: "Documents", route: ROUTES["/documents"] },
+  { Icon: UserSwitch, label: "Enrollments", route: ROUTES["/enrollments"] },
+  { Icon: Receipt, label: "Invoices", route: ROUTES["/invoices"] },
+  { Icon: Calendar, label: "Appointments", route: ROUTES["/appointment-management"] },
+  { Icon: ChartLineUp, label: "Analytics", route: ROUTES["/analytics"] },
+  { Icon: Headset, label: "Support", route: ROUTES["/support-management"] },
 ];
 
 const managerPanelItems: IPanelItem[] = [
@@ -179,6 +194,12 @@ const managerPanelItems: IPanelItem[] = [
   { Icon: UsersThree, label: "Team", route: ROUTES["/teams"] },
 ];
 
+const mediaManagerPanelItems: IPanelItem[] = [
+  { Icon: SquaresFour, label: "Home", route: ROUTES["/"] },
+  { Icon: Warehouse, label: "Properties", route: ROUTES["/property-management"] },
+  { Icon: Megaphone, label: "Campaign", route: ROUTES["/campaign"] },
+];
+
 const WEEKDAYS = ["SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"] as const;
 type Weekday = (typeof WEEKDAYS)[number];
 
@@ -192,10 +213,13 @@ export {
   clientPanelItems,
   agentPanelItems,
   cstPanelItems,
+  cstManagerPanelItems,
   salesPanelItems,
   operationsPanelItems,
   hrPanelItems,
   accountingPanelItems,
+  mediaManagerPanelItems,
+  accountingManagerPanelItems,
   managerPanelItems,
   NeutralLinks,
   WEEKDAYS,

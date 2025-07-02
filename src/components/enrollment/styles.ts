@@ -32,7 +32,7 @@ export const PropertyCardDetailWrapper = styled.div`
 // Property Overview
 export const PropertyOverviewKey = styled.div`
   font-family: Inter;
-  font-weight: 400;
+  font-weight: 500;
   font-size: 14px;
   line-height: 21px;
   letter-spacing: 0px;

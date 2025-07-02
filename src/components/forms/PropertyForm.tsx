@@ -153,6 +153,9 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
     const payload = { ...formState };
     payload.propertyPic = files[0];
     payload.totalLandSize = parseInt(payload.totalLandSize.toString());
+    payload.installmentInterest = parseFloat(payload.installmentInterest?.toString() || "");
+    payload.overDueInterest = parseFloat(payload.overDueInterest?.toString() || "");
+    payload.installmentPeriod = parseInt(payload.installmentPeriod?.toString() || "");
 
     const { error, result } = await createProperty(initialState, payload);
 

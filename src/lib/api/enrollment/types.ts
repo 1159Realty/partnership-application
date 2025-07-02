@@ -54,7 +54,7 @@ interface EnrollmentValidationPayload {
 
 interface EnrollmentFormPayload {
   clientId?: AutoCompleteWithSubOptions | null;
-  agentId?: string;
+  agentId?: AutoCompleteWithSubOptions | null;
   leadType?: string;
   propertyId?: AutoCompleteWithSubOptions | null;
   landSize: number | "";

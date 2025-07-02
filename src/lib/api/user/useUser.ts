@@ -90,7 +90,6 @@ ${args?.sort ? `&sort=${args.sort}` : ""}`);
     const schema = z.object({
       firstName: z.string().nonempty({ message: "This field is required" }),
       lastName: z.string().nonempty({ message: "This field is required" }),
-      residentialAddress: z.string().optional(),
       phoneNumber: z.string().superRefine((phoneNumber, ctx) => {
         if (!phoneNumber.trim()) {
           ctx.addIssue({
@@ -121,7 +120,9 @@ ${args?.sort ? `&sort=${args.sort}` : ""}`);
         })
         .optional(),
       gender: z.string().optional(),
+      country: z.string().optional(),
       stateId: z.string().optional(),
+      residentialAddress: z.string().optional(),
       trafficSource: z.any().optional(),
       referralId: z.string().optional(),
     });
@@ -133,7 +134,7 @@ ${args?.sort ? `&sort=${args.sort}` : ""}`);
 
       try {
         let profilePic = "";
-        // upload image to cloudinary
+        // upload image to blob storage
         if (payload?.profilePic && typeof payload.profilePic !== "string") {
           const uploadedImageResponse = await uploadFile(payload?.profilePic, "profile-picture");
           if (uploadedImageResponse) {
@@ -145,9 +146,10 @@ ${args?.sort ? `&sort=${args.sort}` : ""}`);
           firstName: payload?.firstName,
           lastName: payload?.lastName,
           phoneNumber: formatPhoneNumber(payload?.phoneNumber) || "",
-          residentialAddress: payload?.residentialAddress || undefined,
           profilePic: profilePic || undefined,
+          country: payload?.country || undefined,
           stateId: payload?.stateId || undefined,
+          residentialAddress: payload?.residentialAddress || undefined,
           gender: payload?.gender || undefined,
           referralId: phoneNumberToReferralId(payload?.referralId || "") || undefined,
           trafficSource: payload?.trafficSource,
@@ -194,6 +196,8 @@ ${args?.sort ? `&sort=${args.sort}` : ""}`);
     const schema = z.object({
       firstName: z.string().nonempty({ message: "This field is required" }),
       lastName: z.string().nonempty({ message: "This field is required" }),
+      country: z.string().optional(),
+      stateId: z.string().optional(),
       residentialAddress: z.string().optional(),
       phoneNumber: z.string().superRefine((phoneNumber, ctx) => {
         if (!phoneNumber.trim()) {
@@ -245,9 +249,10 @@ ${args?.sort ? `&sort=${args.sort}` : ""}`);
           firstName: payload?.firstName,
           lastName: payload?.lastName,
           phoneNumber: formatPhoneNumber(payload?.phoneNumber) || "",
-          residentialAddress: payload?.residentialAddress || undefined,
           profilePic: profilePic || undefined,
+          country: payload?.country || undefined,
           stateId: payload?.stateId || undefined,
+          residentialAddress: payload?.residentialAddress || undefined,
           gender: payload?.gender || undefined,
           referralId: phoneNumberToReferralId(payload?.referralId || "") || undefined,
           trafficSource: payload?.trafficSource,
