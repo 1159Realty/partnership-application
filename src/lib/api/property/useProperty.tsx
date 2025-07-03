@@ -14,6 +14,7 @@ import { formatZodErrors } from "@/services/validation/zod";
 import { useCallback } from "react";
 import { getClient, postClient, putClient } from "../client.api";
 import { uploadFile } from "../file-upload";
+import { validateVideoUrl } from "@/services/validation/video";
 
 function useProperty() {
   const createProperty = async (initialState: PropertyFormState, payload: PropertyFormPayload) => {
@@ -26,7 +27,12 @@ function useProperty() {
       areaId: z.string().nonempty({ message: "This field is required" }),
       address: z.string().nonempty({ message: "This field is required" }),
       landType: z.string().nonempty({ message: "This field is required" }),
-      instagramUrl: z.string().optional(),
+      videoUrl: z
+        .string()
+        .optional()
+        .refine((val) => !val || validateVideoUrl(val), {
+          message: "Must be a valid YouTube or Instagram Embed reel url",
+        }),
       totalLandSize: z
         .number({ message: "Total land size must be a number" })
         .min(1, { message: "Overdue interest must be greater than 0" }),
@@ -112,7 +118,12 @@ function useProperty() {
       propertyName: z.string().nonempty({ message: "This field is required" }),
       status: z.string().nonempty({ message: "This field is required" }),
       totalLandSize: z.number({ message: "Land size must be a number" }).min(1, { message: "Land Size must be greater than 0" }),
-      instagramUrl: z.any().optional(),
+      videoUrl: z
+        .string()
+        .optional()
+        .refine((val) => !val || validateVideoUrl(val), {
+          message: "Must be a valid YouTube or Instagram Embed reel url",
+        }),
       propertyPic: z.any().superRefine((file, ctx) => {
         if (!file?.size) {
           ctx.addIssue({

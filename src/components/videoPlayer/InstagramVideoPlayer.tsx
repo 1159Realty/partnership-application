@@ -2,7 +2,7 @@
 
 import { delay } from "@/services/delay";
 import { useEffect, useRef } from "react";
-import { LoaderContainer, MainWrapper, PlayerContainer } from "./styles";
+import { LoaderContainer, IGMainWrapper, PlayerContainer } from "./styles";
 import { Skeleton } from "@mui/material";
 
 declare global {
@@ -41,7 +41,7 @@ const InstagramVideoPlayer = ({ url, reload }: Props) => {
   }, [reload]);
 
   return (
-    <MainWrapper>
+    <IGMainWrapper>
       <LoaderContainer>
         <Skeleton variant="rectangular" width={"100%"} height={"100%"} />
       </LoaderContainer>
@@ -53,7 +53,7 @@ const InstagramVideoPlayer = ({ url, reload }: Props) => {
           style={{ width: "100%" }}
         />
       </PlayerContainer>
-    </MainWrapper>
+    </IGMainWrapper>
   );
 };
 

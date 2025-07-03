@@ -12,7 +12,8 @@ import { ROUTES } from "@/utils/constants";
 import Link from "next/link";
 import { addCommas } from "@/services/numbers";
 import { capitalizeAndSpace } from "@/services/string";
-import { InstagramVideoPlayer } from "../videoPlayer/InstagramVideoPlayer";
+import VideoPlayer from "../videoPlayer";
+import { validateInstagramUrl, validateYoutubeUrl } from "@/services/validation/video";
 
 interface Props {
   handleClick?: (id: string) => void;
@@ -40,8 +41,9 @@ function PropertyCard({
   const { setAlert } = useAlertContext();
 
   const propertyUrl = `${ROUTES["/"]}?propertyId=${property?.id}`;
-  const instagramUrl = property?.instagramUrl?.trim();
-  const renderVideo = Boolean(instagramUrl && showVideo);
+  const videoUrl = property?.videoUrl?.trim();
+
+  const renderVideo = Boolean((validateYoutubeUrl(videoUrl) || validateInstagramUrl(videoUrl)) && showVideo);
 
   const onClick = () => {
     if (primaryId && handleClick) {
@@ -85,7 +87,7 @@ function PropertyCard({
   return (
     <PropertyCardWrapper>
       {renderVideo ? (
-        <InstagramVideoPlayer reload={Boolean(property)} url={instagramUrl!} />
+        <VideoPlayer reload={Boolean(property)} url={videoUrl!} />
       ) : (
         <PropertyImageWrapper onClick={onClick}>
           <Image src={property?.propertyPic || "https://www.blenheimlettings.co.uk/wp-content/uploads/2022/09/no-image.png"} />

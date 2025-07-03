@@ -19,7 +19,7 @@ type PropertyPayload = {
   installmentInterest: number;
   overDueInterest: number;
   installmentPeriod: number;
-  instagramUrl?: string;
+  videoUrl?: string;
   landType: string;
   address: string;
 };
@@ -36,7 +36,7 @@ type PropertyFormPayload = {
   installmentPeriod: number | "";
   availableLandSizes: IAvailableLandSize[];
   paymentDurationOptions: number[];
-  instagramUrl?: string;
+  videoUrl?: string;
   landType: string;
   address: string;
 };
@@ -46,7 +46,7 @@ type UpdatePropertyFormPayload = {
   propertyName: string;
   propertyPic: FileType | string;
   totalLandSize: number | "";
-  instagramUrl?: string;
+  videoUrl?: string;
   status: string;
 };
 
@@ -68,7 +68,7 @@ type IProperty = {
   createdAt: string;
   updatedAt: string;
   address: string;
-  instagramUrl: string;
+  videoUrl: string;
   landType: PropertyLandType;
   isMigrated: boolean;
 };

@@ -10,12 +10,12 @@ import { useEffect, useState } from "react";
 import { useAlertContext } from "@/contexts/AlertContext";
 import { ValidationError } from "@/services/validation/zod";
 import { ApiResult } from "@/utils/global-types";
-import { agentTypes, User, UserRoleFormPayload, UserRolePayload } from "@/lib/api/user/user.types";
+import { User, UserRoleFormPayload, UserRolePayload } from "@/lib/api/user/user.types";
 import { useUser } from "@/lib/api/user/useUser";
-import { getRole, getCreateRoles } from "@/lib/session/roles";
+import { getCreateRoles } from "@/lib/session/roles";
 import { PaginatedResponse } from "@/lib/api/api.types";
 import { useDebounce } from "use-debounce";
-import { capitalizeAndSpace, getUserName } from "@/services/string";
+import { getUserName } from "@/services/string";
 import { useUserContext } from "@/contexts/UserContext";
 
 export interface UserRoleFormState {
@@ -186,7 +186,7 @@ function TeamForm({ onCreate, onClose, isOpen, user }: FormProps) {
               ))}
             </Box>
 
-            {getRole(formState.roleId) === "agent" && (
+            {/* {getRole(formState.roleId) === "agent" && (
               <Box>
                 <Select
                   label="Agent type"
@@ -205,7 +205,7 @@ function TeamForm({ onCreate, onClose, isOpen, user }: FormProps) {
                   </Box>
                 ))}
               </Box>
-            )}
+            )} */}
 
             <Box>
               <LoadingButton loadingPosition="end" loading={loading} onClick={handleSubmit}>

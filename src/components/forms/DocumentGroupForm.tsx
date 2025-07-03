@@ -79,15 +79,13 @@ function DocumentGroupForm({ onClose, onCreate, isOpen, documentGroup }: EnrollC
       propertyId: formState?.propertyId?.id,
       clientId: formState.clientId?.id,
       documentGroupId: documentGroup?.id,
-      instagramUrl: formState?.instagramUrl,
+      videoUrl: formState?.videoUrl,
     };
 
     const { error, result } = await createDocumentGroup(initialState, payload);
 
     if (result) {
-      if (typeof result === "object") {
-        onCreate?.(result);
-      }
+      onCreate?.();
       setAlert({ message: "Document group created", show: true, severity: "success" });
       handleClose();
     }
@@ -135,7 +133,7 @@ function DocumentGroupForm({ onClose, onCreate, isOpen, documentGroup }: EnrollC
         setFormState({
           title: documentGroup?.title || "",
           description: documentGroup?.description,
-          instagramUrl: documentGroup?.instagramUrl,
+          videoUrl: documentGroup?.videoUrl,
         });
       }
     }
@@ -179,12 +177,12 @@ function DocumentGroupForm({ onClose, onCreate, isOpen, documentGroup }: EnrollC
           <Box px="16px">
             <TextField
               fullWidth
-              onChange={(e) => handleChange("instagramUrl", e.target.value)}
-              name="instagramUrl"
-              value={formState.instagramUrl}
-              label="Instagram link"
+              onChange={(e) => handleChange("videoUrl", e.target.value)}
+              name="videoUrl"
+              value={formState.videoUrl}
+              label="Video link"
             />
-            {error?.instagramUrl?.map((error, i) => (
+            {error?.videoUrl?.map((error, i) => (
               <Box key={i}>
                 <ErrorText>{error}</ErrorText>
               </Box>

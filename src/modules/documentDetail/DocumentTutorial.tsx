@@ -8,7 +8,8 @@ import { IDocumentGroup } from "@/lib/api/document/document.types";
 import { Button } from "@/components/buttons";
 import { getIsModerator } from "@/lib/session/roles";
 import { useUserContext } from "@/contexts/UserContext";
-import { InstagramVideoPlayer } from "@/components/videoPlayer/InstagramVideoPlayer";
+import { validateInstagramUrl, validateYoutubeUrl } from "@/services/validation/video";
+import VideoPlayer from "@/components/videoPlayer";
 
 interface Props {
   onClose?: () => void;
@@ -21,6 +22,10 @@ function DocumentTutorial({ onClose, isOpen, documentGroup }: Props) {
   const { userData } = useUserContext();
   const isModerator = getIsModerator(userData?.roleId);
 
+  const videoUrl = documentGroup?.videoUrl?.trim() || "";
+
+  const renderVideo = Boolean(validateYoutubeUrl(videoUrl) || validateInstagramUrl(videoUrl));
+
   const handleClose = () => {
     onClose?.();
   };
@@ -28,9 +33,9 @@ function DocumentTutorial({ onClose, isOpen, documentGroup }: Props) {
   return (
     <Drawer isOpen={isOpen} handleClose={handleClose}>
       <Stack spacing={"24px"} pb="48px" mt="60px">
-        {Boolean(documentGroup?.instagramUrl?.trim()) && (
+        {renderVideo && (
           <Box px="16px">
-            <InstagramVideoPlayer reload={isOpen} url={documentGroup?.instagramUrl || ""} />
+            <VideoPlayer reload={isOpen} url={videoUrl} />
           </Box>
         )}
 

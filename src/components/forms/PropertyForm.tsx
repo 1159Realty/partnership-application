@@ -69,7 +69,7 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
     installmentPeriod: 32,
     address: "",
     landType: "",
-    instagramUrl: "",
+    videoUrl: "",
   });
   const [error, setError] = useState<ValidationError<PropertyPayload>>({});
   const [loading, setLoading] = useState(false);
@@ -549,12 +549,12 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
               <Box>
                 <TextField
                   fullWidth
-                  onChange={(e) => handleChange("instagramUrl", e.target.value)}
-                  name="instagramUrl"
-                  value={formState.instagramUrl}
-                  label="Instagram link"
+                  onChange={(e) => handleChange("videoUrl", e.target.value)}
+                  name="videoUrl"
+                  value={formState.videoUrl}
+                  label="Video link"
                 />
-                {error?.instagramUrl?.map((error, i) => (
+                {error?.videoUrl?.map((error, i) => (
                   <Box key={i}>
                     <ErrorText>{error}</ErrorText>
                   </Box>
@@ -613,7 +613,7 @@ function UpdatePropertyForm({ onUpdate, property, handleClose, handleReloadPrope
     propertyPic: "",
     totalLandSize: "",
     status: "",
-    instagramUrl: "",
+    videoUrl: "",
   });
   const [error, setError] = useState<ValidationError<PropertyPayload>>({});
   const [loading, setLoading] = useState(false);
@@ -668,7 +668,7 @@ function UpdatePropertyForm({ onUpdate, property, handleClose, handleReloadPrope
         propertyPic: property?.propertyPic || "",
         totalLandSize: property?.totalLandSize || "",
         status: property?.status || "AVAILABLE",
-        instagramUrl: property?.instagramUrl,
+        videoUrl: property?.videoUrl,
       });
 
       if (property?.propertyPic) {
@@ -780,12 +780,12 @@ function UpdatePropertyForm({ onUpdate, property, handleClose, handleReloadPrope
                 <Box>
                   <TextField
                     fullWidth
-                    onChange={(e) => handleChange("instagramUrl", e.target.value)}
-                    name="instagramUrl"
-                    value={formState.instagramUrl}
-                    label="Instagram link"
+                    onChange={(e) => handleChange("videoUrl", e.target.value)}
+                    name="videoUrl"
+                    value={formState.videoUrl}
+                    label="Video link"
                   />
-                  {error?.instagramUrl?.map((error, i) => (
+                  {error?.videoUrl?.map((error, i) => (
                     <Box key={i}>
                       <ErrorText>{error}</ErrorText>
                     </Box>

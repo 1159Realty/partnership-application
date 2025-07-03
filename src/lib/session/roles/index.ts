@@ -183,12 +183,6 @@ export const HR_ROLES = [
   "create:media",
   "update:media",
   "delete:media",
-
-  // hr
-  "view:hr",
-  "create:hr",
-  "update:hr",
-  "delete:hr",
 ] as const;
 export type HrMangerPermission = (typeof HR_ROLES)[number];
 
@@ -350,6 +344,7 @@ export const MANAGER_ROLES = [
   "create:invoice",
   "update:invoice",
   "delete:invoice",
+  "resolve:invoice",
 
   // release
   "view:release",
@@ -468,6 +463,7 @@ export const ADMIN_ROLES = [
   "create:invoice",
   "update:invoice",
   "delete:invoice",
+  "resolve:invoice",
 
   // release
   "view:release",

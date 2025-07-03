@@ -4,7 +4,7 @@ import { PageTitle } from "@/components/typography";
 import { PaginatedResponse } from "@/lib/api/api.types";
 import { IDocument, IDocumentGroup } from "@/lib/api/document/document.types";
 import { Box, Stack } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Button, IconButton } from "@/components/buttons";
 import { Folders, Gear, Question } from "@phosphor-icons/react/dist/ssr";
@@ -16,6 +16,7 @@ import { Pill } from "@/components/pills";
 import Link from "next/link";
 import { useUserContext } from "@/contexts/UserContext";
 import { getIsModerator } from "@/lib/session/roles";
+import { useDocument } from "@/lib/api/document/useDocument";
 
 interface Props {
   documentsData: PaginatedResponse<IDocument> | null;
@@ -24,11 +25,25 @@ interface Props {
 
 function Main({ documentGroupData }: Props) {
   const { userData } = useUserContext();
+  const { fetchDocumentGroup } = useDocument();
+
+  const [reload, setReload] = useState(false);
+  const [documentGroup, setDocumentGroup] = useState<IDocumentGroup | null>(documentGroupData);
 
   const [showTutorial, setShowTutorial] = useState(false);
   const [showDocumentGroup, setShowDocumentGroup] = useState(false);
 
   const isModerator = getIsModerator(userData?.roleId);
+
+  useEffect(() => {
+    async function getData() {
+      const res = await fetchDocumentGroup(documentGroupData?.id || "");
+      if (res) {
+        setDocumentGroup(res);
+      }
+    }
+    getData();
+  }, [documentGroupData, fetchDocumentGroup, reload]);
 
   return (
     <Box>
@@ -56,7 +71,7 @@ function Main({ documentGroupData }: Props) {
         </Stack>
 
         <Box textAlign={"center"} fontWeight={400} fontSize={30}>
-          {documentGroupData?.title}
+          {documentGroup?.title}
         </Box>
 
         <Box p="20px" fontSize={13} lineHeight={1.8} width={"100%"} bgcolor={COLORS.gray50} color={COLORS.gray700}>
@@ -65,17 +80,17 @@ function Main({ documentGroupData }: Props) {
               <span style={{ fontSize: 12 }}>Important</span>
             </Pill>
           </Box>
-          {documentGroupData?.description}
+          {documentGroup?.description}
         </Box>
 
         <Stack justifyContent={"center"} direction={"row"} flexWrap={"wrap"} rowGap={"20px"}>
-          <Link href={`/documents/${documentGroupData?.id}/reference`}>
+          <Link href={`/documents/${documentGroup?.id}/reference`}>
             <Button variant="outlined" sx={{ mr: "20px" }}>
               See Reference
             </Button>
           </Link>
 
-          <Link href={`/documents/${documentGroupData?.id}/uploads`}>
+          <Link href={`/documents/${documentGroup?.id}/uploads`}>
             <Button sx={{ mr: "20px" }}>Upload Files</Button>
           </Link>
         </Stack>
@@ -85,12 +100,15 @@ function Main({ documentGroupData }: Props) {
           <Question weight="fill" />
         </IconButton>
       </Box>
-      <DocumentTutorial onClose={() => setShowTutorial(false)} isOpen={showTutorial} documentGroup={documentGroupData} />
+      <DocumentTutorial onClose={() => setShowTutorial(false)} isOpen={showTutorial} documentGroup={documentGroup} />
 
       <DocumentGroupForm
-        documentGroup={documentGroupData}
+        documentGroup={documentGroup}
         isOpen={showDocumentGroup}
         onClose={() => setShowDocumentGroup(false)}
+        onCreate={() => {
+          setReload(!reload);
+        }}
       />
     </Box>
   );

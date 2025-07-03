@@ -18,6 +18,7 @@ import {
   IDocumentGroup,
 } from "./document.types";
 import { DocumentGroupFormState } from "@/components/forms/DocumentGroupForm";
+import { validateVideoUrl } from "@/services/validation/video";
 
 function useDocument() {
   async function createDocumentGroup(initialState: DocumentGroupFormState, payload: DocumentGroupPayload) {
@@ -28,7 +29,12 @@ function useDocument() {
       description: z.string().nonempty({ message: "This field is required" }),
       clientId: z.string().optional(),
       propertyId: z.string().optional(),
-      instagramUrl: z.string().optional(),
+      videoUrl: z
+        .string()
+        .optional()
+        .refine((val) => !val || validateVideoUrl(val), {
+          message: "Must be a valid YouTube or Instagram Embed reel url",
+        }),
     });
 
     const validation = schema.safeParse(payload);
@@ -44,7 +50,7 @@ function useDocument() {
         data = {
           title: data?.title,
           description: data?.description,
-          instagramUrl: data?.instagramUrl,
+          videoUrl: data?.videoUrl,
         };
       }
 
@@ -183,6 +189,20 @@ function useDocument() {
     []
   );
 
+  const fetchDocumentGroup = useCallback(async (id: string): Promise<IDocumentGroup | null> => {
+    try {
+      const response = await getClient<IDocumentGroup | null>(`documents/document-group/${id}`);
+
+      if (response?.statusCode === 200) {
+        return response?.result;
+      }
+      return null;
+    } catch (error) {
+      console.error(formatError(error));
+      return null;
+    }
+  }, []);
+
   const fetchDocuments = useCallback(async (args?: FetchDocumentArgs): Promise<PaginatedResponse<IDocument> | null> => {
     try {
       const response = await getClient<PaginatedResponse<IDocument> | null>(
@@ -221,6 +241,7 @@ function useDocument() {
     deleteDocument,
     fetchDocumentGroups,
     createDocumentGroup,
+    fetchDocumentGroup,
   };
 }
 
