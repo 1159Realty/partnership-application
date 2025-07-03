@@ -33,6 +33,8 @@ const months = [
 
 type Month = (typeof months)[number];
 
+const APP_VERSION = process.env.APP_VERSION || "1.0.0";
+
 const SESSION = "session";
 
 // ROUTES
@@ -225,6 +227,7 @@ export {
   WEEKDAYS,
   WEB_APP_URL,
   months,
+  APP_VERSION,
 };
 
 export type { IPanelItem, Weekday, Month };

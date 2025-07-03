@@ -172,6 +172,18 @@ export const HR_ROLES = [
   "update:accounting-manager",
   "delete:accounting-manager",
 
+  // media-manager
+  "view:media-manager",
+  "create:media-manager",
+  "update:media-manager",
+  "delete:media-manager",
+
+  // media
+  "view:media",
+  "create:media",
+  "update:media",
+  "delete:media",
+
   // hr
   "view:hr",
   "create:hr",
@@ -310,6 +322,9 @@ export const ACCOUNTING_MANAGER_ROLES = [
 ] as const;
 export type AccountingManagerPermission = (typeof ACCOUNTING_MANAGER_ROLES)[number];
 
+export const MEDIA_MANAGER_ROLES = [] as const;
+export type MediaManagerPermission = (typeof MEDIA_MANAGER_ROLES)[number];
+
 export const MANAGER_ROLES = [
   // interest
   "view:interest",
@@ -401,6 +416,18 @@ export const MANAGER_ROLES = [
   "create:accounting-manager",
   "update:accounting-manager",
   "delete:accounting-manager",
+
+  // media-manager
+  "view:media-manager",
+  "create:media-manager",
+  "update:media-manager",
+  "delete:media-manager",
+
+  // media
+  "view:media",
+  "create:media",
+  "update:media",
+  "delete:media",
 
   // hr
   "view:hr",
@@ -508,6 +535,18 @@ export const ADMIN_ROLES = [
   "update:accounting-manager",
   "delete:accounting-manager",
 
+  // media-manager
+  "view:media-manager",
+  "create:media-manager",
+  "update:media-manager",
+  "delete:media-manager",
+
+  // media
+  "view:media",
+  "create:media",
+  "update:media",
+  "delete:media",
+
   // hr
   "view:hr",
   "create:hr",
@@ -545,8 +584,8 @@ export const ROLES = {
   accounting: ACCOUNTING_ROLES,
   "accounting-manager": ACCOUNTING_MANAGER_ROLES,
 
-  media: ACCOUNTING_ROLES,
-  "media-manager": ACCOUNTING_MANAGER_ROLES,
+  // media: ACCOUNTING_ROLES,
+  "media-manager": MEDIA_MANAGER_ROLES,
 
   manager: MANAGER_ROLES,
 
@@ -600,19 +639,32 @@ export const getRoleRoutes = (role: Role) => {
 };
 
 export const USER_ROLES = [
+  // admin
   "admin",
+  // manager
   "manager",
   // "operations",
   "operations-manager",
+  // hr
   "hr",
   // "hr-manager",
+
+  // accounting
   "accounting",
   "accounting-manager",
+
   // "sales",
   "sales-manager",
+
+  // media
+  "media-manager",
+
+  // cst
   "cst",
   "cst-manager",
+  // agent
   "agent",
+  // client
   "client",
 ];
 

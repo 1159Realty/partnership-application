@@ -76,7 +76,7 @@ function TeamForm({ onCreate, onClose, isOpen, user }: FormProps) {
       if (typeof result === "object") {
         onCreate?.(result);
       }
-      setAlert({ message: "Area added", show: true, severity: "success" });
+      setAlert({ message: "Assignment successful", show: true, severity: "success" });
       handleClose();
     }
     if (error.requestError) {
