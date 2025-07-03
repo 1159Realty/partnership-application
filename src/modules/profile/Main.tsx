@@ -17,7 +17,6 @@ import { capitalize, capitalizeAndSpace } from "@/services/string";
 import { getRole, hasPermission } from "@/lib/session/roles";
 import { Bank, Copy, Pencil } from "@phosphor-icons/react/dist/ssr";
 import { Share } from "@/components/share";
-import { WEB_APP_URL } from "@/utils/constants";
 import { Handshake } from "@phosphor-icons/react";
 import { UpdateBankAccountForm } from "@/components/forms/UpdateBankAccountForm";
 import { usePartners } from "@/lib/api/partners/usePartners";
@@ -118,7 +117,7 @@ function Main() {
             <MobileB1LightGray900>Gender</MobileB1LightGray900>
             <MobileB1LightGray900>State</MobileB1LightGray900>
             <MobileB1LightGray900>Residential address</MobileB1LightGray900>
-            {isAgent && <MobileB1LightGray900>Referral link</MobileB1LightGray900>}
+            {isAgent && <MobileB1LightGray900>Referral Id</MobileB1LightGray900>}
           </Stack>
           <Stack spacing={"8px"}>
             <Font5001421Gray900>{userData?.phoneNumber}</Font5001421Gray900>
@@ -127,8 +126,9 @@ function Main() {
             <Font5001421Gray900>{userData?.residentialAddress?.trim() || "N/A"}</Font5001421Gray900>
             {isAgent && (
               <Font5001421Gray900>
-                <Share value={`${WEB_APP_URL}/?referralId=${userData?.myReferralId || ""}`}>
-                  <Copy weight="bold" cursor={"pointer"} />
+                {/* <Share value={`${WEB_APP_URL}/?referralId=${userData?.myReferralId || ""}`}> */}
+                <Share value={userData?.myReferralId || ""}>
+                  {userData?.myReferralId || ""} <Copy weight="bold" cursor={"pointer"} />
                 </Share>
               </Font5001421Gray900>
             )}

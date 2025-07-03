@@ -86,12 +86,12 @@ function Main({ documentGroupData }: Props) {
         <Stack justifyContent={"center"} direction={"row"} flexWrap={"wrap"} rowGap={"20px"}>
           <Link href={`/documents/${documentGroup?.id}/reference`}>
             <Button variant="outlined" sx={{ mr: "20px" }}>
-              See Reference
+              {isModerator ? "Set Reference" : "See Reference"}
             </Button>
           </Link>
 
           <Link href={`/documents/${documentGroup?.id}/uploads`}>
-            <Button sx={{ mr: "20px" }}>Upload Files</Button>
+            <Button sx={{ mr: "20px" }}>{isModerator ? "Uploaded Files" : "Upload Files"}</Button>
           </Link>
         </Stack>
       </Stack>

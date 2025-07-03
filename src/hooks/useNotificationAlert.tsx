@@ -12,9 +12,13 @@ import { Calendar, FileText, Handshake, Headset, User, UserSwitch, Warehouse } f
 import { Icon as SvgIcon } from "@phosphor-icons/react";
 import { getUserName } from "@/services/string";
 import { IAppointment } from "@/lib/api/appointment/appointment.types";
+import { getIsModerator } from "@/lib/session/roles";
+import { useUserContext } from "@/contexts/UserContext";
 
 export const useNotificationAlert = (notification: INotification | null) => {
   const { push } = useRouter();
+  const { userData } = useUserContext();
+  const isModerator = getIsModerator(userData?.roleId);
 
   const [content, setContent] = useState<{
     title: ReactNode | null;
@@ -58,7 +62,13 @@ export const useNotificationAlert = (notification: INotification | null) => {
         setContent({
           title: (
             <ContentWrapper>
-              Your document <strong>{data?.name}</strong> has been approved.
+              {isModerator ? (
+                <>Document approval successful.</>
+              ) : (
+                <>
+                  Your document <strong>{data?.name}</strong> has been approved.
+                </>
+              )}
             </ContentWrapper>
           ),
           Icon: FileText,
@@ -71,7 +81,13 @@ export const useNotificationAlert = (notification: INotification | null) => {
         setContent({
           title: (
             <ContentWrapper>
-              Your document <strong>{data?.name}</strong> has been rejected.
+              {isModerator ? (
+                <>Document rejection successful.</>
+              ) : (
+                <>
+                  Your document <strong>{data?.name}</strong> has been rejected.
+                </>
+              )}
             </ContentWrapper>
           ),
           Icon: FileText,
