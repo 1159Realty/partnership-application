@@ -201,6 +201,8 @@ function TransactionCard({ invoice, handleResolvePayment, handleUpdateInvoices, 
 
   const moderatorCanResolveInvoice = hasPermission(roleId, "resolve:invoice") && enrollmentActive && invoice.status === "PENDING";
 
+  const isModerator = getIsModerator(roleId);
+
   return (
     <Stack>
       <TransactionCardContainer>
@@ -209,9 +211,7 @@ function TransactionCard({ invoice, handleResolvePayment, handleUpdateInvoices, 
           <MobileB1LightGray900>{getDateTimeString(invoice.dueDate, "date-only")}</MobileB1LightGray900>
           {invoice?.status === "OVERDUE" && <MobileB1LightGray900>Overdue amount</MobileB1LightGray900>}
           {paymentDetails && <MobileB1LightGray900>{paymentDetails?.type}</MobileB1LightGray900>}
-          {getIsModerator(userData?.roleId) && Boolean(invoice?.moderatedBy) && (
-            <MobileB1LightGray900>Resolved by</MobileB1LightGray900>
-          )}
+          {isModerator && Boolean(invoice?.moderatedBy) && <MobileB1LightGray900>Resolved by</MobileB1LightGray900>}
         </Stack>
         <Stack spacing={"8px"}>
           <Box fontWeight={"bold"}>
@@ -224,7 +224,7 @@ function TransactionCard({ invoice, handleResolvePayment, handleUpdateInvoices, 
           </StatusPill>
           {invoice?.status === "OVERDUE" && <MobileB1LightGray900>₦{addCommas(invoice?.overDueAmount)}</MobileB1LightGray900>}
           {paymentDetails && <MobileB1LightGray900>{paymentDetails?.date}</MobileB1LightGray900>}
-          {getIsModerator(userData?.roleId) && Boolean(invoice?.moderatedBy) && (
+          {isModerator && Boolean(invoice?.moderatedBy) && (
             <MobileB1LightGray900>{getUserName(invoice?.moderatedBy)}</MobileB1LightGray900>
           )}
         </Stack>
@@ -236,7 +236,7 @@ function TransactionCard({ invoice, handleResolvePayment, handleUpdateInvoices, 
         </AgentCommissionContainer>
       )}
 
-      {ownerUserCanSeeInvoice && (
+      {(ownerUserCanSeeInvoice || isModerator) && (
         <Box mt="8px">
           <ButtonPill onClick={() => setShowPdf(true)}>
             <Stack direction={"row"} spacing={"5px"} alignItems={"center"}>

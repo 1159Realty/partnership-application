@@ -28,6 +28,7 @@ import { generateInvoicePDF } from "@/services/pdf/generateInvoice";
 import { paystackPopup } from "@/services/payment/paystack";
 import { useUserContext } from "@/contexts/UserContext";
 import { Tooltip } from "../tooltip";
+import { hasPermission } from "@/lib/session/roles";
 
 interface InvoiceTemplateProps {
   isOpen: boolean;
@@ -54,6 +55,12 @@ function InvoiceTemplate({ isOpen, onClose, makePayment, invoice }: InvoiceTempl
     : isPaid
     ? "Payment has already been made!"
     : "";
+
+  const isCurrentUserEnrollment = invoice?.enrolment?.client?.id === userData?.id;
+  const enrollmentActive = invoice?.enrolment.status !== "CANCELLED" && invoice?.enrolment.status !== "FREEZE";
+
+  const roleId = userData?.roleId;
+  const canMakePayment = hasPermission(roleId, "clear:invoice") && isCurrentUserEnrollment && enrollmentActive;
 
   async function onPayment() {
     if (!invoice?.id) return;
@@ -157,13 +164,15 @@ function InvoiceTemplate({ isOpen, onClose, makePayment, invoice }: InvoiceTempl
           </InvoiceWrapper>
 
           <Stack mt="20px" direction={"row"} alignItems={"center"} spacing={"10px"}>
-            <Tooltip title={paymentDisabledMessage}>
-              <Box width={"100%"}>
-                <Button disabled={isPaid || invoice?.previousNotPaid} onClick={onPayment} fullWidth>
-                  Make payment
-                </Button>
-              </Box>
-            </Tooltip>
+            {canMakePayment && (
+              <Tooltip title={paymentDisabledMessage}>
+                <Box width={"100%"}>
+                  <Button disabled={isPaid || invoice?.previousNotPaid} onClick={onPayment} fullWidth>
+                    Make payment
+                  </Button>
+                </Box>
+              </Tooltip>
+            )}
             <Box width={"100%"}>
               <Button onClick={handelDownload} fullWidth variant="outlined">
                 Download

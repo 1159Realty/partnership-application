@@ -226,12 +226,11 @@ function useCampaign() {
     let formState = { ...initialState };
 
     const schema = z.object({
-      name: z.string().nonempty({ message: "This field is required" }),
-      stateId: z.string().optional(),
-      gender: z.string().optional(),
-      trafficSource: z.string().optional(),
-      referralId: z.string().optional(),
-      byClientOnly: z.boolean().optional(),
+      name: z.string({ message: "This field is required" }).nonempty({ message: "This field is required" }),
+      stateId: z.any().optional(),
+      gender: z.any().optional(),
+      trafficSource: z.any().optional(),
+      referralId: z.any().optional(),
     });
 
     const validation = schema.safeParse(payload);

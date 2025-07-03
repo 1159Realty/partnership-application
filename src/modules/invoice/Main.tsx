@@ -80,7 +80,7 @@ function Main({ invoicesData, invoiceTotalData }: Props) {
     async function getProperties() {
       const session = getClientSession();
       const response = isModerator
-        ? await fetchInvoices({ page, limit })
+        ? await fetchInvoices({ ...filters, page, limit })
         : await fetchInvoices({ ...filters, limit, page: page + 1, userId: session?.user?.id });
       if (response) {
         setInvoices(response);

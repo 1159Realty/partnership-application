@@ -32,6 +32,7 @@ export const CLIENT_ROLES = [
   // invoice
   "view:invoice",
   "download:invoice",
+  "clear:invoice",
 
   //partnership
   "create:partnership",
@@ -59,6 +60,7 @@ export const AGENT_ROLES = [
   "view:invoice",
   "download:invoice",
   "view-commission:invoice",
+  "clear:invoice",
 
   // client
   "view:client",
@@ -83,6 +85,7 @@ export const CST_ROLES = [
 
   // invoice
   "view:invoice",
+  "download:invoice",
 ] as const;
 export type CstPermission = (typeof CST_ROLES)[number];
 
@@ -108,6 +111,7 @@ export const CST_MANAGER_ROLES = [
 
   // invoice
   "view:invoice",
+  "download:invoice",
 ] as const;
 export type CstMangerPermission = (typeof CST_MANAGER_ROLES)[number];
 
@@ -281,11 +285,13 @@ export const ACCOUNTING_ROLES = [
   "view:enrollment",
   "create:enrollment",
   "update:enrollment",
-  "update-plot-id:enrollment",
   "delete:enrollment",
+  "cancel:enrollment",
 
   // invoice
   "view:invoice",
+  "download:invoice",
+  "resolve:invoice",
 ] as const;
 export type AccountingPermission = (typeof ACCOUNTING_ROLES)[number];
 
@@ -313,6 +319,7 @@ export const ACCOUNTING_MANAGER_ROLES = [
   "view:invoice",
   "update:invoice",
   "resolve:invoice",
+  "download:invoice",
 ] as const;
 export type AccountingManagerPermission = (typeof ACCOUNTING_MANAGER_ROLES)[number];
 
@@ -345,6 +352,7 @@ export const MANAGER_ROLES = [
   "update:invoice",
   "delete:invoice",
   "resolve:invoice",
+  "download:invoice",
 
   // release
   "view:release",
@@ -460,6 +468,7 @@ export const ADMIN_ROLES = [
 
   // invoice
   "view:invoice",
+  "download:invoice",
   "create:invoice",
   "update:invoice",
   "delete:invoice",

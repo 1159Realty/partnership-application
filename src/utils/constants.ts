@@ -159,6 +159,7 @@ const accountingPanelItems: IPanelItem[] = [
   { Icon: SquaresFour, label: "Home", route: ROUTES["/"] },
   { Icon: Receipt, label: "Invoices", route: ROUTES["/invoices"] },
   { Icon: UserSwitch, label: "Enrollments", route: ROUTES["/enrollments"] },
+  { Icon: Headset, label: "Support", route: ROUTES["/support-management"] },
 ];
 
 const cstPanelItems: IPanelItem[] = [
