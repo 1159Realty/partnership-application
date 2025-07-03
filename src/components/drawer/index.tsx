@@ -1,10 +1,10 @@
 "use client";
 
-import { Backdrop, HiddenOnDesktop, HiddenOnMobile } from "@/styles/globals.styles";
+import { Backdrop } from "@/styles/globals.styles";
 import { fadeVariants } from "@/utils/animation-variants";
 import { AnimatePresence } from "framer-motion";
 import React, { useCallback, useEffect } from "react";
-import { DrawerWrapper } from "./drawer.styles";
+import { DrawerMobileWrapper, DrawerDesktopWrapper } from "./drawer.styles";
 import { ChildrenProps } from "@/utils/global-types";
 import { IconButton } from "../buttons";
 import { X } from "@phosphor-icons/react/dist/ssr";
@@ -82,40 +82,40 @@ const Drawer = ({ isOpen, handleClose, children, hideCloseButton, disableEsc, di
           aria-labelledby="Side panel backdrop"
           key={isOpen ? 1 : 2}
         >
-          <HiddenOnDesktop>
-            <DrawerWrapper
-              variants={mobileVariants}
-              initial="closed"
-              animate={"open"}
-              exit={"closed"}
-              aria-labelledby="Side panel mobile"
-              aria-hidden={!isOpen}
-              key={isOpen ? 1 : 2}
-            >
-              {!hideCloseButton && (
-                <Box width={"fit-content"} position={"sticky"} top={10} left={10} zIndex={1}>
-                  <IconButton bg_color={COLORS.gray200} onClick={onClose}>
-                    <X color={COLORS.blackNormal} />
-                  </IconButton>
-                </Box>
-              )}
-              {children}
-            </DrawerWrapper>
-          </HiddenOnDesktop>
+          {/* <HiddenOnDesktop> */}
+          <DrawerMobileWrapper
+            variants={mobileVariants}
+            initial="closed"
+            animate={"open"}
+            exit={"closed"}
+            aria-labelledby="Side panel mobile"
+            aria-hidden={!isOpen}
+            key={isOpen ? 1 : 2}
+          >
+            {!hideCloseButton && (
+              <Box width={"fit-content"} position={"sticky"} top={10} left={10} zIndex={1}>
+                <IconButton bg_color={COLORS.gray200} onClick={onClose}>
+                  <X color={COLORS.blackNormal} />
+                </IconButton>
+              </Box>
+            )}
+            {children}
+          </DrawerMobileWrapper>
+          {/* </HiddenOnDesktop> */}
 
-          <HiddenOnMobile>
-            <DrawerWrapper
-              variants={desktopVariants}
-              initial="closed"
-              animate={"open"}
-              exit={"closed"}
-              aria-labelledby="Side panel mobile"
-              aria-hidden={!isOpen}
-              key={isOpen ? 1 : 2}
-            >
-              {children}
-            </DrawerWrapper>
-          </HiddenOnMobile>
+          {/* <HiddenOnMobile> */}
+          <DrawerDesktopWrapper
+            variants={desktopVariants}
+            initial="closed"
+            animate={"open"}
+            exit={"closed"}
+            aria-labelledby="Side panel mobile"
+            aria-hidden={!isOpen}
+            key={isOpen ? 1 : 2}
+          >
+            {children}
+          </DrawerDesktopWrapper>
+          {/* </HiddenOnMobile> */}
         </Backdrop>
       )}
     </AnimatePresence>
