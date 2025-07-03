@@ -133,7 +133,7 @@ function EnrollClientForm({ showEnrollClient, onClose, onCreate, propertyId, cli
       let response: PaginatedResponse<User> | null = null;
       if (role === "agent") {
         response = await fetchUsers({
-          referralId: userData?.phoneNumber,
+          referralId: userData?.myReferralId,
           keyword: debouncedQuery,
         });
       } else {
@@ -147,7 +147,7 @@ function EnrollClientForm({ showEnrollClient, onClose, onCreate, propertyId, cli
       }
     }
     fetchUsersAsync();
-  }, [fetchUsers, debouncedQuery, userData?.roleId, userData?.phoneNumber]);
+  }, [fetchUsers, debouncedQuery, userData]);
 
   useEffect(() => {
     async function fetchUsersAsync() {

@@ -78,8 +78,8 @@ function ScheduleAppointmentForm({ show, onClose, onSubmit, propertyId, availabi
     if (!propertyId) return;
     setLoading(true);
     const payload: ScheduleAppointmentPayload = {
-      period: getMinuteOfDay(formState.period!),
-      weekday: formState.weekday,
+      period: formState?.period ? getMinuteOfDay(formState?.period) : null,
+      weekday: formState?.weekday,
       propertyId,
       time,
     };

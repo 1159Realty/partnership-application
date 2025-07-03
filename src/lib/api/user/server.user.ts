@@ -5,7 +5,6 @@ import { FetchUsersArg, User } from "./user.types";
 import { getServerSession, updateServerSessionUser } from "@/lib/session/server";
 import { PaginatedResponse, Session } from "../api.types";
 import { getServer } from "../sever.api";
-import { phoneNumberToReferralId } from "@/services/string";
 
 async function fetchUserData(): Promise<User | null> {
   let session: Session | null = null;
@@ -30,7 +29,7 @@ async function fetchUsers(args?: FetchUsersArg): Promise<PaginatedResponse<User>
     const response = await getServer<PaginatedResponse<User>>(`users?page=${args?.page || 1}&limit=${args?.limit || 10}${
       args?.keyword ? `&keyword=${args.keyword}` : ""
     }${args?.roleId ? `&roleId=${args.roleId}` : ""}
-${args?.referralId ? `&referralId=${phoneNumberToReferralId(args.referralId)}` : ""}
+${args?.referralId ? `&referralId=${args.referralId}` : ""}
 ${args?.byClientOnly ? `&byClientOnly=${args.byClientOnly}` : ""}
 ${args?.byModerators ? `&byModerators=${args.byModerators}` : ""}
 ${args?.sort ? `&sort=${args.sort}` : ""}`);

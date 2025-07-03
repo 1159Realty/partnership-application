@@ -8,7 +8,7 @@ type AppointmentStatus = (typeof appointmentStatusArray)[number];
 
 type ScheduleAppointmentPayload = {
   weekday: string;
-  period: number;
+  period: number | null;
   propertyId: string;
   time: string;
 };

@@ -21,7 +21,7 @@ async function Enrollments({ enrollmentId }: Props) {
   const usersDataResponse =
     role === "agent"
       ? fetchUsers({
-          referralId: session?.user?.phoneNumber,
+          referralId: session?.user?.myReferralId,
         })
       : fetchUsers({
           byClientOnly: true,

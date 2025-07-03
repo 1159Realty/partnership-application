@@ -15,7 +15,7 @@ function useAppointment() {
     let formState = { ...initialState };
 
     const schema = z.object({
-      weekday: z.string().nonempty({ message: "This field is required" }),
+      weekday: z.string({ message: "This field is required" }).nonempty({ message: "This field is required" }),
       period: z.number({ message: "Invalid period" }).min(1, { message: "Invalid period" }),
       propertyId: z.string().optional(),
       time: z.string().optional(),

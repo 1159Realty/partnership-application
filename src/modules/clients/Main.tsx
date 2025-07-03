@@ -47,7 +47,7 @@ function Main({ usersData }: Props) {
         response = await fetchUsers({
           page: page + 1,
           limit,
-          referralId: userData?.phoneNumber,
+          referralId: userData?.myReferralId,
           keyword: debounceSearchQuery,
         });
       } else {
@@ -63,7 +63,7 @@ function Main({ usersData }: Props) {
     }
 
     fetchUsersAsync();
-  }, [debounceSearchQuery, fetchUsers, limit, page, userData?.phoneNumber, userData?.roleId]);
+  }, [debounceSearchQuery, fetchUsers, limit, page, userData]);
 
   return (
     <Box>

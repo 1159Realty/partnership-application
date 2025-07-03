@@ -62,12 +62,12 @@ function useEnrollment() {
 
     const schema = z.object({
       clientId: z.string().nonempty({ message: "This field is required" }),
-      propertyId: z.string().nonempty({ message: "This field is required" }),
+      propertyId: z.string({ message: "This field is required" }).nonempty({ message: "This field is required" }),
       price: z.number({ message: "Price is a number" }).min(1, { message: "Enter a valid number" }),
       landSize: z.number({ message: "Land size is a number" }).min(1, { message: "Enter a valid number" }),
       installmentDuration: z.number({ message: "Duration is a number" }).min(1, { message: "Enter a valid number" }),
       outrightPayment: z.boolean(),
-      agentId: z.string().optional(),
+      agentId: z.string({ message: "This field is required" }).nonempty({ message: "This field is required" }),
       leadType: z.string().optional(),
     });
 

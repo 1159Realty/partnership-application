@@ -18,7 +18,7 @@ import { ApiResponse, PaginatedResponse, Session } from "../api.types";
 import { useCallback } from "react";
 import { UserFormState } from "@/components/forms/OnboardClient";
 import { z } from "zod";
-import { formatPhoneNumber, phoneNumberToReferralId } from "@/services/string";
+import { formatPhoneNumber } from "@/services/string";
 import { formatZodErrors } from "@/services/validation/zod";
 import { getClientSession, updateClientSessionUser } from "@/lib/session/client";
 import { getClient, putClient } from "../client.api";
@@ -57,7 +57,7 @@ function useUser() {
       const response = await getClient<PaginatedResponse<User>>(`users?page=${args?.page || 1}&limit=${args?.limit || 10}${
         args?.keyword ? `&keyword=${args.keyword}` : ""
       }${args?.roleId ? `&roleId=${args.roleId}` : ""}
-${args?.referralId ? `&referralId=${phoneNumberToReferralId(args.referralId)}` : ""}
+${args?.referralId ? `&referralId=${args.referralId}` : ""}
 ${args?.byClientOnly ? `&byClientOnly=${args.byClientOnly}` : ""}
 ${args?.byModerators ? `&byModerators=${args.byModerators}` : ""}
 ${args?.sort ? `&sort=${args.sort}` : ""}`);
@@ -151,7 +151,7 @@ ${args?.sort ? `&sort=${args.sort}` : ""}`);
           stateId: payload?.stateId || undefined,
           residentialAddress: payload?.residentialAddress || undefined,
           gender: payload?.gender || undefined,
-          referralId: phoneNumberToReferralId(payload?.referralId || "") || undefined,
+          referralId: payload?.referralId || undefined,
           trafficSource: payload?.trafficSource,
         };
 
@@ -254,7 +254,7 @@ ${args?.sort ? `&sort=${args.sort}` : ""}`);
           stateId: payload?.stateId || undefined,
           residentialAddress: payload?.residentialAddress || undefined,
           gender: payload?.gender || undefined,
-          referralId: phoneNumberToReferralId(payload?.referralId || "") || undefined,
+          referralId: payload?.referralId || undefined,
           trafficSource: payload?.trafficSource,
         };
 

@@ -28,6 +28,7 @@ interface User {
   bankCode: string;
   bankName: string;
   requestPartnership: boolean;
+  myReferralId: string;
 }
 
 type UserFormPayload = {

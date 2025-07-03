@@ -12,7 +12,7 @@ async function Clients() {
   const usersData =
     role === "agent"
       ? await fetchUsers({
-          referralId: session?.user?.phoneNumber,
+          referralId: session?.user?.myReferralId,
         })
       : await fetchUsers({
           byClientOnly: true,

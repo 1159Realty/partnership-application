@@ -13,7 +13,7 @@ import { PageTitle } from "@/components/typography";
 import { useSession } from "@/lib/session/client/useSession";
 import { ConfirmationDialog } from "@/components/dialog/Confirmation";
 import { useUserContext } from "@/contexts/UserContext";
-import { capitalize, capitalizeAndSpace, phoneNumberToReferralId } from "@/services/string";
+import { capitalize, capitalizeAndSpace } from "@/services/string";
 import { getRole, hasPermission } from "@/lib/session/roles";
 import { Bank, Copy, Pencil } from "@phosphor-icons/react/dist/ssr";
 import { Share } from "@/components/share";
@@ -127,7 +127,7 @@ function Main() {
             <Font5001421Gray900>{userData?.residentialAddress?.trim() || "N/A"}</Font5001421Gray900>
             {isAgent && (
               <Font5001421Gray900>
-                <Share value={`${WEB_APP_URL}/?referralId=${phoneNumberToReferralId(userData?.phoneNumber || "")}`}>
+                <Share value={`${WEB_APP_URL}/?referralId=${userData?.myReferralId || ""}`}>
                   <Copy weight="bold" cursor={"pointer"} />
                 </Share>
               </Font5001421Gray900>

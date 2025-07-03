@@ -153,7 +153,7 @@ function UpdateProfile({ onClose }: UpdateProfileProps) {
         lastName: userData.lastName || "",
         phoneNumber: userData.phoneNumber || "",
         profilePic: userData?.profilePic || "",
-        country: userData.country || "",
+        country: userData?.country || "",
         stateId: userData?.state?.id || "",
         residentialAddress: userData.residentialAddress || "",
         gender: userData?.gender || "",
@@ -230,6 +230,7 @@ function UpdateProfile({ onClose }: UpdateProfileProps) {
 
       <Box px="16px">
         <Select
+          key={formState?.gender}
           label="Gender"
           items={GENDERS.map((g) => ({ id: g, label: capitalizeAndSpace(g) }))}
           onChange={(e) => {
@@ -249,6 +250,7 @@ function UpdateProfile({ onClose }: UpdateProfileProps) {
 
       <Box px="16px">
         <Select
+          key={formState?.country}
           label="Country"
           items={COUNTRIES.map((x) => ({ id: x, label: capitalizeAndSpace(x) }))}
           onChange={(e) => {

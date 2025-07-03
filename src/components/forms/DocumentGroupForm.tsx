@@ -116,7 +116,7 @@ function DocumentGroupForm({ onClose, onCreate, isOpen, documentGroup }: EnrollC
       }
     }
     fetchUsersAsync();
-  }, [fetchUsers, debouncedQuery, userData?.roleId, userData?.phoneNumber]);
+  }, [fetchUsers, debouncedQuery, userData]);
 
   useEffect(() => {
     async function fetchPropertiesAsync() {
