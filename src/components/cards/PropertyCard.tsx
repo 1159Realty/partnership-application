@@ -104,10 +104,10 @@ function PropertyCard({
         <Stack direction={"row"} justifyContent={"space-between"} spacing={"10px"}>
           {showLink ? (
             <Link style={{ textDecoration: "underline" }} href={propertyUrl}>
-              <MobileB2MGray900>{property?.propertyName}</MobileB2MGray900>
+              <MobileB2MGray900 style={{ textTransform: "capitalize" }}>{property?.propertyName}</MobileB2MGray900>
             </Link>
           ) : (
-            <MobileB2MGray900>{property?.propertyName}</MobileB2MGray900>
+            <MobileB2MGray900 style={{ textTransform: "capitalize" }}>{property?.propertyName}</MobileB2MGray900>
           )}
 
           {showRemainingLandSize && (

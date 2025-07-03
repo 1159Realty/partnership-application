@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import { delay } from "@/services/delay";
 import { useEffect, useRef } from "react";
 import { LoaderContainer, IGMainWrapper, PlayerContainer } from "./styles";

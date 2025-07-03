@@ -6,6 +6,7 @@ export const IGMainWrapper = styled.div`
   width: 100%;
   aspect-ratio: 9 / 16;
   position: relative;
+  margin-bottom: 30px;
 `;
 
 export const LoaderContainer = styled.div`
