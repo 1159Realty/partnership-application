@@ -65,7 +65,7 @@ const ClientOnboarding = () => {
   };
 
   async function handleSubmit() {
-    const payload: UserFormPayload = { ...formState, referralId: referralId || undefined };
+    const payload: UserFormPayload = { ...formState, referralId: formState?.referralId || referralId || undefined };
     payload.profilePic = files[0];
 
     setLoading(true);
@@ -293,7 +293,7 @@ const ClientOnboarding = () => {
 
             <Box px="16px">
               <Select
-                label="Source"
+                label="How did you here about us?"
                 items={[
                   ...INVITATIONSOURCES.map((x) => ({ id: x, label: capitalizeAndSpace(x) })),
                   { id: undefined, label: "None" },
