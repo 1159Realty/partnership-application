@@ -39,6 +39,7 @@ const SESSION = "session";
 
 // ROUTES
 const BASE_URL = process.env.BACKEND_URL || "";
+const SOCKET_URL = process.env.SOCKET_URL || "";
 const WEB_APP_URL = process.env.FRONTEND_URL || "";
 // const WEB_APP_URL = "http://localhost:3000";
 // const BASE_URL = "https://dev-api.1159realty.com/api/v1";
@@ -213,6 +214,7 @@ export {
   UNPROTECTED_ROUTES,
   ROUTES,
   BASE_URL,
+  SOCKET_URL,
   clientPanelItems,
   agentPanelItems,
   cstPanelItems,

@@ -1,3 +1,4 @@
+import { BASE_URL } from "@/utils/constants";
 import { GoogleButtonWrapper } from "./button.styles";
 
 interface Props {
@@ -42,7 +43,7 @@ const GoogleIcon = ({ size }: Props) => (
 
 function GoogleButton() {
   return (
-    <GoogleButtonWrapper target="_blank" href="https://dev-api.1159realty.com/api/v1/auth/google">
+    <GoogleButtonWrapper target="_blank" href={`${BASE_URL}/auth/google`}>
       <GoogleIcon />
       <span>Continue with google</span>
     </GoogleButtonWrapper>

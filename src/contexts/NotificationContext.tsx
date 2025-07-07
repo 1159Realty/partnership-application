@@ -3,6 +3,7 @@
 import { INotification } from "@/lib/api/notifications/types";
 import { useNotifications } from "@/lib/api/notifications/useNotifications";
 import { getClientSession } from "@/lib/session/client";
+import { SOCKET_URL } from "@/utils/constants";
 import { createContext, useContext, useEffect, useState } from "react";
 import { io } from "socket.io-client";
 
@@ -29,7 +30,7 @@ export const NotificationContextProvider = ({ children }: Props) => {
 
   const session = getClientSession();
 
-  const socket = io("https://dev-api.1159realty.com", {
+  const socket = io(SOCKET_URL, {
     // Recommended options for Cloudflare Workers
     transports: ["websocket"],
     upgrade: false,
