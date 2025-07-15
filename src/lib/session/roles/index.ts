@@ -263,7 +263,7 @@ export const SALES_ROLES = [] as const;
 export type SalesPermission = (typeof SALES_ROLES)[number];
 
 export const SALES_MANAGER_ROLES = [] as const;
-export type SalesMangerPermission = (typeof SALES_MANAGER_ROLES)[number];
+export type SalesManagerPermission = (typeof SALES_MANAGER_ROLES)[number];
 
 export const OPERATIONS_ROLES = [] as const;
 export type OperationsPermission = (typeof OPERATIONS_ROLES)[number];

@@ -293,7 +293,7 @@ const ClientOnboarding = () => {
 
             <Box px="16px">
               <Select
-                label="How did you here about us?"
+                label="How did you hear about us?"
                 items={[
                   ...INVITATIONSOURCES.map((x) => ({ id: x, label: capitalizeAndSpace(x) })),
                   { id: undefined, label: "None" },

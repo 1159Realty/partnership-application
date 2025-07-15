@@ -169,6 +169,7 @@ const cstPanelItems: IPanelItem[] = [
   { Icon: UserSwitch, label: "Enrollments", route: ROUTES["/enrollments"] },
   { Icon: Receipt, label: "Invoices", route: ROUTES["/invoices"] },
   { Icon: Calendar, label: "Appointments", route: ROUTES["/appointment-management"] },
+  { Icon: Megaphone, label: "Campaign", route: ROUTES["/campaign"] },
   { Icon: Headset, label: "Support", route: ROUTES["/support-management"] },
 ];
 
@@ -178,6 +179,7 @@ const cstManagerPanelItems: IPanelItem[] = [
   { Icon: UserSwitch, label: "Enrollments", route: ROUTES["/enrollments"] },
   { Icon: Receipt, label: "Invoices", route: ROUTES["/invoices"] },
   { Icon: Calendar, label: "Appointments", route: ROUTES["/appointment-management"] },
+  { Icon: Megaphone, label: "Campaign", route: ROUTES["/campaign"] },
   { Icon: ChartLineUp, label: "Analytics", route: ROUTES["/analytics"] },
   { Icon: Headset, label: "Support", route: ROUTES["/support-management"] },
 ];
