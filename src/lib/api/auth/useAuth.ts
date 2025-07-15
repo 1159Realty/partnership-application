@@ -109,7 +109,8 @@ function useAuth() {
   const recoverPassword = useCallback(async (email: string): Promise<boolean> => {
     try {
       const response = await postClient<boolean>(`auth/forgot-password`, { email });
-      if (response?.statusCode === 201) {
+
+      if (response?.statusCode === 201 || response?.statusCode === 404) {
         return true;
       }
       return false;
