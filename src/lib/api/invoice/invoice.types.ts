@@ -41,16 +41,12 @@ interface IMakePaymentCredentials {
 }
 
 interface InvoiceTotal {
+  // used
   totalInvoiceAmount: number;
-  totalPlatformInvoiceAmount: number;
-  totalInvoices: number;
-  totalPlatformInvoices: number;
   totalPendingAmount: number;
-  totalPlatformPendingAmount: number;
   totalOverdueAmount: number;
-  totalPlatformOverdueAmount: number;
   totalPaidAmount: number;
-  totalPlatformPaidAmount: number;
+  totalInvoices: number;
 }
 
 interface InvoiceReportTotal {

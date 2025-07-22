@@ -152,12 +152,6 @@ export const HR_ROLES = [
   "update:sales-manager",
   "delete:sales-manager",
 
-  // operations
-  "view:operations",
-  "create:operations",
-  "update:operations",
-  "delete:operations",
-
   // operations-manager
   "view:operations-manager",
   "create:operations-manager",
@@ -226,12 +220,6 @@ export type HrMangerPermission = (typeof HR_ROLES)[number];
 //   "create:sales-manager",
 //   "update:sales-manager",
 //   "delete:sales-manager",
-
-//   // operations
-//   "view:operations",
-//   "create:operations",
-//   "update:operations",
-//   "delete:operations",
 
 //   // operations-manager
 //   "view:operations-manager",
@@ -396,12 +384,6 @@ export const MANAGER_ROLES = [
   "update:sales-manager",
   "delete:sales-manager",
 
-  // operations
-  "view:operations",
-  "create:operations",
-  "update:operations",
-  "delete:operations",
-
   // operations-manager
   "view:operations-manager",
   "create:operations-manager",
@@ -516,12 +498,6 @@ export const ADMIN_ROLES = [
   "update:sales-manager",
   "delete:sales-manager",
 
-  // operations
-  "view:operations",
-  "create:operations",
-  "update:operations",
-  "delete:operations",
-
   // operations-manager
   "view:operations-manager",
   "create:operations-manager",
@@ -584,8 +560,6 @@ export const ROLES = {
 
   "sales-manager": SALES_MANAGER_ROLES,
 
-  operations: OPERATIONS_ROLES,
-
   accounting: ACCOUNTING_ROLES,
   "accounting-manager": ACCOUNTING_MANAGER_ROLES,
 
@@ -596,9 +570,7 @@ export const ROLES = {
 
   admin: ADMIN_ROLES,
 
-  // "operations-manager": OPERATIONS_MANAGER_ROLES,
-  // "hr-manager": HR_MANAGER_ROLES,
-  // sales: SALES_ROLES,
+  "operations-manager": OPERATIONS_MANAGER_ROLES,
 };
 
 export type Role = keyof typeof ROLES;
@@ -617,10 +589,8 @@ export const getRoleRoutes = (role: Role) => {
       return managerPanelItems;
     case "manager":
       return managerPanelItems;
-    // case "operations-manager":
-    case "operations":
+    case "operations-manager":
       return operationsPanelItems;
-    // case "hr-manager":
     case "hr":
       return hrPanelItems;
     case "cst-manager":
@@ -628,7 +598,6 @@ export const getRoleRoutes = (role: Role) => {
     case "cst":
       return cstPanelItems;
     case "sales-manager":
-      // case "sales":
       return salesPanelItems;
     case "accounting-manager":
       return accountingManagerPanelItems;
@@ -648,7 +617,7 @@ export const USER_ROLES = [
   "admin",
   // manager
   "manager",
-  // "operations",
+  // "operations-manager",
   "operations-manager",
   // hr
   "hr",
