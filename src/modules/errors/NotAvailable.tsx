@@ -7,7 +7,7 @@ import Link from "next/link";
 
 function NotAvailable() {
   // TODO: Add support number
-  const whatsappNumber = "8061747003"; // No + or spaces
+  const whatsappNumber = "+2348061747003"; // No + or spaces
   const message = "Hello, I encountered an error while using your web application...";
   const encodedMessage = encodeURIComponent(message);
 
