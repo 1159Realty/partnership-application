@@ -15,6 +15,7 @@ interface IEnrollment {
   agent: User;
   landSize: number;
   price: number;
+  interest: number;
   installmentDuration: number;
   outrightPayment: boolean;
   status: EnrollmentStatus;
@@ -37,6 +38,7 @@ interface EnrollmentPayload {
   propertyId: string;
   landSize: number;
   price: number;
+  installmentInterest: number;
   installmentDuration: number;
   outrightPayment: boolean;
 }
@@ -48,6 +50,7 @@ interface EnrollmentValidationPayload {
   leadType?: string;
   landSize: number;
   price: number;
+  installmentInterest: number;
   installmentDuration: number;
   outrightPayment: boolean;
 }
@@ -59,9 +62,9 @@ interface EnrollmentFormPayload {
   propertyId?: AutoCompleteWithSubOptions | null;
   landSize: number | "";
   price: number | "";
+  installmentInterest: number | "";
   installmentDuration: number | "";
   outrightPayment: boolean;
-  installmentInterest: number | "";
   overDueInterest: number | "";
 }
 

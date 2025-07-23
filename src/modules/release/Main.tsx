@@ -19,11 +19,14 @@ interface Props {
   releasesData: PaginatedResponse<IRelease> | null;
 }
 
+export type ApproveReleaseType = "pay" | "no-pay";
+
 function Main({ releasesData }: Props) {
-  const { fetchReleases, approveRelease } = useRelease();
+  const { fetchReleases, approveRelease, approveReleaseNoPay } = useRelease();
 
   const [releases, setReleases] = useState<PaginatedResponse<IRelease> | null>(releasesData);
   const [release, setRelease] = useState<IRelease | null>(null);
+  const [releaseType, setReleaseType] = useState<ApproveReleaseType>("pay");
   const [approvalLoading, setApprovalLoading] = useState(false);
   const [reload, setReload] = useState(false);
 
@@ -45,7 +48,7 @@ function Main({ releasesData }: Props) {
   async function handleApproval() {
     if (!release) return;
     setApprovalLoading(true);
-    const res = await approveRelease(release?.id);
+    const res = releaseType === "pay" ? await approveRelease(release?.id) : await approveReleaseNoPay(release?.id);
     if (res) {
       setReload(!reload);
       setRelease(null);
@@ -99,7 +102,10 @@ function Main({ releasesData }: Props) {
             onPageChange={onPageChange}
             page={page}
             limit={limit}
-            onRowClick={(data) => setRelease(data)}
+            onRowClick={(type, data) => {
+              setRelease(data);
+              setReleaseType(type);
+            }}
           />
         )}
       </Box>

@@ -1,8 +1,17 @@
-import { IAvailableLandSize } from "@/utils/global-types";
 import { FileType } from "../file-upload/file-upload.types";
 import { ILga, IState, ISummarizedArea } from "../location/location.types";
 
 const PROPERTY_LAND_TYPE = ["INDUSTRIAL", "COMMERCIAL", "RESIDENTIAL", "FARMLAND", "MIXED"] as const;
+
+export interface IAvailableLandSize {
+  size: number;
+  price: number;
+  marketValue?: number;
+}
+export interface IPaymentDuration {
+  duration: number;
+  interest: number;
+}
 
 type PropertyLandType = (typeof PROPERTY_LAND_TYPE)[number];
 
@@ -14,9 +23,8 @@ type PropertyPayload = {
   areaId: string;
   totalLandSize: number;
   availableLandSizes: IAvailableLandSize[];
-  paymentDurationOptions: number[];
+  paymentDurationOptions: IPaymentDuration[];
   status?: PropertyStatus;
-  installmentInterest: number;
   overDueInterest: number;
   installmentPeriod: number;
   videoUrl?: string;
@@ -31,11 +39,10 @@ type PropertyFormPayload = {
   lgaId: string;
   areaId: string;
   totalLandSize: number | "";
-  installmentInterest: number | "";
   overDueInterest: number | "";
   installmentPeriod: number | "";
   availableLandSizes: IAvailableLandSize[];
-  paymentDurationOptions: number[];
+  paymentDurationOptions: IPaymentDuration[];
   videoUrl?: string;
   landType: string;
   address: string;
@@ -60,10 +67,9 @@ type IProperty = {
   totalLandSize: number;
   remainingLandSize: number;
   availableLandSizes: IAvailableLandSize[];
-  paymentDurationOptions: number[];
+  paymentDurationOptions: IPaymentDuration[];
   outrightPayment: boolean;
   status: PropertyStatus;
-  installmentInterest: number;
   overDueInterest: number;
   createdAt: string;
   updatedAt: string;
@@ -89,6 +95,10 @@ interface PropertyMarketPrice {
   size: number;
 }
 
+interface PropertyTotal {
+  count: number;
+}
+
 type PropertyStatus = "AVAILABLE" | "SOLD_OUT" | "RESERVED" | "DISABLED" | "ARCHIVED";
 
 export type {
@@ -100,6 +110,7 @@ export type {
   UpdatePropertyFormPayload,
   PropertyMarketPrice,
   PropertyLandType,
+  PropertyTotal,
 };
 
 export { PROPERTY_LAND_TYPE };

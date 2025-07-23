@@ -36,7 +36,7 @@ const FileUpload = ({ label, files, setFiles, handleReset, prefix, isDoc }: Prop
       : {
           "image/*": [],
         },
-    maxSize: 50 * 1024 * 1024,
+    maxSize: 6 * 1024 * 1024,
     maxFiles: 1,
     onDropRejected(fileRejections) {
       const someFilesAreTooLarge = fileRejections.some((file) => file.errors.some((error) => error.code === "file-too-large"));
@@ -47,7 +47,7 @@ const FileUpload = ({ label, files, setFiles, handleReset, prefix, isDoc }: Prop
         setAlert({
           severity: "error",
           show: true,
-          message: "The file you are trying to upload exceeds the limit of 50mb",
+          message: "File should be 6mb or less",
         });
       }
 

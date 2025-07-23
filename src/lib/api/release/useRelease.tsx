@@ -12,7 +12,9 @@ function useRelease() {
       const response = await getClient<PaginatedResponse<IRelease> | null>(
         `release-recipients/releases?page=${args?.page || 1}&limit=${args?.limit || 10}${
           args?.userId ? `&userId=${args.userId}` : ""
-        }${args?.status ? `&status=${args.status}` : ""}`
+        }${args?.enrolmentId ? `&enrolmentId=${args.enrolmentId}` : ""}${args?.type ? `&type=${args.type}` : ""}${
+          args?.status ? `&status=${args.status}` : ""
+        }`
       );
       if (response?.statusCode === 200) {
         return response?.result;
@@ -47,6 +49,19 @@ function useRelease() {
   const approveRelease = useCallback(async (id: string): Promise<boolean> => {
     try {
       const response = await putClient<boolean>(`payments/approve-manual-release/${id}`);
+      if (response?.statusCode === 200) {
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error(formatError(error));
+      return false;
+    }
+  }, []);
+
+  const approveReleaseNoPay = useCallback(async (id: string): Promise<boolean> => {
+    try {
+      const response = await putClient<boolean>(`release-recipients/mark-release-as-paid/${id}`);
       if (response?.statusCode === 200) {
         return true;
       }
@@ -131,6 +146,7 @@ function useRelease() {
     addRecipients,
     addAllRecipients,
     addMockRecipients,
+    approveReleaseNoPay,
   };
 }
 

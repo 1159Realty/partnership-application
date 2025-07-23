@@ -24,10 +24,17 @@ interface PropertiesProps {
   propertyData?: IProperty | null;
   availabilityData: IAvailability[] | null;
   states: IState[] | null;
+  totalProperties: number | null;
 }
 
-function Properties({ propertiesData: propertiesDataProp, availabilityData, states, propertyData }: PropertiesProps) {
-  const { fetchProperties } = useProperty();
+function Properties({
+  propertiesData: propertiesDataProp,
+  availabilityData,
+  states,
+  propertyData,
+  totalProperties: totalPropertiesData,
+}: PropertiesProps) {
+  const { fetchProperties, fetchPropertiesTotal } = useProperty();
   const { fetchAvailabilities } = useAvailability();
 
   const { query, filters, setEnrollPropertyId, setSchedulePropertyId, enrollPropertyId, schedulePropertyId } = useHomeContext();
@@ -39,6 +46,8 @@ function Properties({ propertiesData: propertiesDataProp, availabilityData, stat
   const [properties, setPropertiesData] = useState<PaginatedResponse<IProperty> | null>(propertiesDataProp);
   const [property, setProperty] = useState<IProperty | null>(propertyData || null);
   const [page, setPage] = useState(1);
+
+  const [totalProperties, setTotalProperties] = useState(totalPropertiesData);
 
   const hasItem = Boolean(properties?.items.length);
 
@@ -74,9 +83,16 @@ function Properties({ propertiesData: propertiesDataProp, availabilityData, stat
     get();
   }, [fetchAvailabilities, reloadAvailability]);
 
+  useEffect(() => {
+    async function getTotal() {
+      setTotalProperties(await fetchPropertiesTotal());
+    }
+    getTotal();
+  }, [fetchPropertiesTotal]);
+
   return (
     <Box>
-      <MobileH2MGray900>Over {properties?.totalItems} properties are available for you!</MobileH2MGray900>
+      <MobileH2MGray900>Over {totalProperties || 0} properties are available for you!</MobileH2MGray900>
 
       <Box my="16px">
         <HomeActionFilter states={states} />

@@ -15,18 +15,22 @@ import { User } from "@/lib/api/user/user.types";
 import { useUser } from "@/lib/api/user/useUser";
 import { useDebounce } from "use-debounce";
 import { capitalizeAndSpace, getUserName } from "@/services/string";
-import { getRole } from "@/lib/session/roles";
-import { useUserContext } from "@/contexts/UserContext";
-import { releaseArray, ReleaseStatus } from "@/lib/api/release/types";
+import { releaseArray, ReleaseStatus, ReleaseType, releaseTypeArray } from "@/lib/api/release/types";
 import { objectHasValue } from "@/services/objects";
+import { IEnrollment } from "@/lib/api/enrollment/types";
+import { useEnrollment } from "@/lib/api/enrollment/useEnrollment";
 
 export interface IReleaseFilter {
   userId?: string;
+  enrolmentId?: string;
   status?: ReleaseStatus;
+  type?: ReleaseType;
 }
 interface ILocalFilter {
   userId?: AutoCompleteWithSubOptions;
+  enrolmentId?: AutoCompleteWithSubOptions;
   status?: ReleaseStatus;
+  type?: ReleaseType;
 }
 
 interface Props {
@@ -35,18 +39,19 @@ interface Props {
 }
 
 const ReleaseFilters = ({ setFilters, filters }: Props) => {
-  const { userData } = useUserContext();
-
   const { fetchUsers } = useUser();
+  const { fetchEnrollments } = useEnrollment();
 
   const [showFilters, setShowFilters] = useState(false);
   const [localFilters, setLocalFilters] = useState<ILocalFilter>({});
 
-  const [users, setUsers] = useState<PaginatedResponse<User> | null>(null);
+  const [recipients, setRecipients] = useState<PaginatedResponse<User> | null>(null);
   const [userQuery, setUserQuery] = useState("");
-  const [debouncedUserQuery] = useDebounce(userQuery, 700);
+  const [debouncedRecipientQuery] = useDebounce(userQuery, 700);
 
-  const role = getRole(userData?.roleId);
+  const [enrollments, setEnrollments] = useState<PaginatedResponse<IEnrollment> | null>(null);
+  const [enrollmentQuery, setEnrollmentQuery] = useState("");
+  const [debouncedEnrollmentQuery] = useDebounce(enrollmentQuery, 700);
 
   const is_active = objectHasValue(filters) ? "active" : "in-active";
 
@@ -71,6 +76,7 @@ const ReleaseFilters = ({ setFilters, filters }: Props) => {
     const payload: IReleaseFilter = {
       ...localFilters,
       userId: localFilters?.userId?.id,
+      enrolmentId: localFilters?.enrolmentId?.id,
     };
 
     // console.log(payload);
@@ -81,15 +87,27 @@ const ReleaseFilters = ({ setFilters, filters }: Props) => {
 
   useEffect(() => {
     async function fetchUserAsync() {
-      if (role === "agent") return;
-      const response = await fetchUsers({ page: 1, limit: 10, keyword: debouncedUserQuery, byClientOnly: true });
+      const response = await fetchUsers({ page: 1, limit: 10, keyword: debouncedRecipientQuery, byClientOnly: true });
       if (response) {
-        setUsers(response);
+        setRecipients(response);
       }
     }
-
     fetchUserAsync();
-  }, [fetchUsers, debouncedUserQuery, role]);
+  }, [fetchUsers, debouncedRecipientQuery]);
+
+  useEffect(() => {
+    async function getData() {
+      const response = await fetchEnrollments({
+        page: 1,
+        limit: 10,
+        keyword: debouncedEnrollmentQuery,
+      });
+      if (response) {
+        setEnrollments(response);
+      }
+    }
+    getData();
+  }, [fetchEnrollments, debouncedEnrollmentQuery]);
 
   return (
     <Box>
@@ -123,13 +141,28 @@ const ReleaseFilters = ({ setFilters, filters }: Props) => {
               }}
               value={localFilters?.status}
             />
+            <Select
+              fullWidth
+              label="Type"
+              items={[
+                ...releaseTypeArray.map((x) => ({
+                  label: capitalizeAndSpace(x),
+                  id: x,
+                })),
+                { label: "All", id: "" },
+              ]}
+              onChange={(e) => {
+                handleChange("type", e.target.value);
+              }}
+              value={localFilters?.type}
+            />
 
             <AutoCompleteWithSub
               fullWidth
-              renderInputLabel="User"
+              renderInputLabel="Recipient"
               onBlur={() => setUserQuery("")}
               options={
-                users?.items?.map((i) => ({
+                recipients?.items?.map((i) => ({
                   label: getUserName(i),
                   sub: `${i?.email}"`,
                   id: i?.id,
@@ -146,7 +179,32 @@ const ReleaseFilters = ({ setFilters, filters }: Props) => {
                 }
                 setUserQuery(value);
               }}
-              value={localFilters.userId?.label || ""}
+              value={localFilters?.userId?.label || ""}
+            />
+
+            <AutoCompleteWithSub
+              fullWidth
+              renderInputLabel="Enrollment"
+              onBlur={() => setEnrollmentQuery("")}
+              options={
+                enrollments?.items?.map((x) => ({
+                  label: x?.property?.propertyName,
+                  id: x?.id,
+                  sub: `Land size:${x?.landSize}, Installment duration: ${x?.installmentDuration} months`,
+                })) || []
+              }
+              onChange={(_, value) => {
+                if (value) {
+                  handleChange("enrolmentId", value);
+                }
+              }}
+              onInputChange={(_, value) => {
+                if (!value) {
+                  handleChange("enrolmentId", null);
+                }
+                setEnrollmentQuery(value);
+              }}
+              value={localFilters.enrolmentId?.label || ""}
             />
           </FilterFieldsWrapper>
 

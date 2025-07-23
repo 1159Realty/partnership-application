@@ -64,7 +64,6 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
     totalLandSize: "",
     availableLandSizes: [],
     paymentDurationOptions: [],
-    installmentInterest: 1.2,
     overDueInterest: 1.5,
     installmentPeriod: 32,
     address: "",
@@ -77,6 +76,7 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
   const [lgas, setLgas] = useState<ILga[] | null>([]);
   const [areas, setAreas] = useState<IArea[] | null>([]);
   const [duration, setDuration] = useState("");
+  const [interestPerDuration, setInterestPerDuration] = useState("");
   const [size, setSize] = useState("");
   const [pricePerSize, setPricePerSize] = useState("");
 
@@ -88,8 +88,10 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
 
   function addNewItem(type: ListValue) {
     if (type === "duration") {
-      const value = parseInt(duration);
-      if (isNaN(value)) {
+      const durationValue = parseInt(duration);
+      const interestValue = parseFloat(interestPerDuration);
+
+      if (isNaN(durationValue) || isNaN(interestValue)) {
         setAlert({
           message: "Invalid duration!",
           show: true,
@@ -98,7 +100,7 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
         return;
       }
 
-      if (formState.paymentDurationOptions.includes(value)) {
+      if (formState.paymentDurationOptions.some((x) => x.duration === durationValue)) {
         setAlert({
           message: "Duration exists already!",
           show: true,
@@ -106,11 +108,16 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
         });
         return;
       }
-      setFormState((prev) => ({ ...prev, paymentDurationOptions: [...prev.paymentDurationOptions, value] }));
+
+      setFormState((prev) => ({
+        ...prev,
+        paymentDurationOptions: [...prev.paymentDurationOptions, { duration: durationValue, interest: interestValue }],
+      }));
       setDuration("");
+      setInterestPerDuration("");
     } else {
       const sizeValue = parseInt(size);
-      const priceValue = parseInt(pricePerSize);
+      const priceValue = parseFloat(pricePerSize);
 
       if (isNaN(sizeValue) || isNaN(priceValue)) {
         setAlert({
@@ -141,7 +148,10 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
 
   function removeItem(type: "duration" | "size", value: number) {
     if (type === "duration") {
-      setFormState((prev) => ({ ...prev, paymentDurationOptions: prev.paymentDurationOptions.filter((i) => i !== value) }));
+      setFormState((prev) => ({
+        ...prev,
+        paymentDurationOptions: prev.paymentDurationOptions.filter((i) => i.duration !== value),
+      }));
     } else {
       setFormState((prev) => ({ ...prev, availableLandSizes: prev.availableLandSizes.filter((i) => i.size !== value) }));
     }
@@ -153,7 +163,6 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
     const payload = { ...formState };
     payload.propertyPic = files[0];
     payload.totalLandSize = parseInt(payload.totalLandSize.toString());
-    payload.installmentInterest = parseFloat(payload.installmentInterest?.toString() || "");
     payload.overDueInterest = parseFloat(payload.overDueInterest?.toString() || "");
     payload.installmentPeriod = parseInt(payload.installmentPeriod?.toString() || "");
 
@@ -349,20 +358,42 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
             <div className="flex flex-col gap-4 px-4">
               <MobileB1MGray900>PAYMENT DURATION</MobileB1MGray900>
               <Box>
-                <TextField
-                  fullWidth
-                  slotProps={{
-                    input: {
-                      endAdornment: <InputAdornment position="start">Months</InputAdornment>,
-                    },
-                  }}
-                  value={duration}
-                  onChange={(e) => {
-                    handleReset("availableLandSizes");
-                    setDuration(e.target.value);
-                  }}
-                  label="Duration"
-                />
+                <Stack direction={"row"}>
+                  <Box mr="10px">
+                    <TextField
+                      fullWidth
+                      slotProps={{
+                        input: {
+                          endAdornment: <InputAdornment position="start">Months</InputAdornment>,
+                        },
+                      }}
+                      value={duration}
+                      onChange={(e) => {
+                        handleReset("paymentDurationOptions");
+                        setDuration(e.target.value);
+                      }}
+                      label="Duration"
+                    />
+                  </Box>
+
+                  <Box>
+                    <TextField
+                      fullWidth
+                      slotProps={{
+                        input: {
+                          endAdornment: <InputAdornment position="start">%</InputAdornment>,
+                        },
+                      }}
+                      value={interestPerDuration}
+                      onChange={(e) => {
+                        handleReset("paymentDurationOptions");
+                        setInterestPerDuration(e.target.value);
+                      }}
+                      label="Interest"
+                    />
+                  </Box>
+                </Stack>
+
                 {error?.paymentDurationOptions?.map((error, i) => (
                   <Box key={i}>
                     <ErrorText>{error}</ErrorText>
@@ -373,7 +404,7 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
               <Stack>
                 <Button
                   onClick={() => {
-                    handleReset("availableLandSizes");
+                    handleReset("paymentDurationOptions");
                     addNewItem("duration");
                   }}
                   startIcon={<Plus weight="bold" />}
@@ -384,12 +415,14 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
               </Stack>
 
               {formState.paymentDurationOptions.map((i) => (
-                <Stack direction={"row"} alignItems={"center"} spacing={"10px"} key={i}>
-                  <MobileB1MGray900>{i} Months</MobileB1MGray900>
+                <Stack direction={"row"} alignItems={"center"} spacing={"10px"} key={i.duration}>
+                  <MobileB1MGray900>
+                    {i.duration} Months - {i.interest}%
+                  </MobileB1MGray900>
                   <XCircle
                     onClick={() => {
-                      handleReset("availableLandSizes");
-                      removeItem("duration", i);
+                      handleReset("paymentDurationOptions");
+                      removeItem("duration", i.duration);
                     }}
                     size={20}
                     weight="fill"
@@ -482,25 +515,6 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
 
             <div className="flex flex-col gap-4 px-4">
               <MobileB1MGray900>INTEREST & OVERDUE</MobileB1MGray900>
-              <Box>
-                <TextField
-                  fullWidth
-                  onChange={(e) => handleChange("installmentInterest", e.target.value)}
-                  name="installmentInterest"
-                  value={formState.installmentInterest}
-                  label="Installment interest"
-                  slotProps={{
-                    input: {
-                      endAdornment: <InputAdornment position="start">%</InputAdornment>,
-                    },
-                  }}
-                />
-                {error?.installmentInterest?.map((error, i) => (
-                  <Box key={i}>
-                    <ErrorText>{error}</ErrorText>
-                  </Box>
-                ))}
-              </Box>
 
               <Box>
                 <TextField

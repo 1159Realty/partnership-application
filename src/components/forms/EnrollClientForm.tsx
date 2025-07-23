@@ -58,9 +58,9 @@ function EnrollClientForm({ showEnrollClient, onClose, onCreate, propertyId, cli
   const [formState, setFormState] = useState<EnrollmentFormPayload>({
     landSize: "",
     price: "",
+    installmentInterest: "",
     installmentDuration: "",
     outrightPayment: false,
-    installmentInterest: "",
     overDueInterest: "",
     leadType: "PRIVATE",
   });
@@ -80,6 +80,7 @@ function EnrollClientForm({ showEnrollClient, onClose, onCreate, propertyId, cli
   const [propertyQuery, setPropertyQuery] = useState("");
   const [debouncedPropertyQuery] = useDebounce(propertyQuery, 700);
 
+  const interest = property?.paymentDurationOptions?.find((x) => x?.duration == formState?.installmentDuration)?.interest;
   const price = property?.availableLandSizes?.find((x) => x?.size == formState?.landSize)?.price;
 
   function handleChange(field: keyof EnrollmentFormPayload, value: unknown) {
@@ -89,6 +90,14 @@ function EnrollClientForm({ showEnrollClient, onClose, onCreate, propertyId, cli
 
   function handleReset(field: keyof EnrollmentFormPayload) {
     setError((prev) => ({ ...prev, [field]: undefined, error: undefined }));
+
+    if (field === "installmentDuration") {
+      setError((prev) => ({ ...prev, installmentInterest: undefined, error: undefined }));
+    }
+
+    if (field === "landSize") {
+      setError((prev) => ({ ...prev, price: undefined, error: undefined }));
+    }
   }
 
   async function handleSubmit() {
@@ -100,6 +109,7 @@ function EnrollClientForm({ showEnrollClient, onClose, onCreate, propertyId, cli
       clientId: clientId || formState.clientId?.id || "",
       landSize: +formState.landSize,
       price: price || 0,
+      installmentInterest: formState.outrightPayment ? 0 : interest || 0,
       installmentDuration: +formState.installmentDuration,
       leadType: formState?.leadType,
     };
@@ -153,7 +163,7 @@ function EnrollClientForm({ showEnrollClient, onClose, onCreate, propertyId, cli
     async function fetchUsersAsync() {
       const response = await fetchUsers({
         roleId: "agent",
-        keyword: debouncedQuery,
+        keyword: debouncedAgentQuery,
       });
 
       if (response) {
@@ -161,7 +171,7 @@ function EnrollClientForm({ showEnrollClient, onClose, onCreate, propertyId, cli
       }
     }
     fetchUsersAsync();
-  }, [fetchUsers, debouncedAgentQuery, userData?.roleId, debouncedQuery]);
+  }, [fetchUsers, debouncedAgentQuery]);
 
   useEffect(() => {
     async function fetchPropertiesAsync() {
@@ -350,8 +360,8 @@ function EnrollClientForm({ showEnrollClient, onClose, onCreate, propertyId, cli
                       label: x.toString(),
                     }))
                   : property?.paymentDurationOptions?.map((paymentDurationOption) => ({
-                      id: paymentDurationOption.toString(),
-                      label: paymentDurationOption.toString(),
+                      id: paymentDurationOption.duration.toString(),
+                      label: paymentDurationOption.duration.toString(),
                     })) || []
               }
               onChange={(e) => {
@@ -406,89 +416,22 @@ function EnrollClientForm({ showEnrollClient, onClose, onCreate, propertyId, cli
             ))}
           </Box>
 
-          {/* <Box px="16px">
-            <Select
-              disabled
-              label="Price"
-              items={
-                property?.availableLandSizes?.map((availableLandSize) => ({
-                  id: availableLandSize?.price?.toString(),
-                  label: availableLandSize?.price?.toString(),
-                })) || []
-              }
-              onChange={(e) => {
-                handleChange("price", e.target.value);
-              }}
-              name="price"
-              value={formState.price}
-            />
-            {error?.price?.map((error, i) => (
-              <Box key={i}>
-                <ErrorText>{error}</ErrorText>
-              </Box>
-            ))}
-          </Box> */}
-
-          {/* {formState?.outrightPayment ? (
-            <Box px="16px">
-              <TextField
-            
-                fullWidth
-                onChange={(e) => handleChange("installmentDuration", e.target.value)}
-                name="installmentDuration"
-                value={formState.installmentDuration}
-                label="Payment duration"
-                slotProps={{
-                  input: {
-                    endAdornment: <InputAdornment position="start">Months</InputAdornment>,
-                  },
-                }}
-              />
-              {error?.installmentDuration?.map((error, i) => (
-                <Box key={i}>
-                  <ErrorText>{error}</ErrorText>
-                </Box>
-              ))}
-            </Box>
-          ) : (
-            <Box px="16px">
-              <Select
-                label="Payment duration"
-                items={
-                  property?.paymentDurationOptions?.map((paymentDurationOption) => ({
-                    id: paymentDurationOption.toString(),
-                    label: paymentDurationOption.toString(),
-                  })) || []
-                }
-                onChange={(e) => {
-                  handleChange("installmentDuration", e.target.value);
-                }}
-                name="paymentDuration"
-                value={formState.installmentDuration}
-              />
-              {error?.installmentDuration?.map((error, i) => (
-                <Box key={i}>
-                  <ErrorText>{error}</ErrorText>
-                </Box>
-              ))}
-            </Box>
-          )} */}
-
           {!formState.outrightPayment && (
             <Box px="16px">
               <TextField
-                fullWidth
                 disabled
-                name="installmentInterest"
-                value={property?.installmentInterest}
-                label="Installment interest"
+                fullWidth
+                value={interest}
+                label="Interest"
                 slotProps={{
                   inputLabel: { shrink: true },
-                  input: {
-                    endAdornment: <InputAdornment position="start">%</InputAdornment>,
-                  },
                 }}
               />
+              {error?.installmentInterest?.map((error, i) => (
+                <Box key={i}>
+                  <ErrorText>{error}</ErrorText>
+                </Box>
+              ))}
             </Box>
           )}
 

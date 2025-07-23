@@ -39,7 +39,9 @@ interface FetchReleasesArgs {
   page?: number;
   limit?: number;
   userId?: string;
+  enrolmentId?: string;
   status?: ReleaseStatus;
+  type?: ReleaseType;
 }
 
 interface FetchReleaseRecipientArgs {

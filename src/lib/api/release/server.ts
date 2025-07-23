@@ -6,9 +6,7 @@ import { FetchReleaseRecipientArgs, FetchReleasesArgs, IRelease, IReleaseRecipie
 async function fetchReleases(args?: FetchReleasesArgs): Promise<PaginatedResponse<IRelease> | null> {
   try {
     const response = await getServer<PaginatedResponse<IRelease> | null>(
-      `release-recipients/releases?page=${args?.page || 1}&limit=${args?.limit || 10}${
-        args?.userId ? `&userId=${args.userId}` : ""
-      }${args?.status ? `&status=${args.status}` : ""}`
+      `release-recipients/releases?page=${args?.page || 1}&limit=${args?.limit || 10}`
     );
 
     if (response?.statusCode === 200) {

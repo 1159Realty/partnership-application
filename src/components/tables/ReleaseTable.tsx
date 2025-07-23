@@ -17,9 +17,10 @@ import { formatCurrency } from "@/services/numbers";
 import { capitalizeAndSpace, getUserName } from "@/services/string";
 import { IRelease, ReleaseStatus } from "@/lib/api/release/types";
 import { Button } from "../buttons";
+import { ApproveReleaseType } from "@/modules/release/Main";
 
 interface Column {
-  id: "status" | "type" | "releaseDate" | "releaseAmount" | "recipient" | "action";
+  id: "status" | "type" | "property" | "releaseDate" | "releaseAmount" | "recipient" | "action";
   label: string;
   minWidth?: number;
   align?: "right";
@@ -29,6 +30,7 @@ interface Column {
 const columns: readonly Column[] = [
   { id: "status", label: "Status", minWidth: 120 },
   { id: "type", label: "Release type", minWidth: 170 },
+  { id: "property", label: "Property", minWidth: 170 },
   {
     id: "releaseDate",
     label: "Release date",
@@ -54,6 +56,7 @@ const columns: readonly Column[] = [
 interface Data {
   status: React.ReactNode;
   type: string;
+  property: string;
   releaseDate: string;
   releaseAmount: string;
   recipient: string;
@@ -63,16 +66,17 @@ interface Data {
 function createData(
   status: React.ReactNode,
   type: string,
+  property: string,
   releaseDate: string,
   releaseAmount: string,
   recipient: string,
   action: React.ReactNode
 ): Data {
-  return { status, type, releaseDate, releaseAmount, recipient, action };
+  return { status, type, property, releaseDate, releaseAmount, recipient, action };
 }
 
 interface ReleaseTableProps {
-  onRowClick?: (id: IRelease) => void;
+  onRowClick?: (type: ApproveReleaseType, data: IRelease) => void;
   data: PaginatedResponse<IRelease> | null;
   page: number;
   limit: number;
@@ -114,27 +118,43 @@ function ReleaseTable({ onRowClick, data, page, limit, onLimitChange, onPageChan
       createData(
         getStatus(x?.status),
         capitalizeAndSpace(x?.type),
+        x?.type === "COMMISSION"
+          ? x?.commission?.invoice?.enrolment?.property?.propertyName || "N/A"
+          : x?.revocation?.enrolment?.property?.propertyName || "N/A",
         getDateTimeString(x?.releaseDate, "date-only") || "N/A",
         formatCurrency(x?.amount),
         getUserName(x?.type === "COMMISSION" ? x?.commission?.agent : x?.revocation?.client),
+        <Stack direction={"row"} spacing={"10px"} alignItems={"center"}>
+          <Button
+            disabled={x?.status === "PAID" || x?.status === "SUBMITTED"}
+            onClick={() => onRowClick?.("pay", x)}
+            color="info"
+            disableElevation={false}
+            not_rounded
+            padding="5px 12px"
+          >
+            Approve
+          </Button>
 
-        <Button
-          disabled={x?.status === "PAID" || x?.status === "SUBMITTED"}
-          onClick={() => onRowClick?.(x)}
-          color="info"
-          disableElevation={false}
-          not_rounded
-          padding="5px 12px"
-        >
-          Approve
-        </Button>
+          <Button
+            disabled={x?.status === "PAID" || x?.status === "SUBMITTED"}
+            onClick={() => onRowClick?.("no-pay", x)}
+            color="info"
+            disableElevation={false}
+            not_rounded
+            padding="5px 12px"
+            variant="outlined"
+          >
+            Complete
+          </Button>
+        </Stack>
       )
     ) || [];
 
-  function handleClick(release: IRelease | null) {
-    if (!release) return;
-    onRowClick?.(release);
-  }
+  // function handleClick(release: IRelease | null) {
+  //   if (!release) return;
+  //   onRowClick?.(release);
+  // }
 
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
@@ -163,7 +183,7 @@ function ReleaseTable({ onRowClick, data, page, limit, onLimitChange, onPageChan
                     return (
                       <TableCell
                         sx={{ cursor: "pointer" }}
-                        onClick={() => handleClick(data?.items?.[index] || null)}
+                        // onClick={() => handleClick(data?.items?.[index] || null)}
                         key={column.id}
                         align={column.align}
                       >

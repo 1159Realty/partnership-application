@@ -44,11 +44,11 @@ function Acquired({ enrollmentData, states }: PropertiesProps) {
     async function fetchEnrollmentsAsync() {
       const response = await fetchEnrollments({ ...filters, keyword: debouncedQuery, page, userId: userData?.id });
       if (response) {
-        setEnrollments({ ...response, items: enrollments?.items?.filter((x) => x?.status === "COMPLETED") || [] });
+        setEnrollments((x) => ({ ...response, items: x?.items?.filter((x) => x?.status === "COMPLETED") || [] }));
       }
     }
     fetchEnrollmentsAsync();
-  }, [fetchEnrollments, filters, debouncedQuery, page, userData?.id, enrollments?.items]);
+  }, [fetchEnrollments, filters, debouncedQuery, page, userData?.id]);
 
   return (
     <Box>

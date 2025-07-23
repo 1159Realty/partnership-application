@@ -4,6 +4,7 @@ import {
   IProperty,
   PropertyFormPayload,
   PropertyMarketPrice,
+  PropertyTotal,
   UpdatePropertyFormPayload,
 } from "./property.types";
 import { z } from "zod";
@@ -36,9 +37,6 @@ function useProperty() {
       totalLandSize: z
         .number({ message: "Total land size must be a number" })
         .min(1, { message: "Overdue interest must be greater than 0" }),
-      installmentInterest: z
-        .number({ message: "Installment interest must be a number" })
-        .min(1, { message: "Land Size must be greater than 0" }),
       overDueInterest: z
         .number({ message: "Overdue interest must be a number" })
         .min(1, { message: "Overdue interest must be greater than 0" }),
@@ -49,7 +47,10 @@ function useProperty() {
       availableLandSizes: z
         .array(z.object({ price: z.number(), size: z.number() }))
         .nonempty({ message: "At least one land size is required" }),
-      paymentDurationOptions: z.array(z.number()).optional(),
+
+      paymentDurationOptions: z
+        .array(z.object({ interest: z.number(), duration: z.number() }))
+        .nonempty({ message: "At least one duration is required" }),
 
       propertyPic: z.any().superRefine((file, ctx) => {
         if (!file?.size) {
@@ -210,6 +211,27 @@ ${args?.includeDisabled ? `&includeDisabled=${args.includeDisabled}` : ""}`
     }
   }, []);
 
+  const fetchPropertiesTotal = useCallback(async (args?: FetchPropertiesArgs): Promise<number | null> => {
+    try {
+      const response = await getClient<PropertyTotal | null>(
+        `properties/count-properties?${args?.propertyName ? `&propertyName=${args.propertyName}` : ""}${
+          args?.stateId ? `&stateId=${args.stateId}` : ""
+        }
+${args?.lgaId ? `&lgaId=${args.lgaId}` : ""}
+${args?.areaId ? `&areaId=${args.areaId}` : ""}
+${args?.status ? `&status=${args.status}` : ""}
+${args?.includeDisabled ? `&includeDisabled=${args.includeDisabled}` : ""}`
+      );
+      if (response?.statusCode === 200) {
+        return response?.result?.count || null;
+      }
+      return null;
+    } catch (error) {
+      console.error(`Unable to fetch properties total\n. ${formatError(error)}`);
+      return null;
+    }
+  }, []);
+
   const fetchProperty = useCallback(async (id: string): Promise<IProperty | null> => {
     try {
       const response = await getClient<IProperty | null>(`properties/${id}`);
@@ -247,6 +269,7 @@ ${args?.includeDisabled ? `&includeDisabled=${args.includeDisabled}` : ""}`
     fetchProperties,
     updateProperty,
     fetchProperty,
+    fetchPropertiesTotal,
   };
 }
 

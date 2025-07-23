@@ -47,9 +47,3 @@ export interface IPageParams {
 }
 
 export type ApiResult<T> = true | null | T;
-
-export interface IAvailableLandSize {
-  size: number;
-  price: number;
-  marketValue?: number;
-}
