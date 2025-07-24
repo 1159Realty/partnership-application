@@ -11,10 +11,12 @@ function useRelease() {
     try {
       const response = await getClient<PaginatedResponse<IRelease> | null>(
         `release-recipients/releases?page=${args?.page || 1}&limit=${args?.limit || 10}${
-          args?.userId ? `&userId=${args.userId}` : ""
-        }${args?.enrolmentId ? `&enrolmentId=${args.enrolmentId}` : ""}${args?.type ? `&type=${args.type}` : ""}${
-          args?.status ? `&status=${args.status}` : ""
-        }`
+          args?.revocationRecipientId ? `&revocationRecipientId=${args.revocationRecipientId}` : ""
+        }${args?.commissionRecipientId ? `&commissionRecipientId=${args.commissionRecipientId}` : ""}${
+          args?.type ? `&type=${args.type}` : ""
+        }${args?.status ? `&status=${args.status}` : ""}${
+          args?.revocationEnrolmentId ? `&revocationEnrolmentId=${args.revocationEnrolmentId}` : ""
+        }${args?.commissionEnrolmentId ? `&commissionEnrolmentId=${args.commissionEnrolmentId}` : ""}`
       );
       if (response?.statusCode === 200) {
         return response?.result;

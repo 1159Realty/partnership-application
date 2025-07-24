@@ -70,6 +70,7 @@ function useEnrollment() {
       outrightPayment: z.boolean(),
       agentId: z.string({ message: "This field is required" }).nonempty({ message: "This field is required" }),
       leadType: z.string().optional(),
+      createdAt: z.any().optional(),
     });
 
     const validation = schema.safeParse(payload);
@@ -88,6 +89,7 @@ function useEnrollment() {
           installmentDuration: validation?.data?.installmentDuration,
           outrightPayment: validation?.data?.outrightPayment,
           leadType: validation?.data?.leadType,
+          createdAt: validation?.data?.createdAt || undefined,
         };
 
         response = await postClient<IEnrollment>("enrolments", data);

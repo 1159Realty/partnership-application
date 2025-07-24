@@ -21,14 +21,18 @@ import { IEnrollment } from "@/lib/api/enrollment/types";
 import { useEnrollment } from "@/lib/api/enrollment/useEnrollment";
 
 export interface IReleaseFilter {
-  userId?: string;
-  enrolmentId?: string;
+  revocationRecipientId?: string;
+  commissionRecipientId?: string;
+  revocationEnrolmentId?: string;
+  commissionEnrolmentId?: string;
   status?: ReleaseStatus;
   type?: ReleaseType;
 }
 interface ILocalFilter {
-  userId?: AutoCompleteWithSubOptions;
-  enrolmentId?: AutoCompleteWithSubOptions;
+  revocationRecipientId?: AutoCompleteWithSubOptions;
+  commissionRecipientId?: AutoCompleteWithSubOptions;
+  revocationEnrolmentId?: AutoCompleteWithSubOptions;
+  commissionEnrolmentId?: AutoCompleteWithSubOptions;
   status?: ReleaseStatus;
   type?: ReleaseType;
 }
@@ -45,13 +49,21 @@ const ReleaseFilters = ({ setFilters, filters }: Props) => {
   const [showFilters, setShowFilters] = useState(false);
   const [localFilters, setLocalFilters] = useState<ILocalFilter>({});
 
-  const [recipients, setRecipients] = useState<PaginatedResponse<User> | null>(null);
-  const [userQuery, setUserQuery] = useState("");
-  const [debouncedRecipientQuery] = useDebounce(userQuery, 700);
+  const [revocationRecipients, setRevocationRecipients] = useState<PaginatedResponse<User> | null>(null);
+  const [revocationRecipientQuery, setRevocationRecipientQuery] = useState("");
+  const [debouncedRevocationRecipientQuery] = useDebounce(revocationRecipientQuery, 700);
 
-  const [enrollments, setEnrollments] = useState<PaginatedResponse<IEnrollment> | null>(null);
-  const [enrollmentQuery, setEnrollmentQuery] = useState("");
-  const [debouncedEnrollmentQuery] = useDebounce(enrollmentQuery, 700);
+  const [commissionRecipients, setCommissionRecipients] = useState<PaginatedResponse<User> | null>(null);
+  const [commissionRecipientQuery, setCommissionRecipientQuery] = useState("");
+  const [debouncedCommissionRecipientQuery] = useDebounce(commissionRecipientQuery, 700);
+
+  const [revocationEnrollments, setRevocationEnrollments] = useState<PaginatedResponse<IEnrollment> | null>(null);
+  const [revocationEnrollmentQuery, setRevocationEnrollmentQuery] = useState("");
+  const [debouncedRevocationEnrollmentQuery] = useDebounce(revocationEnrollmentQuery, 700);
+
+  const [commissionEnrollments, setCommissionEnrollments] = useState<PaginatedResponse<IEnrollment> | null>(null);
+  const [commissionEnrollmentQuery, setCommissionEnrollmentQuery] = useState("");
+  const [debouncedCommissionEnrollmentQuery] = useDebounce(commissionEnrollmentQuery, 700);
 
   const is_active = objectHasValue(filters) ? "active" : "in-active";
 
@@ -75,8 +87,10 @@ const ReleaseFilters = ({ setFilters, filters }: Props) => {
   const handleFilter = () => {
     const payload: IReleaseFilter = {
       ...localFilters,
-      userId: localFilters?.userId?.id,
-      enrolmentId: localFilters?.enrolmentId?.id,
+      revocationRecipientId: localFilters?.revocationRecipientId?.id,
+      commissionRecipientId: localFilters?.commissionRecipientId?.id,
+      revocationEnrolmentId: localFilters?.revocationEnrolmentId?.id,
+      commissionEnrolmentId: localFilters?.commissionEnrolmentId?.id,
     };
 
     // console.log(payload);
@@ -87,27 +101,51 @@ const ReleaseFilters = ({ setFilters, filters }: Props) => {
 
   useEffect(() => {
     async function fetchUserAsync() {
-      const response = await fetchUsers({ page: 1, limit: 10, keyword: debouncedRecipientQuery, byClientOnly: true });
+      const response = await fetchUsers({ page: 1, limit: 10, keyword: debouncedRevocationRecipientQuery, byClientOnly: true });
       if (response) {
-        setRecipients(response);
+        setRevocationRecipients(response);
       }
     }
     fetchUserAsync();
-  }, [fetchUsers, debouncedRecipientQuery]);
+  }, [fetchUsers, debouncedRevocationRecipientQuery]);
+
+  useEffect(() => {
+    async function fetchUserAsync() {
+      const response = await fetchUsers({ page: 1, limit: 10, keyword: debouncedCommissionRecipientQuery, roleId: "agent" });
+      if (response) {
+        setCommissionRecipients(response);
+      }
+    }
+    fetchUserAsync();
+  }, [fetchUsers, debouncedCommissionRecipientQuery]);
 
   useEffect(() => {
     async function getData() {
       const response = await fetchEnrollments({
         page: 1,
         limit: 10,
-        keyword: debouncedEnrollmentQuery,
+        keyword: debouncedRevocationEnrollmentQuery,
       });
       if (response) {
-        setEnrollments(response);
+        setRevocationEnrollments(response);
       }
     }
     getData();
-  }, [fetchEnrollments, debouncedEnrollmentQuery]);
+  }, [fetchEnrollments, debouncedRevocationEnrollmentQuery]);
+
+  useEffect(() => {
+    async function getData() {
+      const response = await fetchEnrollments({
+        page: 1,
+        limit: 10,
+        keyword: debouncedCommissionEnrollmentQuery,
+      });
+      if (response) {
+        setCommissionEnrollments(response);
+      }
+    }
+    getData();
+  }, [fetchEnrollments, debouncedCommissionEnrollmentQuery]);
 
   return (
     <Box>
@@ -159,10 +197,10 @@ const ReleaseFilters = ({ setFilters, filters }: Props) => {
 
             <AutoCompleteWithSub
               fullWidth
-              renderInputLabel="Recipient"
-              onBlur={() => setUserQuery("")}
+              renderInputLabel="Revocation recipient"
+              onBlur={() => setRevocationRecipientQuery("")}
               options={
-                recipients?.items?.map((i) => ({
+                revocationRecipients?.items?.map((i) => ({
                   label: getUserName(i),
                   sub: `${i?.email}"`,
                   id: i?.id,
@@ -170,24 +208,49 @@ const ReleaseFilters = ({ setFilters, filters }: Props) => {
               }
               onChange={(_, value) => {
                 if (value) {
-                  handleChange("userId", value);
+                  handleChange("revocationRecipientId", value);
                 }
               }}
               onInputChange={(_, value) => {
                 if (!value) {
-                  handleChange("userId", null);
+                  handleChange("revocationRecipientId", null);
                 }
-                setUserQuery(value);
+                setRevocationRecipientQuery(value);
               }}
-              value={localFilters?.userId?.label || ""}
+              value={localFilters?.revocationRecipientId?.label || ""}
             />
 
             <AutoCompleteWithSub
               fullWidth
-              renderInputLabel="Enrollment"
-              onBlur={() => setEnrollmentQuery("")}
+              renderInputLabel="Commission recipient"
+              onBlur={() => setCommissionRecipientQuery("")}
               options={
-                enrollments?.items?.map((x) => ({
+                commissionRecipients?.items?.map((i) => ({
+                  label: getUserName(i),
+                  sub: `${i?.email}"`,
+                  id: i?.id,
+                })) || []
+              }
+              onChange={(_, value) => {
+                if (value) {
+                  handleChange("commissionRecipientId", value);
+                }
+              }}
+              onInputChange={(_, value) => {
+                if (!value) {
+                  handleChange("commissionRecipientId", null);
+                }
+                setCommissionRecipientQuery(value);
+              }}
+              value={localFilters?.commissionRecipientId?.label || ""}
+            />
+
+            <AutoCompleteWithSub
+              fullWidth
+              renderInputLabel="Revocation enrollment"
+              onBlur={() => setRevocationEnrollmentQuery("")}
+              options={
+                revocationEnrollments?.items?.map((x) => ({
                   label: x?.property?.propertyName,
                   id: x?.id,
                   sub: `Land size:${x?.landSize}, Installment duration: ${x?.installmentDuration} months`,
@@ -195,16 +258,41 @@ const ReleaseFilters = ({ setFilters, filters }: Props) => {
               }
               onChange={(_, value) => {
                 if (value) {
-                  handleChange("enrolmentId", value);
+                  handleChange("revocationEnrolmentId", value);
                 }
               }}
               onInputChange={(_, value) => {
                 if (!value) {
-                  handleChange("enrolmentId", null);
+                  handleChange("revocationEnrolmentId", null);
                 }
-                setEnrollmentQuery(value);
+                setRevocationEnrollmentQuery(value);
               }}
-              value={localFilters.enrolmentId?.label || ""}
+              value={localFilters.revocationEnrolmentId?.label || ""}
+            />
+
+            <AutoCompleteWithSub
+              fullWidth
+              renderInputLabel="Commission enrollment"
+              onBlur={() => setCommissionEnrollmentQuery("")}
+              options={
+                commissionEnrollments?.items?.map((x) => ({
+                  label: x?.property?.propertyName,
+                  id: x?.id,
+                  sub: `Land size:${x?.landSize}, Installment duration: ${x?.installmentDuration} months`,
+                })) || []
+              }
+              onChange={(_, value) => {
+                if (value) {
+                  handleChange("commissionEnrolmentId", value);
+                }
+              }}
+              onInputChange={(_, value) => {
+                if (!value) {
+                  handleChange("commissionEnrolmentId", null);
+                }
+                setCommissionEnrollmentQuery(value);
+              }}
+              value={localFilters.commissionEnrolmentId?.label || ""}
             />
           </FilterFieldsWrapper>
 

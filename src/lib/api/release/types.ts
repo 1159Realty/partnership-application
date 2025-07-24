@@ -38,8 +38,10 @@ interface IRelease {
 interface FetchReleasesArgs {
   page?: number;
   limit?: number;
-  userId?: string;
-  enrolmentId?: string;
+  revocationRecipientId?: string;
+  commissionRecipientId?: string;
+  revocationEnrolmentId?: string;
+  commissionEnrolmentId?: string;
   status?: ReleaseStatus;
   type?: ReleaseType;
 }

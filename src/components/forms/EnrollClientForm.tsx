@@ -28,6 +28,9 @@ import {
   leadTypes,
 } from "@/lib/api/enrollment/types";
 import { useEnrollment } from "@/lib/api/enrollment/useEnrollment";
+import { DatePicker } from "../Inputs/DatePicker";
+import { Dayjs } from "dayjs";
+import { formatAsIsoString } from "@/services/dateTime";
 
 export interface EnrollmentFormState {
   error: ValidationError<EnrollmentPayload>;
@@ -112,6 +115,7 @@ function EnrollClientForm({ showEnrollClient, onClose, onCreate, propertyId, cli
       installmentInterest: formState.outrightPayment ? 0 : interest || 0,
       installmentDuration: +formState.installmentDuration,
       leadType: formState?.leadType,
+      createdAt: formatAsIsoString(formState?.createdAt),
     };
 
     const { error, result } = await createEnrollment(initialState, payload);
@@ -326,6 +330,22 @@ function EnrollClientForm({ showEnrollClient, onClose, onCreate, propertyId, cli
               ))}
             </Box>
           )}
+
+          <Box px="16px">
+            <DatePicker
+              onChange={(value: Dayjs | null) => {
+                handleChange("createdAt", value);
+              }}
+              value={formState?.createdAt}
+              label="Enrollment date"
+            />
+
+            {error?.createdAt?.map((error, i) => (
+              <Box key={i}>
+                <ErrorText>{error}</ErrorText>
+              </Box>
+            ))}
+          </Box>
 
           <Box px="16px">
             <Select

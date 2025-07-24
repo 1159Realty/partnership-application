@@ -1,6 +1,7 @@
 import { AutoCompleteWithSubOptions } from "@/components/Inputs";
 import { IProperty } from "../property/property.types";
 import { User } from "../user/user.types";
+import { Dayjs } from "dayjs";
 
 const ENROLLMENT_STATUSES = ["ONGOING", "CANCELLED", "COMPLETED", "FREEZE"] as const;
 type EnrollmentStatus = (typeof ENROLLMENT_STATUSES)[number];
@@ -34,6 +35,7 @@ interface IEnrollment {
 interface EnrollmentPayload {
   clientId: string;
   agentId?: string;
+  createdAt?: string;
   leadType?: string;
   propertyId: string;
   landSize: number;
@@ -53,6 +55,7 @@ interface EnrollmentValidationPayload {
   installmentInterest: number;
   installmentDuration: number;
   outrightPayment: boolean;
+  createdAt?: string;
 }
 
 interface EnrollmentFormPayload {
@@ -66,6 +69,7 @@ interface EnrollmentFormPayload {
   installmentDuration: number | "";
   outrightPayment: boolean;
   overDueInterest: number | "";
+  createdAt?: Dayjs | null;
 }
 
 interface FetchEnrollmentArgs {
