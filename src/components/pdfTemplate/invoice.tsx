@@ -46,7 +46,7 @@ function InvoiceTemplate({ isOpen, onClose, makePayment, invoice }: InvoiceTempl
   const today = new Date().toISOString();
   const isPaid = invoice?.status === "PAID";
   const statusMessage = isPaid ? "Payment Successful" : "Payment Pending";
-  const customerName = getUserName(userData);
+  const customerName = getUserName(invoice?.enrolment?.client);
   const propertyName = invoice?.enrolment?.property?.propertyName || "-";
 
   const previousNotPaid = invoice?.previousNotPaid;
