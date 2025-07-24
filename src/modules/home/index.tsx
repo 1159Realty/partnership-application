@@ -10,7 +10,7 @@ interface Props {
 }
 
 async function Home({ propertyId }: Props) {
-  const propertiesTotalDataResponse = fetchPropertiesTotal();
+  const propertiesTotalDataResponse = fetchPropertiesTotal({ status: "AVAILABLE" });
   const propertiesDataResponse = fetchProperties();
   const propertyDataResponse = propertyId ? fetchProperty(propertyId) : undefined;
 

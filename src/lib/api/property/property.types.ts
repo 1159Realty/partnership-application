@@ -90,6 +90,17 @@ interface FetchPropertiesArgs {
   limit?: number;
 }
 
+interface FetchPropertiesTotalArgs {
+  propertyName?: string;
+  stateId?: string;
+  lgaId?: string;
+  areaId?: string;
+  status?: PropertyStatus;
+  includeDisabled?: boolean;
+  page?: number;
+  limit?: number;
+}
+
 interface PropertyMarketPrice {
   marketValue: number;
   size: number;
@@ -111,6 +122,7 @@ export type {
   PropertyMarketPrice,
   PropertyLandType,
   PropertyTotal,
+  FetchPropertiesTotalArgs,
 };
 
 export { PROPERTY_LAND_TYPE };

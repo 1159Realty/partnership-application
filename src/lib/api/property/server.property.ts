@@ -1,6 +1,6 @@
 import { formatError } from "@/services/errors";
 import { PaginatedResponse } from "../api.types";
-import { FetchPropertiesArgs, IProperty, PropertyTotal } from "./property.types";
+import { FetchPropertiesArgs, FetchPropertiesTotalArgs, IProperty, PropertyTotal } from "./property.types";
 import { getServer } from "../sever.api";
 
 async function fetchProperties(args?: FetchPropertiesArgs): Promise<PaginatedResponse<IProperty> | null> {
@@ -23,7 +23,7 @@ ${args?.includeDisabled ? `&includeDisabled=${args.includeDisabled}` : ""}`);
   }
 }
 
-async function fetchPropertiesTotal(args?: FetchPropertiesArgs): Promise<number | null> {
+async function fetchPropertiesTotal(args?: FetchPropertiesTotalArgs): Promise<number | null> {
   try {
     const response = await getServer<PropertyTotal | null>(`properties/count-properties?${
       args?.propertyName ? `&propertyName=${args.propertyName}` : ""

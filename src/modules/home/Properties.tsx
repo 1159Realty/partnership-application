@@ -85,7 +85,7 @@ function Properties({
 
   useEffect(() => {
     async function getTotal() {
-      setTotalProperties(await fetchPropertiesTotal());
+      setTotalProperties(await fetchPropertiesTotal({ status: "AVAILABLE" }));
     }
     getTotal();
   }, [fetchPropertiesTotal]);

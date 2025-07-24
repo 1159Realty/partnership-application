@@ -1,6 +1,7 @@
 "use client";
 import {
   FetchPropertiesArgs,
+  FetchPropertiesTotalArgs,
   IProperty,
   PropertyFormPayload,
   PropertyMarketPrice,
@@ -211,7 +212,7 @@ ${args?.includeDisabled ? `&includeDisabled=${args.includeDisabled}` : ""}`
     }
   }, []);
 
-  const fetchPropertiesTotal = useCallback(async (args?: FetchPropertiesArgs): Promise<number | null> => {
+  const fetchPropertiesTotal = useCallback(async (args?: FetchPropertiesTotalArgs): Promise<number | null> => {
     try {
       const response = await getClient<PropertyTotal | null>(
         `properties/count-properties?${args?.propertyName ? `&propertyName=${args.propertyName}` : ""}${
