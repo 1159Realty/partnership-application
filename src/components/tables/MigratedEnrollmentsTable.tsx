@@ -143,7 +143,7 @@ function EnrollmentsTable({ data, page, limit, onLimitChange, onPageChange, onRo
         formatCurrency(x?.price),
         formatCurrency(x?.totalAmount),
         formatCurrency(x?.balanceLeft),
-        `${addCommas(x?.landSize) || "-"} SQM`,
+        `${addCommas(x?.landSize) || "-"} ${x?.property?.category === "HOSTEL" ? "UNIT" : "SQM"}`,
         `${addCommas(x.installmentDuration) || "-"} Month(s)`,
         x.outrightPayment ? "Yes" : "No",
         x?.plotId || "N/A",

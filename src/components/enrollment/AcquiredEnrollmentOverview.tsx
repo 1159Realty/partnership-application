@@ -12,6 +12,8 @@ interface Props {
 
 function AcquiredEnrollmentOverview({ enrollment }: Props) {
   const marketValue = enrollment?.property?.availableLandSizes?.find((x) => x?.size === enrollment?.landSize)?.marketValue;
+  const unit = enrollment?.property?.category === "HOSTEL" ? "UNIT" : "SQM";
+
   const overview = [
     {
       title: "State",
@@ -31,7 +33,7 @@ function AcquiredEnrollmentOverview({ enrollment }: Props) {
     },
     {
       title: "Land Size",
-      value: `${enrollment?.landSize || 0} SQM`,
+      value: `${enrollment?.landSize || 0} ${unit}`,
     },
     {
       title: "Plot Id",

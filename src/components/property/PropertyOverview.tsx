@@ -12,6 +12,8 @@ interface Props {
 }
 
 function PropertyOverview({ property, landSize }: Props) {
+  const unit = property?.category === "HOSTEL" ? "UNIT" : "SQM";
+
   const overview = [
     {
       title: "State",
@@ -31,11 +33,11 @@ function PropertyOverview({ property, landSize }: Props) {
     },
     {
       title: "Land Sizes",
-      value: `${landSize || property?.availableLandSizes?.map((x) => x.size).join(", ")} (SQM)`,
+      value: `${landSize || property?.availableLandSizes?.map((x) => x.size).join(", ")} (${unit})`,
     },
     {
       title: "Remaining Land Size",
-      value: property?.status === "AVAILABLE" ? `${addCommas(property?.remainingLandSize)} SQM` : "N/A",
+      value: property?.status === "AVAILABLE" ? `${addCommas(property?.remainingLandSize)} ${unit}` : "N/A",
     },
 
     {

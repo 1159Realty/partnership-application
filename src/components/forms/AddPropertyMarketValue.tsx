@@ -38,6 +38,8 @@ function AddMarketPrice({ property, handleClose, handleReloadProperties }: Props
   const [size, setSize] = useState("");
   const [pricePerSize, setPricePerSize] = useState("");
 
+  const unit = property?.category === "HOSTEL" ? "UNIT" : "SQM";
+
   function addNewItem() {
     const sizeValue = parseInt(size);
     const priceValue = parseInt(pricePerSize);
@@ -123,7 +125,7 @@ function AddMarketPrice({ property, handleClose, handleReloadProperties }: Props
                   items={(property?.availableLandSizes || [])
                     ?.filter((x) => !marketValue?.some((mv) => mv?.size === x?.size))
                     .map((x) => ({
-                      label: `${x?.size} SQM`,
+                      label: `${x?.size} ${unit}`,
                       id: x?.size?.toString(),
                     }))}
                   value={size}
@@ -167,7 +169,7 @@ function AddMarketPrice({ property, handleClose, handleReloadProperties }: Props
           {marketValue.map((i) => (
             <Stack direction={"row"} alignItems={"center"} spacing={"10px"} key={i.size}>
               <MobileB1MGray900>
-                {i?.size} SQM - ₦{i?.marketValue}
+                {i?.size} {unit} - ₦{i?.marketValue}
               </MobileB1MGray900>
               <XCircle
                 onClick={() => {
