@@ -23,12 +23,13 @@ function useProperty() {
     let formState = { ...initialState };
 
     const schema = z.object({
+      category: z.string().nonempty({ message: "This field is required" }),
       propertyName: z.string().nonempty({ message: "This field is required" }),
       stateId: z.string().nonempty({ message: "This field is required" }),
       lgaId: z.string().nonempty({ message: "This field is required" }),
       areaId: z.string().nonempty({ message: "This field is required" }),
       address: z.string().nonempty({ message: "This field is required" }),
-      landType: z.string().nonempty({ message: "This field is required" }),
+      landType: payload.category === "LAND" ? z.string().nonempty({ message: "This field is required" }) : z.any(),
       videoUrl: z
         .string()
         .optional()
@@ -36,8 +37,8 @@ function useProperty() {
           message: "Must be a valid YouTube or Instagram Embed reel url",
         }),
       totalLandSize: z
-        .number({ message: "Total land size must be a number" })
-        .min(1, { message: "Overdue interest must be greater than 0" }),
+        .number({ message: "Total size must be a number" })
+        .min(1, { message: "Total size must be greater than 0" }),
       overDueInterest: z
         .number({ message: "Overdue interest must be a number" })
         .min(1, { message: "Overdue interest must be greater than 0" }),
@@ -45,9 +46,15 @@ function useProperty() {
         .number({ message: "Installment period must be a number" })
         .min(1, { message: "Installment period must be greater than 0" }),
 
-      availableLandSizes: z
-        .array(z.object({ price: z.number(), size: z.number() }))
-        .nonempty({ message: "At least one land size is required" }),
+      availableLandSizes:
+        payload.category === "LAND"
+          ? z.array(z.object({ price: z.number(), size: z.number() })).nonempty({ message: "At least one land size is required" })
+          : z.any(),
+
+      price:
+        payload.category === "LAND"
+          ? z.any()
+          : z.number({ message: "Price must be a number" }).min(1, { message: "Price must be greater than 0" }),
 
       paymentDurationOptions: z
         .array(z.object({ interest: z.number(), duration: z.number() }))
@@ -85,6 +92,19 @@ function useProperty() {
         if (uploadedImageResponse) {
           data.propertyPic = uploadedImageResponse?.url;
         }
+
+        if (payload.category === "HOSTEL") {
+          data.availableLandSizes = [
+            {
+              size: 1,
+              price: data?.price,
+            },
+          ];
+          data.landType = undefined;
+        }
+        // price must be removed
+        data.price = undefined;
+
         response = await postClient<IProperty>("properties", data);
 
         if (response?.statusCode === 200 || response?.statusCode === 201) {

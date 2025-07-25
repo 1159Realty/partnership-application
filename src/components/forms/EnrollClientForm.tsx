@@ -83,8 +83,12 @@ function EnrollClientForm({ showEnrollClient, onClose, onCreate, propertyId, cli
   const [propertyQuery, setPropertyQuery] = useState("");
   const [debouncedPropertyQuery] = useDebounce(propertyQuery, 700);
 
+  const isHostelCategory = property?.category === "HOSTEL";
+
   const interest = property?.paymentDurationOptions?.find((x) => x?.duration == formState?.installmentDuration)?.interest;
-  const price = property?.availableLandSizes?.find((x) => x?.size == formState?.landSize)?.price;
+  const price = isHostelCategory
+    ? (property?.availableLandSizes?.find((x) => x?.size == formState?.landSize)?.price || 0) * (+formState.landSize || 0)
+    : property?.availableLandSizes?.find((x) => x?.size == formState?.landSize)?.price;
 
   function handleChange(field: keyof EnrollmentFormPayload, value: unknown) {
     handleReset(field);
@@ -397,27 +401,47 @@ function EnrollClientForm({ showEnrollClient, onClose, onCreate, propertyId, cli
             ))}
           </Box>
 
-          <Box px="16px">
-            <Select
-              label="Land Sizes"
-              items={
-                property?.availableLandSizes?.map((availableLandSize) => ({
-                  id: availableLandSize?.size?.toString(),
-                  label: availableLandSize?.size?.toString(),
-                })) || []
-              }
-              onChange={(e) => {
-                handleChange("landSize", e.target.value);
-              }}
-              name="landSize"
-              value={formState.landSize}
-            />
-            {error?.landSize?.map((error, i) => (
-              <Box key={i}>
-                <ErrorText>{error}</ErrorText>
-              </Box>
-            ))}
-          </Box>
+          {isHostelCategory ? (
+            <Box px="16px">
+              <TextField
+                fullWidth
+                value={formState.landSize}
+                label="Land Size"
+                slotProps={{
+                  input: {
+                    endAdornment: <InputAdornment position="start">UNIT</InputAdornment>,
+                  },
+                }}
+              />
+              {error?.landSize?.map((error, i) => (
+                <Box key={i}>
+                  <ErrorText>{error}</ErrorText>
+                </Box>
+              ))}
+            </Box>
+          ) : (
+            <Box px="16px">
+              <Select
+                label="Land Size"
+                items={
+                  property?.availableLandSizes?.map((availableLandSize) => ({
+                    id: availableLandSize?.size?.toString(),
+                    label: availableLandSize?.size?.toString(),
+                  })) || []
+                }
+                onChange={(e) => {
+                  handleChange("landSize", e.target.value);
+                }}
+                name="landSize"
+                value={formState.landSize}
+              />
+              {error?.landSize?.map((error, i) => (
+                <Box key={i}>
+                  <ErrorText>{error}</ErrorText>
+                </Box>
+              ))}
+            </Box>
+          )}
 
           <Box px="16px">
             <TextField
@@ -427,6 +451,9 @@ function EnrollClientForm({ showEnrollClient, onClose, onCreate, propertyId, cli
               label="Price"
               slotProps={{
                 inputLabel: { shrink: true },
+                input: {
+                  endAdornment: <InputAdornment position="start">₦</InputAdornment>,
+                },
               }}
             />
             {error?.price?.map((error, i) => (
@@ -445,6 +472,9 @@ function EnrollClientForm({ showEnrollClient, onClose, onCreate, propertyId, cli
                 label="Interest"
                 slotProps={{
                   inputLabel: { shrink: true },
+                  input: {
+                    endAdornment: <InputAdornment position="start">%</InputAdornment>,
+                  },
                 }}
               />
               {error?.installmentInterest?.map((error, i) => (

@@ -2,6 +2,10 @@ import { FileType } from "../file-upload/file-upload.types";
 import { ILga, IState, ISummarizedArea } from "../location/location.types";
 
 const PROPERTY_LAND_TYPE = ["INDUSTRIAL", "COMMERCIAL", "RESIDENTIAL", "FARMLAND", "MIXED"] as const;
+type PropertyLandType = (typeof PROPERTY_LAND_TYPE)[number];
+
+const PROPERTY_CATEGORY = ["LAND", "HOSTEL"] as const;
+type PropertyCategory = (typeof PROPERTY_CATEGORY)[number];
 
 export interface IAvailableLandSize {
   size: number;
@@ -13,9 +17,8 @@ export interface IPaymentDuration {
   interest: number;
 }
 
-type PropertyLandType = (typeof PROPERTY_LAND_TYPE)[number];
-
 type PropertyPayload = {
+  category: PropertyCategory;
   propertyName: string;
   propertyPic: string;
   stateId: string;
@@ -23,6 +26,7 @@ type PropertyPayload = {
   areaId: string;
   totalLandSize: number;
   availableLandSizes: IAvailableLandSize[];
+  price?: number;
   paymentDurationOptions: IPaymentDuration[];
   status?: PropertyStatus;
   overDueInterest: number;
@@ -33,6 +37,7 @@ type PropertyPayload = {
 };
 
 type PropertyFormPayload = {
+  category: PropertyCategory;
   propertyName: string;
   propertyPic: FileType | "";
   stateId: string;
@@ -42,6 +47,7 @@ type PropertyFormPayload = {
   overDueInterest: number | "";
   installmentPeriod: number | "";
   availableLandSizes: IAvailableLandSize[];
+  price?: number | "";
   paymentDurationOptions: IPaymentDuration[];
   videoUrl?: string;
   landType: string;
@@ -58,6 +64,7 @@ type UpdatePropertyFormPayload = {
 };
 
 type IProperty = {
+  category: PropertyCategory;
   id: string;
   propertyName: string;
   propertyPic: string;
@@ -123,6 +130,7 @@ export type {
   PropertyLandType,
   PropertyTotal,
   FetchPropertiesTotalArgs,
+  PropertyCategory,
 };
 
-export { PROPERTY_LAND_TYPE };
+export { PROPERTY_LAND_TYPE, PROPERTY_CATEGORY };

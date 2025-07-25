@@ -15,6 +15,7 @@ import { XCircle } from "@phosphor-icons/react";
 import { ValidationError } from "@/services/validation/zod";
 import {
   IProperty,
+  PROPERTY_CATEGORY,
   PROPERTY_LAND_TYPE,
   PropertyFormPayload,
   PropertyPayload,
@@ -56,6 +57,7 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
   const { fetchLgas, fetchAreas } = useLocation();
 
   const [formState, setFormState] = useState<PropertyFormPayload>({
+    category: "LAND",
     propertyName: "",
     propertyPic: "",
     stateId: "",
@@ -63,6 +65,7 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
     areaId: "",
     totalLandSize: "",
     availableLandSizes: [],
+    price: "",
     paymentDurationOptions: [],
     overDueInterest: 1.5,
     installmentPeriod: 32,
@@ -81,6 +84,8 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
   const [pricePerSize, setPricePerSize] = useState("");
 
   const [files, setFiles] = useState<FileType[]>([]);
+
+  const isHostelCategory = formState?.category === "HOSTEL";
 
   const onClose = () => {
     setShowCreateProperty(false);
@@ -163,6 +168,7 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
     const payload = { ...formState };
     payload.propertyPic = files[0];
     payload.totalLandSize = parseInt(payload.totalLandSize.toString());
+    payload.price = isHostelCategory ? parseInt((payload?.price || 0).toString()) : 0;
     payload.overDueInterest = parseFloat(payload.overDueInterest?.toString() || "");
     payload.installmentPeriod = parseInt(payload.installmentPeriod?.toString() || "");
 
@@ -225,6 +231,24 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
           <div className="flex flex-col mt-8 gap-4">
             <div className="flex flex-col gap-4  px-4">
               <MobileB1MGray900>PROPERTY DESCRIPTION</MobileB1MGray900>
+
+              <Box>
+                <Select
+                  label="Category"
+                  value={formState.category}
+                  items={PROPERTY_CATEGORY.map((x) => ({
+                    id: x,
+                    label: capitalizeAndSpace(x),
+                  }))}
+                  onChange={(e) => handleChange("category", e.target.value as string)}
+                />
+                {error?.category?.map((error, i) => (
+                  <Box key={i}>
+                    <ErrorText>{error}</ErrorText>
+                  </Box>
+                ))}
+              </Box>
+
               <Box>
                 <TextField
                   fullWidth
@@ -240,22 +264,24 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
                 ))}
               </Box>
 
-              <Box>
-                <Select
-                  label="Land Type"
-                  value={formState.landType}
-                  items={PROPERTY_LAND_TYPE.map((x) => ({
-                    id: x,
-                    label: capitalizeAndSpace(x),
-                  }))}
-                  onChange={(e) => handleChange("landType", e.target.value as string)}
-                />
-                {error?.landType?.map((error, i) => (
-                  <Box key={i}>
-                    <ErrorText>{error}</ErrorText>
-                  </Box>
-                ))}
-              </Box>
+              {!isHostelCategory && (
+                <Box>
+                  <Select
+                    label="Land Type"
+                    value={formState.landType}
+                    items={PROPERTY_LAND_TYPE.map((x) => ({
+                      id: x,
+                      label: capitalizeAndSpace(x),
+                    }))}
+                    onChange={(e) => handleChange("landType", e.target.value as string)}
+                  />
+                  {error?.landType?.map((error, i) => (
+                    <Box key={i}>
+                      <ErrorText>{error}</ErrorText>
+                    </Box>
+                  ))}
+                </Box>
+              )}
 
               <Box>
                 <TextField
@@ -266,7 +292,7 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
                   label="Total Size"
                   slotProps={{
                     input: {
-                      endAdornment: <InputAdornment position="start">SQM</InputAdornment>,
+                      endAdornment: <InputAdornment position="start">{isHostelCategory ? "UNIT" : "SQM"}</InputAdornment>,
                     },
                   }}
                 />
@@ -276,83 +302,107 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
                   </Box>
                 ))}
               </Box>
+
+              {isHostelCategory && (
+                <Box>
+                  <TextField
+                    fullWidth
+                    onChange={(e) => handleChange("price", e.target.value)}
+                    name="price"
+                    value={formState.price}
+                    label="Price"
+                    slotProps={{
+                      input: {
+                        endAdornment: <InputAdornment position="start">₦</InputAdornment>,
+                      },
+                    }}
+                  />
+                  {error?.price?.map((error, i) => (
+                    <Box key={i}>
+                      <ErrorText>{error}</ErrorText>
+                    </Box>
+                  ))}
+                </Box>
+              )}
             </div>
             <Divider />
 
-            <div className="flex flex-col gap-4 px-4">
-              <MobileB1MGray900>PROPERTY SIZE</MobileB1MGray900>
-              <Box>
-                <Stack direction={"row"}>
-                  <Box mr="10px">
-                    <TextField
-                      fullWidth
-                      slotProps={{
-                        input: {
-                          endAdornment: <InputAdornment position="start">SQM</InputAdornment>,
-                        },
-                      }}
-                      value={size}
-                      onChange={(e) => {
-                        handleReset("availableLandSizes");
-                        setSize(e.target.value);
-                      }}
-                      label="Size"
-                    />
-                  </Box>
-                  <Box>
-                    <TextField
-                      fullWidth
-                      slotProps={{
-                        input: {
-                          endAdornment: <InputAdornment position="start">₦</InputAdornment>,
-                        },
-                      }}
-                      value={pricePerSize}
-                      onChange={(e) => {
-                        handleReset("availableLandSizes");
-                        setPricePerSize(e.target.value);
-                      }}
-                      label="Price"
-                    />
-                  </Box>
-                </Stack>
-                {error?.availableLandSizes?.map((error, i) => (
-                  <Box key={i}>
-                    <ErrorText>{error}</ErrorText>
-                  </Box>
-                ))}
-              </Box>
+            {!isHostelCategory && (
+              <div className="flex flex-col gap-4 px-4">
+                <MobileB1MGray900>PROPERTY SIZE</MobileB1MGray900>
+                <Box>
+                  <Stack direction={"row"}>
+                    <Box mr="10px">
+                      <TextField
+                        fullWidth
+                        slotProps={{
+                          input: {
+                            endAdornment: <InputAdornment position="start">SQM</InputAdornment>,
+                          },
+                        }}
+                        value={size}
+                        onChange={(e) => {
+                          handleReset("availableLandSizes");
+                          setSize(e.target.value);
+                        }}
+                        label="Size"
+                      />
+                    </Box>
+                    <Box>
+                      <TextField
+                        fullWidth
+                        slotProps={{
+                          input: {
+                            endAdornment: <InputAdornment position="start">₦</InputAdornment>,
+                          },
+                        }}
+                        value={pricePerSize}
+                        onChange={(e) => {
+                          handleReset("availableLandSizes");
+                          setPricePerSize(e.target.value);
+                        }}
+                        label="Price"
+                      />
+                    </Box>
+                  </Stack>
+                  {error?.availableLandSizes?.map((error, i) => (
+                    <Box key={i}>
+                      <ErrorText>{error}</ErrorText>
+                    </Box>
+                  ))}
+                </Box>
 
-              <Stack>
-                <Button
-                  onClick={() => {
-                    handleReset("availableLandSizes");
-                    addNewItem("size");
-                  }}
-                  startIcon={<Plus weight="bold" />}
-                  sx={{ width: "fit-content" }}
-                >
-                  Add new
-                </Button>
-              </Stack>
-
-              {formState.availableLandSizes.map((i) => (
-                <Stack direction={"row"} alignItems={"center"} spacing={"10px"} key={i.size}>
-                  <MobileB1MGray900>
-                    {i.size} SQM - ₦{i.price}
-                  </MobileB1MGray900>
-                  <XCircle
+                <Stack>
+                  <Button
                     onClick={() => {
                       handleReset("availableLandSizes");
-                      removeItem("size", i.size);
+                      addNewItem("size");
                     }}
-                    size={20}
-                    weight="fill"
-                    cursor={"pointer"}
-                  />
+                    startIcon={<Plus weight="bold" />}
+                    sx={{ width: "fit-content" }}
+                  >
+                    Add new
+                  </Button>
                 </Stack>
-              ))}
-            </div>
+
+                {formState.availableLandSizes.map((i) => (
+                  <Stack direction={"row"} alignItems={"center"} spacing={"10px"} key={i.size}>
+                    <MobileB1MGray900>
+                      {i.size} SQM - ₦{i.price}
+                    </MobileB1MGray900>
+                    <XCircle
+                      onClick={() => {
+                        handleReset("availableLandSizes");
+                        removeItem("size", i.size);
+                      }}
+                      size={20}
+                      weight="fill"
+                      cursor={"pointer"}
+                    />
+                  </Stack>
+                ))}
+              </div>
+            )}
             <Divider />
 
             <div className="flex flex-col gap-4 px-4">
@@ -431,6 +481,7 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
                 </Stack>
               ))}
             </div>
+
             <Divider />
 
             <div className="flex flex-col gap-4 px-4">
