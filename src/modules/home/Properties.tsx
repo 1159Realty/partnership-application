@@ -12,7 +12,6 @@ import { useDebounce } from "use-debounce";
 import { Pagination } from "@/components/pagination";
 import { NoListItemCard } from "@/components/cards/NoItemCard";
 import { Warehouse } from "@phosphor-icons/react/dist/ssr";
-import { EnrollClientForm } from "@/components/forms/EnrollClientForm";
 import { ScheduleAppointmentForm } from "@/components/forms/ScheduleAppointmentForm";
 import { IAvailability } from "@/lib/api/availability/availability.types";
 import { IState } from "@/lib/api/location/location.types";
@@ -37,7 +36,7 @@ function Properties({
   const { fetchProperties, fetchPropertiesTotal } = useProperty();
   const { fetchAvailabilities } = useAvailability();
 
-  const { query, filters, setEnrollPropertyId, setSchedulePropertyId, enrollPropertyId, schedulePropertyId } = useHomeContext();
+  const { query, filters, setEnrollPropertyId, setSchedulePropertyId, schedulePropertyId } = useHomeContext();
   const [debouncedQuery] = useDebounce(query, 700);
 
   const [availabilities, setAvailabilities] = useState(availabilityData);
@@ -127,11 +126,7 @@ function Properties({
         </Box>
       )}
       <PropertyAction property={property} handleClose={handlePropertyClose} />
-      <EnrollClientForm
-        propertyId={enrollPropertyId}
-        showEnrollClient={Boolean(enrollPropertyId)}
-        onClose={() => setEnrollPropertyId(null)}
-      />
+
       <ScheduleAppointmentForm
         availabilityData={availabilities}
         propertyId={property?.id || null}

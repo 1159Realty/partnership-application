@@ -14,37 +14,68 @@ interface Props {
 function PropertyOverview({ property, landSize }: Props) {
   const unit = property?.category === "HOSTEL" ? "UNIT" : "SQM";
 
-  const overview = [
-    {
-      title: "State",
-      value: property?.state?.state || "N/A",
-    },
-    {
-      title: "Area",
-      value: property?.area?.area || "N/A",
-    },
-    {
-      title: "Land Mark",
-      value: property?.address || "N/A",
-    },
-    {
-      title: "Land Type",
-      value: capitalizeAndSpace(property?.landType || "") || "N/A",
-    },
-    {
-      title: "Land Sizes",
-      value: `${landSize || property?.availableLandSizes?.map((x) => x.size).join(", ")} (${unit})`,
-    },
-    {
-      title: "Remaining Land Size",
-      value: property?.status === "AVAILABLE" ? `${addCommas(property?.remainingLandSize)} ${unit}` : "N/A",
-    },
+  const overview =
+    property?.category === "HOSTEL"
+      ? [
+          {
+            title: "State",
+            value: property?.state?.state || "N/A",
+          },
+          {
+            title: "Area",
+            value: property?.area?.area || "N/A",
+          },
+          {
+            title: "Land Mark",
+            value: property?.address || "N/A",
+          },
 
-    {
-      title: "Payment Method",
-      value: `Outright${property?.paymentDurationOptions.length ? ", Installment" : ""}`,
-    },
-  ];
+          {
+            title: "Total Units",
+            value: property?.status === "AVAILABLE" ? `${addCommas(property?.totalLandSize)} ${unit}(s)` : "N/A",
+          },
+
+          {
+            title: "Available Units",
+            value: property?.status === "AVAILABLE" ? `${addCommas(property?.remainingLandSize)} ${unit}(s)` : "N/A",
+          },
+
+          {
+            title: "Payment Method",
+            value: `Outright${property?.paymentDurationOptions.length ? ", Installment" : ""}`,
+          },
+        ]
+      : [
+          {
+            title: "State",
+            value: property?.state?.state || "N/A",
+          },
+          {
+            title: "Area",
+            value: property?.area?.area || "N/A",
+          },
+          {
+            title: "Land Mark",
+            value: property?.address || "N/A",
+          },
+          {
+            title: "Land Type",
+            value: capitalizeAndSpace(property?.landType || "") || "N/A",
+          },
+          {
+            title: "Property Sizes",
+            value: `${landSize || property?.availableLandSizes?.map((x) => x.size).join(", ")} (${unit})`,
+          },
+          {
+            title: "Available Plots",
+            value: property?.status === "AVAILABLE" ? `${addCommas(property?.remainingLandSize)} ${unit}(s)` : "N/A",
+          },
+
+          {
+            title: "Payment Method",
+            value: `Outright${property?.paymentDurationOptions.length ? ", Installment" : ""}`,
+          },
+        ];
   return (
     <div className="flex flex-col gap-4">
       <MobileB2MGray900>Overview</MobileB2MGray900>

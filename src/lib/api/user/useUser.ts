@@ -4,11 +4,8 @@ import {
   AssignRolePayload,
   BankDetailFormPayload,
   BankDetailPayload,
-  ClientReportTotal,
   FetchUsersArg,
-  GenderReport,
   IVerifyBankDetail,
-  TrafficReport,
   User,
   UserFormPayload,
   UserPayload,
@@ -29,20 +26,15 @@ import { uploadFile } from "../file-upload";
 
 function useUser() {
   const fetchUserData = useCallback(async (): Promise<User | null> => {
-    let session: Session | null = null;
     try {
-      session = getClientSession();
-      const userId = session?.user?.id;
-      if (!userId) return null;
-
-      const response = await getClient<User>(`users/${session?.user?.id}`);
+      const response = await getClient<User>(`users/profile`);
       if (response?.result) {
         await updateClientSessionUser(response.result);
         return response.result;
       }
       return null;
     } catch (error) {
-      console.error(`Unable to fetch user with id=${session?.user?.id}\n. ${formatError(error)}`);
+      console.error(`Unable to fetch user\n. ${formatError(error)}`);
       return null;
     }
   }, []);
@@ -51,12 +43,17 @@ function useUser() {
     let session: Session | null = null;
     try {
       session = getClientSession();
-      const userId = session?.user?.id;
-      if (!userId) return null;
+      const roleId = session?.user?.roleId;
+      if (!roleId) return null;
 
-      const response = await getClient<PaginatedResponse<User>>(`users?page=${args?.page || 1}&limit=${args?.limit || 10}${
-        args?.keyword ? `&keyword=${args.keyword}` : ""
-      }${args?.roleId ? `&roleId=${args.roleId}` : ""}
+      const response =
+        roleId === "agent"
+          ? await getClient<PaginatedResponse<User>>(
+              `users/agent?page=${args?.page || 1}&limit=${args?.limit || 10}${args?.keyword ? `&keyword=${args.keyword}` : ""}`
+            )
+          : await getClient<PaginatedResponse<User>>(`users/moderator?page=${args?.page || 1}&limit=${args?.limit || 10}${
+              args?.keyword ? `&keyword=${args.keyword}` : ""
+            }${args?.roleId ? `&roleId=${args.roleId}` : ""}
 ${args?.referralId ? `&referralId=${args.referralId}` : ""}
 ${args?.byClientOnly ? `&byClientOnly=${args.byClientOnly}` : ""}
 ${args?.byModerators ? `&byModerators=${args.byModerators}` : ""}
@@ -73,7 +70,12 @@ ${args?.sort ? `&sort=${args.sort}` : ""}`);
 
   const fetchUserById = useCallback(async (id: string): Promise<User | null> => {
     try {
-      const response = await getClient<User>(`users/${id}`);
+      const session = getClientSession();
+      const roleId = session?.user?.roleId;
+      if (!roleId) return null;
+
+      const response =
+        roleId === "agent" ? await getClient<User>(`users/${id}/agent`) : await getClient<User>(`users/${id}/moderator`);
       if (response?.result) {
         return response.result;
       }
@@ -155,8 +157,7 @@ ${args?.sort ? `&sort=${args.sort}` : ""}`);
           trafficSource: payload?.trafficSource,
         };
 
-        const session = getClientSession();
-        response = await putClient<User>(`users/${session?.user?.id}`, data);
+        response = await putClient<User>(`users/profile`, data);
 
         // Show result if request was successful
         if (response?.statusCode === 200 || response?.statusCode === 201) {
@@ -258,8 +259,7 @@ ${args?.sort ? `&sort=${args.sort}` : ""}`);
           trafficSource: payload?.trafficSource,
         };
 
-        const session = getClientSession();
-        response = await putClient<User>(`users/${session?.user?.id}`, data);
+        response = await putClient<User>(`users/profile`, data);
 
         // Show result if request was successful
         if (response?.statusCode === 200 || response?.statusCode === 201) {
@@ -414,44 +414,44 @@ ${args?.sort ? `&sort=${args.sort}` : ""}`);
     []
   );
 
-  const fetchClientReportTotal = useCallback(async (): Promise<ClientReportTotal | null> => {
-    try {
-      const response = await getClient<ClientReportTotal | null>(`invoices/totals`);
-      if (response?.statusCode === 200) {
-        return response?.result;
-      }
-      return null;
-    } catch (error) {
-      console.error(formatError(error));
-      return null;
-    }
-  }, []);
+  // const fetchClientReportTotal = useCallback(async (): Promise<ClientReportTotal | null> => {
+  //   try {
+  //     const response = await getClient<ClientReportTotal | null>(`invoices/totals`);
+  //     if (response?.statusCode === 200) {
+  //       return response?.result;
+  //     }
+  //     return null;
+  //   } catch (error) {
+  //     console.error(formatError(error));
+  //     return null;
+  //   }
+  // }, []);
 
-  const fetchGenderReport = useCallback(async (): Promise<GenderReport | null> => {
-    try {
-      const response = await getClient<GenderReport | null>(`invoices/totals`);
-      if (response?.statusCode === 200) {
-        return response?.result;
-      }
-      return null;
-    } catch (error) {
-      console.error(formatError(error));
-      return null;
-    }
-  }, []);
+  // const fetchGenderReport = useCallback(async (): Promise<GenderReport | null> => {
+  //   try {
+  //     const response = await getClient<GenderReport | null>(`invoices/totals`);
+  //     if (response?.statusCode === 200) {
+  //       return response?.result;
+  //     }
+  //     return null;
+  //   } catch (error) {
+  //     console.error(formatError(error));
+  //     return null;
+  //   }
+  // }, []);
 
-  const fetchTrafficReport = useCallback(async (): Promise<TrafficReport[] | null> => {
-    try {
-      const response = await getClient<TrafficReport[] | null>(`invoices/totals`);
-      if (response?.statusCode === 200) {
-        return response?.result;
-      }
-      return null;
-    } catch (error) {
-      console.error(formatError(error));
-      return null;
-    }
-  }, []);
+  // const fetchTrafficReport = useCallback(async (): Promise<TrafficReport[] | null> => {
+  //   try {
+  //     const response = await getClient<TrafficReport[] | null>(`invoices/totals`);
+  //     if (response?.statusCode === 200) {
+  //       return response?.result;
+  //     }
+  //     return null;
+  //   } catch (error) {
+  //     console.error(formatError(error));
+  //     return null;
+  //   }
+  // }, []);
 
   return {
     fetchUserData,
@@ -462,9 +462,9 @@ ${args?.sort ? `&sort=${args.sort}` : ""}`);
     fetchUserById,
     updateAccountDetails,
     verifyBankDetails,
-    fetchClientReportTotal,
-    fetchGenderReport,
-    fetchTrafficReport,
+    // fetchClientReportTotal,
+    // fetchGenderReport,
+    // fetchTrafficReport,
   };
 }
 

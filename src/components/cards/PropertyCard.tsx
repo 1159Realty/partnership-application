@@ -124,7 +124,7 @@ function PropertyCard({
           {`${
             isHostelCategory ? property?.totalLandSize : landSize || property?.availableLandSizes?.map((x) => x.size).join(", ")
           }`}{" "}
-          {isHostelCategory ? "UNIT(s)" : `${{ unit }}`}
+          {isHostelCategory ? "UNIT(s)" : `(${unit})`}
         </MobileCap2MGray500>
       </PropertyCardDetailWrapper>
     </PropertyCardWrapper>

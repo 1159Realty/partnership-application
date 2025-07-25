@@ -87,7 +87,7 @@ function EnrollClientForm({ showEnrollClient, onClose, onCreate, propertyId, cli
 
   const interest = property?.paymentDurationOptions?.find((x) => x?.duration == formState?.installmentDuration)?.interest;
   const price = isHostelCategory
-    ? (property?.availableLandSizes?.find((x) => x?.size == formState?.landSize)?.price || 0) * (+formState.landSize || 0)
+    ? (property?.availableLandSizes?.[0].price || 0) * (+formState.landSize || 0)
     : property?.availableLandSizes?.find((x) => x?.size == formState?.landSize)?.price;
 
   function handleChange(field: keyof EnrollmentFormPayload, value: unknown) {
@@ -406,7 +406,10 @@ function EnrollClientForm({ showEnrollClient, onClose, onCreate, propertyId, cli
               <TextField
                 fullWidth
                 value={formState.landSize}
-                label="Land Size"
+                label={isHostelCategory ? "Units" : "Land Size"}
+                onChange={(e) => {
+                  handleChange("landSize", e.target.value);
+                }}
                 slotProps={{
                   input: {
                     endAdornment: <InputAdornment position="start">UNIT</InputAdornment>,
