@@ -44,7 +44,7 @@ function useUser() {
     try {
       session = getClientSession();
       const roleId = session?.user?.roleId;
-      if (!roleId) return null;
+      if (!roleId || roleId === "client") return null;
 
       const response =
         roleId === "agent"
@@ -72,7 +72,7 @@ ${args?.sort ? `&sort=${args.sort}` : ""}`);
     try {
       const session = getClientSession();
       const roleId = session?.user?.roleId;
-      if (!roleId) return null;
+      if (!roleId || roleId === "client") return null;
 
       const response =
         roleId === "agent" ? await getClient<User>(`users/${id}/agent`) : await getClient<User>(`users/${id}/moderator`);
