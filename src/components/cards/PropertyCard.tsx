@@ -40,6 +40,9 @@ function PropertyCard({
 }: Props) {
   const { setAlert } = useAlertContext();
 
+  const isHostelCategory = property?.category === "HOSTEL";
+  const unit = isHostelCategory ? "UNIT" : "SQM";
+
   const propertyUrl = `${ROUTES["/"]}?propertyId=${property?.id}`;
   const videoUrl = property?.videoUrl?.trim();
 
@@ -112,12 +115,17 @@ function PropertyCard({
 
           {showRemainingLandSize && (
             <MobileCap2M style={{ color: COLORS.greenNormalActive }}>
-              {addCommas(property?.remainingLandSize, true) || 0} SQM
+              {addCommas(property?.remainingLandSize, true) || 0} {unit}(s)
             </MobileCap2M>
           )}
         </Stack>
 
-        <MobileCap2MGray500>{landSize || property?.availableLandSizes?.map((x) => x.size).join(", ")} (SQM)</MobileCap2MGray500>
+        <MobileCap2MGray500>
+          {`${
+            isHostelCategory ? property?.totalLandSize : landSize || property?.availableLandSizes?.map((x) => x.size).join(", ")
+          }`}{" "}
+          {isHostelCategory ? "UNIT(s)" : `${{ unit }}`}
+        </MobileCap2MGray500>
       </PropertyCardDetailWrapper>
     </PropertyCardWrapper>
   );
