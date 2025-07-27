@@ -15,7 +15,6 @@ import { ApiResponse, PaginatedResponse, Session } from "../api.types";
 import { useCallback } from "react";
 import { UserFormState } from "@/components/forms/OnboardClient";
 import { z } from "zod";
-import { formatPhoneNumber } from "@/services/string";
 import { formatZodErrors } from "@/services/validation/zod";
 import { getClientSession, updateClientSessionUser } from "@/lib/session/client";
 import { getClient, putClient } from "../client.api";
@@ -92,23 +91,12 @@ ${args?.sort ? `&sort=${args.sort}` : ""}`);
     const schema = z.object({
       firstName: z.string().nonempty({ message: "This field is required" }),
       lastName: z.string().nonempty({ message: "This field is required" }),
-      phoneNumber: z.string().superRefine((phoneNumber, ctx) => {
-        if (!phoneNumber.trim()) {
-          ctx.addIssue({
-            code: z.ZodIssueCode.custom,
-            message: "This field is required",
-          });
-          return;
-        }
-
-        if (!formatPhoneNumber(phoneNumber)) {
-          ctx.addIssue({
-            code: z.ZodIssueCode.custom,
-            message: "Invalid phone number",
-          });
-          return;
-        }
-      }),
+      phoneNumber: z
+        .string()
+        .min(8, "Invalid phone number")
+        .max(15, "Invalid phone number")
+        .regex(/^\+?\d+$/, "Invalid phone number")
+        .nonempty({ message: "This field is required" }),
       profilePic: z
         .any()
         .superRefine((file, ctx) => {
@@ -147,7 +135,7 @@ ${args?.sort ? `&sort=${args.sort}` : ""}`);
         const data: UserPayload = {
           firstName: payload?.firstName,
           lastName: payload?.lastName,
-          phoneNumber: formatPhoneNumber(payload?.phoneNumber) || "",
+          phoneNumber: payload?.phoneNumber || "",
           profilePic: profilePic || undefined,
           country: payload?.country || undefined,
           stateId: payload?.stateId || undefined,
@@ -200,23 +188,13 @@ ${args?.sort ? `&sort=${args.sort}` : ""}`);
       country: z.string().optional(),
       stateId: z.string().optional(),
       residentialAddress: z.string().optional(),
-      phoneNumber: z.string().superRefine((phoneNumber, ctx) => {
-        if (!phoneNumber.trim()) {
-          ctx.addIssue({
-            code: z.ZodIssueCode.custom,
-            message: "This field is required",
-          });
-          return;
-        }
+      phoneNumber: z
+        .string()
+        .min(8, "Invalid phone number")
+        .max(15, "Invalid phone number")
+        .regex(/^\+?\d+$/, "Invalid phone number")
+        .nonempty({ message: "This field is required" }),
 
-        if (!formatPhoneNumber(phoneNumber)) {
-          ctx.addIssue({
-            code: z.ZodIssueCode.custom,
-            message: "Invalid phone number",
-          });
-          return;
-        }
-      }),
       profilePic: z.any().superRefine((file, ctx) => {
         if (file && !(file instanceof File)) {
           ctx.addIssue({
@@ -249,7 +227,7 @@ ${args?.sort ? `&sort=${args.sort}` : ""}`);
         const data: UserPayload = {
           firstName: payload?.firstName,
           lastName: payload?.lastName,
-          phoneNumber: formatPhoneNumber(payload?.phoneNumber) || "",
+          phoneNumber: payload?.phoneNumber || "",
           profilePic: profilePic || undefined,
           country: payload?.country || undefined,
           stateId: payload?.stateId || undefined,

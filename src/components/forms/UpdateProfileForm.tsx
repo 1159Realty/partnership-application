@@ -23,6 +23,7 @@ import { Eye, EyeSlash, Gear } from "@phosphor-icons/react/dist/ssr";
 import { COLORS } from "@/utils/colors";
 import { ChangePasswordPayload } from "@/lib/api/auth/auth.types";
 import { useAuth } from "@/lib/api/auth/useAuth";
+import { PhoneNumberInput } from "../Inputs/TextField";
 
 interface UpdateProfileFormProps {
   isOpen: boolean;
@@ -210,17 +211,15 @@ function UpdateProfile({ onClose }: UpdateProfileProps) {
       </Box>
 
       <Box px="16px">
-        <TextField
-          onChange={(e) => handleChange("phoneNumber", e.target.value)}
-          name="phoneNumber"
-          value={formState?.phoneNumber}
+        <PhoneNumberInput
           label="Phone number"
-          slotProps={{
-            input: {
-              startAdornment: <InputAdornment position="start">+234</InputAdornment>,
-            },
+          value={formState?.phoneNumber}
+          onChange={(phone) => {
+            handleChange("phoneNumber", phone);
           }}
+          name="phoneNumber"
         />
+
         {error?.phoneNumber?.map((error, i) => (
           <Box key={i}>
             <ErrorText>{error}</ErrorText>

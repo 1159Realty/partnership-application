@@ -8,7 +8,7 @@ import { COUNTRIES, GENDERS, INVITATIONSOURCES, User, UserFormPayload, UserPaylo
 import { useEffect, useState } from "react";
 import { ValidationError } from "@/services/validation/zod";
 import { FileType } from "@/lib/api/file-upload/file-upload.types";
-import { Box, InputAdornment } from "@mui/material";
+import { Box } from "@mui/material";
 import { ErrorText } from "@/utils/typography";
 import { useUser } from "@/lib/api/user/useUser";
 import { useAlertContext } from "@/contexts/AlertContext";
@@ -21,6 +21,7 @@ import { IState } from "@/lib/api/location/location.types";
 import { capitalizeAndSpace } from "@/services/string";
 import { Divider } from "../divider";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { PhoneNumberInput } from "../Inputs/TextField";
 
 export interface UserFormState {
   error: ValidationError<UserPayload>;
@@ -107,17 +108,6 @@ const ClientOnboarding = () => {
     populateStates();
   }, [fetchStates, userData]);
 
-  // useEffect(() => {
-  //   if (!formState?.stateId) return;
-  //   async function populateLgas() {
-  //     if (!formState?.stateId) return;
-  //     const response = await fetchLgas(formState?.stateId);
-  //     setLgas(response);
-  //   }
-
-  //   populateLgas();
-  // }, [fetchLgas, formState?.stateId]);
-
   useEffect(() => {
     async function populateFormState() {
       if (!userData) {
@@ -192,16 +182,13 @@ const ClientOnboarding = () => {
             </Box>
 
             <Box px="16px">
-              <TextField
-                onChange={(e) => handleChange("phoneNumber", e.target.value)}
-                name="phoneNumber"
-                value={formState?.phoneNumber}
+              <PhoneNumberInput
                 label="Phone number"
-                slotProps={{
-                  input: {
-                    startAdornment: <InputAdornment position="start">+234</InputAdornment>,
-                  },
+                value={formState?.phoneNumber}
+                onChange={(phone) => {
+                  handleChange("phoneNumber", phone);
                 }}
+                name="phoneNumber"
               />
               {error?.phoneNumber?.map((error, i) => (
                 <Box key={i}>

@@ -31,6 +31,8 @@ import { useEnrollment } from "@/lib/api/enrollment/useEnrollment";
 import { DatePicker } from "../Inputs/DatePicker";
 import { Dayjs } from "dayjs";
 import { formatAsIsoString } from "@/services/dateTime";
+import { NumericInput } from "../Inputs/TextField";
+import { formatAsNumber } from "@/services/numbers";
 
 export interface EnrollmentFormState {
   error: ValidationError<EnrollmentPayload>;
@@ -115,7 +117,7 @@ function EnrollClientForm({ showEnrollClient, onClose, onCreate, propertyId, cli
       propertyId: propertyId || formState?.propertyId?.id,
       clientId: clientId || formState.clientId?.id || "",
       landSize: +formState.landSize,
-      price: price || 0,
+      price: formatAsNumber(price),
       installmentInterest: formState.outrightPayment ? 0 : interest || 0,
       installmentDuration: +formState.installmentDuration,
       leadType: formState?.leadType,
@@ -447,7 +449,7 @@ function EnrollClientForm({ showEnrollClient, onClose, onCreate, propertyId, cli
           )}
 
           <Box px="16px">
-            <TextField
+            <NumericInput
               disabled
               fullWidth
               value={price}

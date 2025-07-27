@@ -30,7 +30,7 @@ export interface IEnrollmentFilters {
   stateId?: string;
   lgaId?: string;
   areaId?: string;
-  status?: string;
+  status?: EnrollmentStatus;
 }
 interface ILocalFilter {
   propertyId?: AutoCompleteWithSubOptions;

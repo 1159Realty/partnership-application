@@ -30,7 +30,8 @@ const addCommas = (value?: string | number, abbreviate: boolean = false, noFixed
 const formatCurrency = (value: string | number | undefined, abbreviate: boolean = false): string => {
   if (!value) return "₦0";
 
-  const num = Number(value.toString().replace(/,/g, ""));
+  // const num = Number(value.toString().replace(/,/g, ""));
+  const num = formatAsNumber(value);
   if (isNaN(num)) return "₦0";
 
   if (!abbreviate) {
@@ -59,9 +60,16 @@ const formatCurrency = (value: string | number | undefined, abbreviate: boolean 
 const removeCommas = (num: string, type?: "string"): string | number => {
   const formatted = num.replace(/,/g, "");
   if (!type) {
-    return !isNaN(parseInt(formatted)) ? parseInt(formatted) : formatted;
+    return !isNaN(parseFloat(formatted)) ? parseFloat(formatted) : formatted;
   }
   return formatted;
 };
 
-export { addCommas, removeCommas, formatCurrency };
+const formatAsNumber = (value: string | number | undefined | null): number => {
+  if (typeof value === "number") return value;
+  if (!value) return 0;
+  const formatted = value.replace(/,/g, "");
+  return !isNaN(parseFloat(formatted)) ? parseFloat(formatted) : 0;
+};
+
+export { addCommas, removeCommas, formatCurrency, formatAsNumber };

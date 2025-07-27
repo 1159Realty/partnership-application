@@ -32,6 +32,8 @@ import { COLORS, SEVERITY_COLORS } from "@/utils/colors";
 import { Tooltip } from "../tooltip";
 import { AddMarketPrice } from "./AddPropertyMarketValue";
 import { capitalizeAndSpace } from "@/services/string";
+import { NumericInput } from "../Inputs/TextField";
+import { formatAsNumber, formatCurrency } from "@/services/numbers";
 
 export interface PropertyFormState {
   error: ValidationError<PropertyPayload>;
@@ -93,8 +95,8 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
 
   function addNewItem(type: ListValue) {
     if (type === "duration") {
-      const durationValue = parseInt(duration);
-      const interestValue = parseFloat(interestPerDuration);
+      const durationValue = formatAsNumber(duration);
+      const interestValue = formatAsNumber(interestPerDuration);
 
       if (isNaN(durationValue) || isNaN(interestValue)) {
         setAlert({
@@ -121,8 +123,8 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
       setDuration("");
       setInterestPerDuration("");
     } else {
-      const sizeValue = parseInt(size);
-      const priceValue = parseFloat(pricePerSize);
+      const sizeValue = formatAsNumber(size);
+      const priceValue = formatAsNumber(pricePerSize);
 
       if (isNaN(sizeValue) || isNaN(priceValue)) {
         setAlert({
@@ -166,11 +168,12 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
     setLoading(true);
 
     const payload = { ...formState };
+
     payload.propertyPic = files[0];
-    payload.totalLandSize = parseInt(payload.totalLandSize.toString());
-    payload.price = isHostelCategory ? parseInt((payload?.price || 0).toString()) : 0;
-    payload.overDueInterest = parseFloat(payload.overDueInterest?.toString() || "");
-    payload.installmentPeriod = parseInt(payload.installmentPeriod?.toString() || "");
+    payload.totalLandSize = formatAsNumber(payload?.totalLandSize?.toString());
+    payload.price = isHostelCategory ? formatAsNumber(payload?.price) : 0;
+    payload.overDueInterest = formatAsNumber(payload?.overDueInterest?.toString() || "");
+    payload.installmentPeriod = formatAsNumber(payload?.installmentPeriod?.toString() || "");
 
     const { error, result } = await createProperty(initialState, payload);
 
@@ -284,7 +287,7 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
               )}
 
               <Box>
-                <TextField
+                <NumericInput
                   fullWidth
                   onChange={(e) => handleChange("totalLandSize", e.target.value)}
                   name="totalLandSize"
@@ -305,9 +308,11 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
 
               {isHostelCategory && (
                 <Box>
-                  <TextField
+                  <NumericInput
                     fullWidth
-                    onChange={(e) => handleChange("price", e.target.value)}
+                    onChange={(e) => {
+                      handleChange("price", e.target.value);
+                    }}
                     name="price"
                     value={formState.price}
                     label="Price"
@@ -349,7 +354,7 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
                       />
                     </Box>
                     <Box>
-                      <TextField
+                      <NumericInput
                         fullWidth
                         slotProps={{
                           input: {
@@ -388,7 +393,7 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
                 {formState.availableLandSizes.map((i) => (
                   <Stack direction={"row"} alignItems={"center"} spacing={"10px"} key={i.size}>
                     <MobileB1MGray900>
-                      {i.size} SQM - ₦{i.price}
+                      {i.size} SQM - {formatCurrency(i.price)}
                     </MobileB1MGray900>
                     <XCircle
                       onClick={() => {
@@ -694,7 +699,7 @@ function UpdatePropertyForm({ onUpdate, property, handleClose, handleReloadPrope
 
     const payload = { ...formState };
     payload.propertyPic = files[0];
-    payload.totalLandSize = parseInt(payload.totalLandSize.toString());
+    payload.totalLandSize = formatAsNumber(payload.totalLandSize.toString());
 
     const { error, result } = await updateProperty(initialState, payload);
 
