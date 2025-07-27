@@ -82,6 +82,7 @@ interface FetchEnrollmentArgs {
   areaId?: string;
   page?: number;
   limit?: number;
+  status?: EnrollmentStatus;
 }
 
 interface EnrollmentsReportTotal {

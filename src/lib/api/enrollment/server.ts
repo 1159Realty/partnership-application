@@ -11,7 +11,9 @@ async function fetchEnrollments(args?: FetchEnrollmentArgs): Promise<PaginatedRe
         args?.userId ? `&userId=${args.userId}` : ""
       }${args?.propertyId ? `&propertyId=${args.propertyId}` : ""}${args?.agentId ? `&agentId=${args.agentId}` : ""}${
         args?.stateId ? `&stateId=${args.stateId}` : ""
-      }${args?.lgaId ? `&lgaId=${args.lgaId}` : ""}${args?.areaId ? `&areaId=${args.areaId}` : ""}`
+      }${args?.lgaId ? `&lgaId=${args.lgaId}` : ""}${args?.areaId ? `&areaId=${args.areaId}` : ""}${
+        args?.status ? `&status=${args.status}` : ""
+      }`
     );
 
     if (response?.statusCode === 200) {

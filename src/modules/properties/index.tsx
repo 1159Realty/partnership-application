@@ -11,11 +11,13 @@ async function Properties() {
   const session = await getServerSession();
 
   const statesDataResponse = fetchStates();
-  const enrollmentsDataResponse = fetchEnrollments({ userId: session?.user?.id });
+  const allEnrollmentsDataResponse = fetchEnrollments({ userId: session?.user?.id });
+  const completedEnrollmentsDataResponse = fetchEnrollments({ userId: session?.user?.id, status: "COMPLETED" });
   const interestsDataResponse = fetchInterests({ userId: session?.user?.id });
 
-  const [enrollmentData, states, interestsData] = await Promise.all([
-    enrollmentsDataResponse,
+  const [allEnrollmentData, completedEnrollmentsData, states, interestsData] = await Promise.all([
+    allEnrollmentsDataResponse,
+    completedEnrollmentsDataResponse,
     statesDataResponse,
     interestsDataResponse,
   ]);
@@ -25,7 +27,12 @@ async function Properties() {
       <Stack rowGap={"10px"} mb="32px" flexWrap={"wrap"} direction={"row"} justifyContent={"space-between"} alignItems={"center"}>
         <PageTitle mr={"5px"}>My Properties</PageTitle>
       </Stack>
-      <Main enrollmentData={enrollmentData} interestsData={interestsData} states={states} />
+      <Main
+        allEnrollmentData={allEnrollmentData}
+        completedEnrollmentsData={completedEnrollmentsData}
+        interestsData={interestsData}
+        states={states}
+      />
     </ModulePageWrapper>
   );
 }

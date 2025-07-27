@@ -12,12 +12,13 @@ import { IEnrollment } from "@/lib/api/enrollment/types";
 import { Acquired } from "./Acquired";
 
 interface PropertiesProps {
-  enrollmentData: PaginatedResponse<IEnrollment> | null;
+  allEnrollmentData: PaginatedResponse<IEnrollment> | null;
+  completedEnrollmentsData: PaginatedResponse<IEnrollment> | null;
   interestsData: PaginatedResponse<IInterest> | null;
   states: IState[] | null;
 }
 
-function Main({ enrollmentData, states, interestsData }: PropertiesProps) {
+function Main({ allEnrollmentData, completedEnrollmentsData, states, interestsData }: PropertiesProps) {
   const [currentTabIndex, setCurrentTabIndex] = React.useState(0);
 
   const tabs = ["Interested", "Enrolled", "Acquired"];
@@ -33,14 +34,9 @@ function Main({ enrollmentData, states, interestsData }: PropertiesProps) {
       {currentTabIndex === 0 ? (
         <Interested states={states} interestsData={interestsData} />
       ) : currentTabIndex === 1 ? (
-        <Enrolled enrollmentData={enrollmentData} states={states} />
+        <Enrolled enrollmentData={allEnrollmentData} states={states} />
       ) : (
-        <Acquired
-          enrollmentData={
-            enrollmentData ? { ...enrollmentData, items: enrollmentData?.items?.filter((x) => x?.status === "COMPLETED") } : null
-          }
-          states={states}
-        />
+        <Acquired enrollmentData={completedEnrollmentsData} states={states} />
       )}
     </Box>
   );

@@ -22,6 +22,7 @@ import { User } from "@/lib/api/user/user.types";
 import { getUserName } from "@/services/string";
 import { getIsModerator } from "@/lib/session/roles";
 import { objectHasValue } from "@/services/objects";
+import { EnrollmentStatus } from "@/lib/api/enrollment/types";
 
 export interface IEnrollmentFilters {
   propertyId?: string;
@@ -29,6 +30,7 @@ export interface IEnrollmentFilters {
   stateId?: string;
   lgaId?: string;
   areaId?: string;
+  status?: string;
 }
 interface ILocalFilter {
   propertyId?: AutoCompleteWithSubOptions;
@@ -36,6 +38,7 @@ interface ILocalFilter {
   stateId?: string;
   lgaId?: string;
   areaId?: string;
+  status?: EnrollmentStatus;
 }
 
 interface Props {

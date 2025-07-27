@@ -42,9 +42,15 @@ function Acquired({ enrollmentData, states }: PropertiesProps) {
 
   useEffect(() => {
     async function fetchEnrollmentsAsync() {
-      const response = await fetchEnrollments({ ...filters, keyword: debouncedQuery, page, userId: userData?.id });
+      const response = await fetchEnrollments({
+        ...filters,
+        keyword: debouncedQuery,
+        page,
+        userId: userData?.id,
+        status: "COMPLETED",
+      });
       if (response) {
-        setEnrollments((x) => ({ ...response, items: x?.items?.filter((x) => x?.status === "COMPLETED") || [] }));
+        setEnrollments(response);
       }
     }
     fetchEnrollmentsAsync();
