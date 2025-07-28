@@ -95,6 +95,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  console.error("Hello World");
+
   return (
     <html lang="en">
       <body>
