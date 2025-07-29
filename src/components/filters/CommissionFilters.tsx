@@ -83,8 +83,6 @@ const CommissionFilters = ({ setFilters, filters }: Props) => {
       userId: localFilters?.userId?.id,
     };
 
-    // console.log(payload);
-
     setFilters(payload);
     onClose();
   };
