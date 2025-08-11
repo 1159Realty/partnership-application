@@ -75,7 +75,6 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
     address: "",
     landType: "",
     videoUrl: "",
-    residentialAddress: "",
     country: "",
   });
   const [error, setError] = useState<ValidationError<PropertyPayload>>({});
@@ -597,19 +596,20 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
                   </>
                 ) : (
 
-                  <Box>
-                    <TextField
-                      onChange={(e) => handleChange("residentialAddress", e.target.value)}
-                      name="residentialAddress"
-                      value={formState?.residentialAddress}
-                      label="Residential address"
-                    />
-                    {error?.residentialAddress?.map((err, i) => (
-                      <Box key={i}>
-                        <ErrorText>{err}</ErrorText>
-                      </Box>
-                    ))}
-                  </Box>
+                 <Box>
+                      <TextField
+                        fullWidth
+                        onChange={(e) => handleChange("address", e.target.value)}
+                        name="address"
+                        value={formState.address}
+                        label="Land mark"
+                      />
+                      {error?.address?.map((err, i) => (
+                        <Box key={i}>
+                          <ErrorText>{err}</ErrorText>
+                        </Box>
+                      ))}
+                    </Box>
                 )}
               </>
 

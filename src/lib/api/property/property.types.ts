@@ -34,7 +34,6 @@ type PropertyPayload = {
   videoUrl?: string;
   landType: string;
   address: string;
-  residentialAddress: string,
   country: string,
 };
 
@@ -54,7 +53,6 @@ type PropertyFormPayload = {
   videoUrl?: string;
   landType: string;
   address: string;
-  residentialAddress: string,
   country: string,
 };
 
