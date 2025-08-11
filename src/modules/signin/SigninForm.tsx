@@ -49,8 +49,12 @@ function SigninForm() {
   }
 
   async function handleSubmit() {
+    const normalizedFormState = {
+      ...formState,
+      email: formState.email.toLowerCase(),
+    };
     setLoading(true);
-    const { error, result } = await login(initialState, formState);
+    const { error, result } = await login(initialState, normalizedFormState);
 
     if (result) {
       const session: Session = {
@@ -92,7 +96,7 @@ function SigninForm() {
         <TextField
           type="email"
           fullWidth
-          onChange={(e) => handleChange("email", e.target.value.toLocaleLowerCase())}
+          onChange={(e) => handleChange("email", e.target.value)}
           name="email"
           label="Email Address"
         />

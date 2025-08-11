@@ -49,8 +49,12 @@ function SignUpForm() {
   }
 
   async function handleSubmit() {
+    const normalizedFormState = {
+      ...formState,
+      email: formState.email.toLowerCase(),
+    };
     setLoading(true);
-    const { error, result } = await register(initialState, formState);
+    const { error, result } = await register(initialState, normalizedFormState);
 
     if (result) {
       const session: Session = {
@@ -92,7 +96,7 @@ function SignUpForm() {
         <TextField
           type="email"
           fullWidth
-          onChange={(e) => handleChange("email", e.target.value.toLowerCase())}
+          onChange={(e) => handleChange("email", e.target.value)}
           value={formState.email}
           name="email"
           label="Email Address"
