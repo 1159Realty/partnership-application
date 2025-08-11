@@ -47,12 +47,12 @@ function SignUpForm() {
     setError((prev) => ({ ...prev, [field]: undefined, error: undefined }));
     setFormState((prev) => ({ ...prev, [field]: value }));
   }
-
+  const normalizedFormState = {
+    ...formState,
+    email: formState.email.toLowerCase(),
+  };
   async function handleSubmit() {
-    const normalizedFormState = {
-      ...formState,
-      email: formState.email.toLowerCase(),
-    };
+
     setLoading(true);
     const { error, result } = await register(initialState, normalizedFormState);
 

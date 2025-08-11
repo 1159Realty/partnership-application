@@ -47,12 +47,13 @@ function SigninForm() {
     setError((prev) => ({ ...prev, [field]: undefined, error: undefined }));
     setFormState((prev) => ({ ...prev, [field]: value }));
   }
-
-  async function handleSubmit() {
-    const normalizedFormState = {
+  const normalizedFormState = {
       ...formState,
       email: formState.email.toLowerCase(),
     };
+
+  async function handleSubmit() {
+    
     setLoading(true);
     const { error, result } = await login(initialState, normalizedFormState);
 
