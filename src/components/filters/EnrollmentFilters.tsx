@@ -6,7 +6,7 @@ import { FadersHorizontal } from "@phosphor-icons/react/dist/ssr";
 import { FilterFieldsWrapper, FilterFlexWrappers, FilterHeader, FilterIconContainer } from "./filters.styles";
 import { MobileB2MGray900, MobileH1SMGray900 } from "@/utils/typography";
 import { HiddenOnMobile } from "@/styles/globals.styles";
-import { AutoComplete, AutoCompleteWithSub, AutoCompleteWithSubOptions, Search } from "@/components/Inputs";
+import { AutoComplete, AutoCompleteWithSub, AutoCompleteWithSubOptions, Search, Select } from "@/components/Inputs";
 import { Button } from "@/components/buttons";
 import { Drawer } from "../drawer";
 import { IArea, ILga, IState } from "@/lib/api/location/location.types";
@@ -19,10 +19,10 @@ import { useProperty } from "@/lib/api/property/useProperty";
 import { useUserContext } from "@/contexts/UserContext";
 import { useUser } from "@/lib/api/user/useUser";
 import { User } from "@/lib/api/user/user.types";
-import { getUserName } from "@/services/string";
+import { capitalizeAndSpace, getUserName } from "@/services/string";
 import { getIsModerator } from "@/lib/session/roles";
 import { objectHasValue } from "@/services/objects";
-import { EnrollmentStatus } from "@/lib/api/enrollment/types";
+import { ENROLLMENT_STATUSES, EnrollmentStatus } from "@/lib/api/enrollment/types";
 
 export interface IEnrollmentFilters {
   propertyId?: string;
@@ -275,8 +275,23 @@ const EnrollmentFilters = ({ states, setFilters, filters, setSearchQuery, search
               }}
               value={(areas || []).find((a) => a.id === localFilters.areaId)?.area || ""}
             />
+            <Select
+              fullWidth
+              label="Status"
+              items={[
+                ...ENROLLMENT_STATUSES.map((x) => ({
+                  label: x === "FREEZE" ? "Frozen" : capitalizeAndSpace(x),
+                  id: x,
+                })),
+                { label: "All", id: "" },
+              ]}
+              onChange={(e) => {
+                handleChange("status", e.target.value);
+              }}
+              value={localFilters?.status}
+            />
           </FilterFieldsWrapper>
-
+              
           <Stack direction={"row"} justifyContent={"center"} alignItems={"center"} spacing={"10px"}>
             <Button fullWidth onClick={handleClearFilters} color="secondary" variant="outlined">
               Clear

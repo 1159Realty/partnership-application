@@ -15,7 +15,7 @@ import { EnrollmentStatus, IEnrollment } from "@/lib/api/enrollment/types";
 import { addCommas, formatCurrency } from "@/services/numbers";
 import { getDateTimeString } from "@/services/dateTime";
 import { StatusPill } from "../pills";
-import { Check, CircleNotch, Warning } from "@phosphor-icons/react/dist/ssr";
+import { Check, CircleNotch, Snowflake, Warning } from "@phosphor-icons/react/dist/ssr";
 
 interface Column {
   id:
@@ -108,7 +108,16 @@ interface Props {
 
 function EnrollmentsTable({ data, page, limit, onLimitChange, onPageChange, onRowClick }: Props) {
   function getInvoiceStatus(status: EnrollmentStatus) {
-    if (status === "CANCELLED" || status === "FREEZE") {
+    if (status === "FREEZE") {
+      return (
+        <StatusPill status="neutral">
+          <Stack direction={"row"} spacing={"3px"} alignItems={"center"}>
+            <Snowflake weight="bold" /> <span>Frozen</span>
+          </Stack>
+        </StatusPill>
+      );
+    }
+    if (status === "CANCELLED") {
       return (
         <StatusPill status="danger">
           <Stack direction={"row"} spacing={"3px"} alignItems={"center"}>
