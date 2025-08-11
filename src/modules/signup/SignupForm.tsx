@@ -92,7 +92,7 @@ function SignUpForm() {
         <TextField
           type="email"
           fullWidth
-          onChange={(e) => handleChange("email", e.target.value)}
+          onChange={(e) => handleChange("email", e.target.value.toLowerCase())}
           value={formState.email}
           name="email"
           label="Email Address"

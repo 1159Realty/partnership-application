@@ -92,7 +92,7 @@ function SigninForm() {
         <TextField
           type="email"
           fullWidth
-          onChange={(e) => handleChange("email", e.target.value)}
+          onChange={(e) => handleChange("email", e.target.value.toLocaleLowerCase())}
           name="email"
           label="Email Address"
         />
