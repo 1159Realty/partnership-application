@@ -247,7 +247,7 @@ export const useNotificationAlert = (notification: INotification | null) => {
       default:
         setContent(null);
     }
-  }, [notification, push]);
+  }, [notification, isModerator, push]);
 
   return {
     content,

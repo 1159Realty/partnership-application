@@ -25,9 +25,9 @@ function useProperty() {
     const schema = z.object({
       category: z.string().nonempty({ message: "This field is required" }),
       propertyName: z.string().nonempty({ message: "This field is required" }),
-      stateId: z.string().nonempty({ message: "This field is required" }),
-      lgaId: z.string().nonempty({ message: "This field is required" }),
-      areaId: z.string().nonempty({ message: "This field is required" }),
+      stateId: z.any(),
+      lgaId: z.any(),
+      areaId: z.any(),
       address: z.string().nonempty({ message: "This field is required" }),
       landType: payload.category === "LAND" ? z.string().nonempty({ message: "This field is required" }) : z.any(),
       videoUrl: z
