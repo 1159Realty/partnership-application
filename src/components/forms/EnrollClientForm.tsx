@@ -29,7 +29,7 @@ import {
 } from "@/lib/api/enrollment/types";
 import { useEnrollment } from "@/lib/api/enrollment/useEnrollment";
 import { DatePicker } from "../Inputs/DatePicker";
-import { Dayjs } from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import { formatAsIsoString } from "@/services/dateTime";
 import { NumericInput } from "../Inputs/TextField";
 import { formatAsNumber } from "@/services/numbers";
@@ -344,6 +344,7 @@ function EnrollClientForm({ showEnrollClient, onClose, onCreate, propertyId, cli
               }}
               value={formState?.createdAt}
               label="Enrollment date"
+              minDate={dayjs()}
             />
 
             {error?.createdAt?.map((error, i) => (

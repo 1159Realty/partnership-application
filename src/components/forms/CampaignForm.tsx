@@ -28,7 +28,7 @@ import { useUser } from "@/lib/api/user/useUser";
 import { COLORS } from "@/utils/colors";
 import { Divider } from "../divider";
 import { DateTimePicker } from "../Inputs/DatePicker";
-import { Dayjs } from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import { formatAsIsoString } from "@/services/dateTime";
 
 export interface CampaignFormState {
@@ -349,6 +349,7 @@ function CampaignForm({ onCreate, onClose, isOpen, templatesData, recipientsGrou
                 }}
                 value={formState?.brevoScheduledAt}
                 label="Schedule"
+                minDateTime={dayjs()}
               />
 
               {error?.message?.map((error, i) => (
