@@ -34,6 +34,7 @@ import { AddMarketPrice } from "./AddPropertyMarketValue";
 import { capitalizeAndSpace } from "@/services/string";
 import { NumericInput } from "../Inputs/TextField";
 import { formatAsNumber, formatCurrency } from "@/services/numbers";
+import { COUNTRIES } from "@/lib/api/user/user.types";
 
 export interface PropertyFormState {
   error: ValidationError<PropertyPayload>;
@@ -74,6 +75,8 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
     address: "",
     landType: "",
     videoUrl: "",
+    residentialAddress: "",
+    country: "",
   });
   const [error, setError] = useState<ValidationError<PropertyPayload>>({});
   const [loading, setLoading] = useState(false);
@@ -491,81 +494,170 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
 
             <div className="flex flex-col gap-4 px-4">
               <MobileB1MGray900>LOCATION</MobileB1MGray900>
+
               <Box>
-                <AutoComplete
-                  fullWidth
-                  isOptionEqualToValue={(option, value) => option.id === value.id}
-                  options={(states || []).map((s) => ({ label: s.state, id: s.id }))}
-                  renderInputLabel="State"
-                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                  onChange={(_, value: any) => {
-                    if (value.id) {
-                      handleChange("stateId", value.id);
-                    }
+                <Select
+                  key={formState?.country}
+                  label="Country"
+                  items={COUNTRIES.map((x) => ({ id: x, label: capitalizeAndSpace(x) }))}
+                  onChange={(e) => {
+                    handleChange("country", e.target.value as string);
                   }}
-                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                  onInputChange={(_, value: any) => {
-                    if (!value) {
-                      handleChange("lgaId", "");
-                    }
-                  }}
-                  value={(states || []).find((s) => s.id === formState.stateId)?.state || ""}
+                  name="country"
+                  value={formState?.country}
                 />
-                {error?.stateId?.map((error, i) => (
+                {error?.country?.map((error, i) => (
                   <Box key={i}>
                     <ErrorText>{error}</ErrorText>
                   </Box>
                 ))}
               </Box>
 
-              <Box>
-                <AutoComplete
-                  options={(lgas || []).map((lga) => ({ label: lga.lga, id: lga.id }))}
-                  renderInputLabel="Lga"
-                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                  onChange={(_, value: any) => {
-                    handleChange("lgaId", value.id);
-                  }}
-                  value={(lgas || []).find((lga) => lga.id === formState.lgaId)?.lga || ""}
-                />
-                {error?.lgaId?.map((error, i) => (
-                  <Box key={i}>
-                    <ErrorText>{error}</ErrorText>
-                  </Box>
-                ))}
-              </Box>
+              <>
+                {formState?.country?.trim().toUpperCase() === "NIGERIA" ? (
+                  <>
+                    {/* State Selection */}
+                    <Box>
+                      <AutoComplete
+                        fullWidth
+                        isOptionEqualToValue={(option, value) => option.id === value.id}
+                        options={(states || []).map((s) => ({ label: s.state, id: s.id }))}
+                        renderInputLabel="State"
+                        onChange={(_, value: any) => {
+                          if (value?.id) {
+                            handleChange("stateId", value.id);
+                          }
+                        }}
+                        onInputChange={(_, value: any) => {
+                          if (!value) {
+                            handleChange("lgaId", "");
+                          }
+                        }}
+                        value={(states || []).find((s) => s.id === formState.stateId)?.state || ""}
+                      />
+                      {error?.stateId?.map((err, i) => (
+                        <Box key={i}>
+                          <ErrorText>{err}</ErrorText>
+                        </Box>
+                      ))}
+                    </Box>
 
-              <Box>
-                <AutoComplete
-                  options={(areas || []).map((a) => ({ label: a.area, id: a.id }))}
-                  renderInputLabel="Area"
-                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                  onChange={(_, value: any) => {
-                    handleChange("areaId", value.id);
-                  }}
-                  value={(areas || []).find((a) => a.id === formState.areaId)?.area || ""}
-                />
-                {error?.areaId?.map((error, i) => (
-                  <Box key={i}>
-                    <ErrorText>{error}</ErrorText>
-                  </Box>
-                ))}
-              </Box>
+                    {/* LGA Selection */}
+                    <Box>
+                      <AutoComplete
+                        options={(lgas || []).map((lga) => ({ label: lga.lga, id: lga.id }))}
+                        renderInputLabel="LGA"
+                        onChange={(_, value: any) => {
+                          if (value?.id) {
+                            handleChange("lgaId", value.id);
+                          }
+                        }}
+                        value={(lgas || []).find((lga) => lga.id === formState.lgaId)?.lga || ""}
+                      />
+                      {error?.lgaId?.map((err, i) => (
+                        <Box key={i}>
+                          <ErrorText>{err}</ErrorText>
+                        </Box>
+                      ))}
+                    </Box>
 
-              <Box>
-                <TextField
-                  fullWidth
-                  onChange={(e) => handleChange("address", e.target.value)}
-                  name="address"
-                  value={formState.address}
-                  label="Land mark"
-                />
-                {error?.address?.map((error, i) => (
-                  <Box key={i}>
-                    <ErrorText>{error}</ErrorText>
+                    {/* Area Selection */}
+                    <Box>
+                      <AutoComplete
+                        options={(areas || []).map((a) => ({ label: a.area, id: a.id }))}
+                        renderInputLabel="Area"
+                        onChange={(_, value: any) => {
+                          if (value?.id) {
+                            handleChange("areaId", value.id);
+                          }
+                        }}
+                        value={(areas || []).find((a) => a.id === formState.areaId)?.area || ""}
+                      />
+                      {error?.areaId?.map((err, i) => (
+                        <Box key={i}>
+                          <ErrorText>{err}</ErrorText>
+                        </Box>
+                      ))}
+                    </Box>
+
+                    <Box>
+                      <TextField
+                        fullWidth
+                        onChange={(e) => handleChange("address", e.target.value)}
+                        name="address"
+                        value={formState.address}
+                        label="Land mark"
+                      />
+                      {error?.address?.map((err, i) => (
+                        <Box key={i}>
+                          <ErrorText>{err}</ErrorText>
+                        </Box>
+                      ))}
+                    </Box>
+                  </>
+                ) : (
+
+                  <Box>
+                    <TextField
+                      onChange={(e) => handleChange("residentialAddress", e.target.value)}
+                      name="residentialAddress"
+                      value={formState?.residentialAddress}
+                      label="Residential address"
+                    />
+                    {error?.residentialAddress?.map((err, i) => (
+                      <Box key={i}>
+                        <ErrorText>{err}</ErrorText>
+                      </Box>
+                    ))}
                   </Box>
-                ))}
-              </Box>
+                )}
+              </>
+
+              <Divider />
+
+              <div className="flex flex-col gap-4">
+                <MobileB1MGray900>INTEREST & OVERDUE</MobileB1MGray900>
+
+                <Box>
+                  <TextField
+                    fullWidth
+                    onChange={(e) => handleChange("overDueInterest", e.target.value)}
+                    name="overDueInterest"
+                    value={formState.overDueInterest}
+                    label="Overdue interest"
+                    slotProps={{
+                      input: {
+                        endAdornment: <InputAdornment position="start">%</InputAdornment>,
+                      },
+                    }}
+                  />
+                  {error?.overDueInterest?.map((error, i) => (
+                    <Box key={i}>
+                      <ErrorText>{error}</ErrorText>
+                    </Box>
+                  ))}
+                </Box>
+
+                <Box>
+                  <TextField
+                    fullWidth
+                    onChange={(e) => handleChange("installmentPeriod", e.target.value)}
+                    name="installmentPeriod"
+                    value={formState.installmentPeriod}
+                    label="Installment period"
+                    slotProps={{
+                      input: {
+                        endAdornment: <InputAdornment position="start">Days</InputAdornment>,
+                      },
+                    }}
+                  />
+                  {error?.installmentPeriod?.map((error, i) => (
+                    <Box key={i}>
+                      <ErrorText>{error}</ErrorText>
+                    </Box>
+                  ))}
+                </Box>
+              </div>
             </div>
             <Divider />
 
