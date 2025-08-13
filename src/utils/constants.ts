@@ -68,15 +68,32 @@ const PROTECTED_ROUTES = [
   "/notifications",
 ] as const;
 
-const UNPROTECTED_ROUTES = ["/sign-in", "/google-auth", "/sign-up", "/forgot-password", "/forgot-password"] as const;
+const UNPROTECTED_ROUTES = [
+  "/sign-in",
+  "/google-auth",
+  "/sign-up",
+  "/forgot-password",
+  "/forgot-password",
+] as const;
 
-const FOOTER_ROUTES = ["/privacy-policy", "/terms-of-service", "/eula"] as const;
+const FOOTER_ROUTES = [
+  "/privacy-policy",
+  "/terms-of-service",
+  "/eula",
+] as const;
 
-const ROUTES_ARRAY = [...PROTECTED_ROUTES, ...UNPROTECTED_ROUTES, ...FOOTER_ROUTES, "/"] as const;
+const ROUTES_ARRAY = [
+  ...PROTECTED_ROUTES,
+  ...UNPROTECTED_ROUTES,
+  ...FOOTER_ROUTES,
+  "/",
+] as const;
 
 type RouteKey = (typeof ROUTES_ARRAY)[number];
 
-const ROUTES: Record<RouteKey, string> = Object.fromEntries(ROUTES_ARRAY.map((item) => [item, item])) as Record<RouteKey, string>;
+const ROUTES: Record<RouteKey, string> = Object.fromEntries(
+  ROUTES_ARRAY.map((item) => [item, item])
+) as Record<RouteKey, string>;
 
 const NO_LAYOUT_ROUTES = [
   ROUTES["/forgot-password"],
@@ -96,8 +113,14 @@ interface INeutralLink {
 }
 
 const NeutralLinks: INeutralLink[] = [
-  { label: "Privacy policy", route: "https://www.1159realty.com/privacy-policy" },
-  { label: "Terms of service", route: "https://www.1159realty.com/terms-of-service" },
+  {
+    label: "Privacy policy",
+    route: "https://www.1159realty.com/privacy-policy",
+  },
+  {
+    label: "Terms of service",
+    route: "https://www.1159realty.com/terms-of-service",
+  },
 ];
 
 interface IPanelItem {
@@ -128,14 +151,22 @@ const agentPanelItems: IPanelItem[] = [
 
 const salesPanelItems: IPanelItem[] = [
   { Icon: SquaresFour, label: "Home", route: ROUTES["/"] },
-  { Icon: Warehouse, label: "Properties", route: ROUTES["/property-management"] },
+  {
+    Icon: Warehouse,
+    label: "Properties",
+    route: ROUTES["/property-management"],
+  },
   { Icon: MapPinLine, label: "Locations", route: ROUTES["/locations"] },
   { Icon: ChartLineUp, label: "Analytics", route: ROUTES["/analytics"] },
 ];
 
 const operationsPanelItems: IPanelItem[] = [
   { Icon: SquaresFour, label: "Home", route: ROUTES["/"] },
-  { Icon: Calendar, label: "Appointments", route: ROUTES["/appointment-management"] },
+  {
+    Icon: Calendar,
+    label: "Appointments",
+    route: ROUTES["/appointment-management"],
+  },
   { Icon: MapPinLine, label: "Locations", route: ROUTES["/locations"] },
   { Icon: ChartLineUp, label: "Analytics", route: ROUTES["/analytics"] },
 ];
@@ -148,7 +179,11 @@ const hrPanelItems: IPanelItem[] = [
 
 const accountingManagerPanelItems: IPanelItem[] = [
   { Icon: SquaresFour, label: "Home", route: ROUTES["/"] },
-  { Icon: Warehouse, label: "Properties", route: ROUTES["/property-management"] },
+  {
+    Icon: Warehouse,
+    label: "Properties",
+    route: ROUTES["/property-management"],
+  },
   { Icon: Receipt, label: "Invoices", route: ROUTES["/invoices"] },
   { Icon: UserSwitch, label: "Enrollments", route: ROUTES["/enrollments"] },
   { Icon: CreditCard, label: "Release", route: ROUTES["/release"] },
@@ -168,7 +203,11 @@ const cstPanelItems: IPanelItem[] = [
   { Icon: FileText, label: "Documents", route: ROUTES["/documents"] },
   { Icon: UserSwitch, label: "Enrollments", route: ROUTES["/enrollments"] },
   { Icon: Receipt, label: "Invoices", route: ROUTES["/invoices"] },
-  { Icon: Calendar, label: "Appointments", route: ROUTES["/appointment-management"] },
+  {
+    Icon: Calendar,
+    label: "Appointments",
+    route: ROUTES["/appointment-management"],
+  },
   { Icon: Megaphone, label: "Campaign", route: ROUTES["/campaign"] },
   { Icon: Headset, label: "Support", route: ROUTES["/support-management"] },
 ];
@@ -178,7 +217,11 @@ const cstManagerPanelItems: IPanelItem[] = [
   { Icon: FileText, label: "Documents", route: ROUTES["/documents"] },
   { Icon: UserSwitch, label: "Enrollments", route: ROUTES["/enrollments"] },
   { Icon: Receipt, label: "Invoices", route: ROUTES["/invoices"] },
-  { Icon: Calendar, label: "Appointments", route: ROUTES["/appointment-management"] },
+  {
+    Icon: Calendar,
+    label: "Appointments",
+    route: ROUTES["/appointment-management"],
+  },
   { Icon: Megaphone, label: "Campaign", route: ROUTES["/campaign"] },
   { Icon: ChartLineUp, label: "Analytics", route: ROUTES["/analytics"] },
   { Icon: Headset, label: "Support", route: ROUTES["/support-management"] },
@@ -186,27 +229,47 @@ const cstManagerPanelItems: IPanelItem[] = [
 
 const managerPanelItems: IPanelItem[] = [
   { Icon: SquaresFour, label: "Home", route: ROUTES["/"] },
-  { Icon: UserSwitch, label: "Enrollments", route: ROUTES["/enrollments"] },
-  { Icon: Receipt, label: "Invoices", route: ROUTES["/invoices"] },
-  { Icon: Warehouse, label: "Properties", route: ROUTES["/property-management"] },
-  { Icon: Calendar, label: "Appointments", route: ROUTES["/appointment-management"] },
-  { Icon: MapPinLine, label: "Locations", route: ROUTES["/locations"] },
-  { Icon: FileText, label: "Documents", route: ROUTES["/documents"] },
-  { Icon: Headset, label: "Support", route: ROUTES["/support-management"] },
-  { Icon: Megaphone, label: "Campaign", route: ROUTES["/campaign"] },
-  { Icon: Handshake, label: "Partners", route: ROUTES["/partners"] },
-  { Icon: CreditCard, label: "Release", route: ROUTES["/release"] },
-  { Icon: ChartLineUp, label: "Analytics", route: ROUTES["/analytics"] },
-  { Icon: UsersThree, label: "Team", route: ROUTES["/teams"] },
+  // { Icon: UserSwitch, label: "Enrollments", route: ROUTES["/enrollments"] },
+  // { Icon: Receipt, label: "Invoices", route: ROUTES["/invoices"] },
+  // {
+  //   Icon: Warehouse,
+  //   label: "Properties",
+  //   route: ROUTES["/property-management"],
+  // },
+  // {
+  //   Icon: Calendar,
+  //   label: "Appointments",
+  //   route: ROUTES["/appointment-management"],
+  // },
+  // { Icon: MapPinLine, label: "Locations", route: ROUTES["/locations"] },
+  // { Icon: FileText, label: "Documents", route: ROUTES["/documents"] },
+  // { Icon: Headset, label: "Support", route: ROUTES["/support-management"] },
+  // { Icon: Megaphone, label: "Campaign", route: ROUTES["/campaign"] },
+  // { Icon: Handshake, label: "Partners", route: ROUTES["/partners"] },
+  // { Icon: CreditCard, label: "Release", route: ROUTES["/release"] },
+  // { Icon: ChartLineUp, label: "Analytics", route: ROUTES["/analytics"] },
+  // { Icon: UsersThree, label: "Team", route: ROUTES["/teams"] },
 ];
 
 const mediaManagerPanelItems: IPanelItem[] = [
   { Icon: SquaresFour, label: "Home", route: ROUTES["/"] },
-  { Icon: Warehouse, label: "Properties", route: ROUTES["/property-management"] },
+  {
+    Icon: Warehouse,
+    label: "Properties",
+    route: ROUTES["/property-management"],
+  },
   { Icon: Megaphone, label: "Campaign", route: ROUTES["/campaign"] },
 ];
 
-const WEEKDAYS = ["SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"] as const;
+const WEEKDAYS = [
+  "SUNDAY",
+  "MONDAY",
+  "TUESDAY",
+  "WEDNESDAY",
+  "THURSDAY",
+  "FRIDAY",
+  "SATURDAY",
+] as const;
 type Weekday = (typeof WEEKDAYS)[number];
 
 export {
