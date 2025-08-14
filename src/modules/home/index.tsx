@@ -8,6 +8,7 @@ import {
   fetchProperty,
 } from "@/lib/api/property/server.property";
 import QrScanner from "../qrCodeScanner";
+import { Search } from "@/components/Inputs";
 
 interface Props {
   propertyId?: string;
@@ -33,6 +34,7 @@ async function Home({ propertyId }: Props) {
   return (
     <HomeContextProvider>
       <HomeWrapper>
+        <Search placeholder="Search by User ID" />
         <QrScanner />
       </HomeWrapper>
     </HomeContextProvider>
