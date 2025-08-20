@@ -37,13 +37,10 @@ export default async function middleware(request: NextRequest) {
   const isSignedIn = Boolean(session);
 
   // Redirect unauthenticated users trying to access protected routes
-  if (
-    (isProtectedRoute(currentPath) || isHomeRoute(request.nextUrl.pathname)) &&
-    !isSignedIn
-  ) {
+  if (isProtectedRoute(currentPath) && !isSignedIn) {
     return NextResponse.redirect(
       new URL(
-        `${ROUTES["/sign-in"]}?redirect=${encodeURIComponent(fullPath)}`,
+        `${ROUTES["/"]}?redirect=${encodeURIComponent(fullPath)}`,
         request.url
       )
     );
