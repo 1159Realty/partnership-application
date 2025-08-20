@@ -3,17 +3,22 @@
 import React, { useEffect, useState } from "react";
 import { Box, Stack } from "@mui/material";
 import { FadersHorizontal } from "@phosphor-icons/react/dist/ssr";
-import { FilterFieldsWrapper, FilterFlexWrappers, FilterHeader, FilterIconContainer } from "./filters.styles";
+import {
+  FilterFieldsWrapper,
+  FilterFlexWrappers,
+  FilterHeader,
+  FilterIconContainer,
+} from "./filters.styles";
 import { MobileB2MGray900, MobileH1SMGray900 } from "@/utils/typography";
 import { HiddenOnMobile } from "@/styles/globals.styles";
 import { AutoComplete, Search } from "@/components/Inputs";
 import { Button } from "@/components/buttons";
 import { Drawer } from "../drawer";
-import { IPropertyFilter } from "@/modules/home/HomeContext";
 import { IArea, ILga, IState } from "@/lib/api/location/location.types";
 import { useLocation } from "@/lib/api/location/useLocation";
 import { SetState } from "@/utils/global-types";
 import { objectHasValue } from "@/services/objects";
+import { IPropertyFilter } from "@/modules/propertyManagement/PropertyManagementContext";
 
 interface Props {
   states: IState[] | null;
@@ -23,7 +28,13 @@ interface Props {
   query: string;
 }
 
-const PropertyFilters = ({ states, setFilters, filters, setQuery, query }: Props) => {
+const PropertyFilters = ({
+  states,
+  setFilters,
+  filters,
+  setQuery,
+  query,
+}: Props) => {
   const { fetchLgas, fetchAreas } = useLocation();
 
   const [showFilters, setShowFilters] = useState(false);
@@ -87,7 +98,10 @@ const PropertyFilters = ({ states, setFilters, filters, setQuery, query }: Props
           />
         </Box>
 
-        <FilterIconContainer is_active={isFilterActive ? "active" : "in-active"} onClick={handleShow}>
+        <FilterIconContainer
+          is_active={isFilterActive ? "active" : "in-active"}
+          onClick={handleShow}
+        >
           <HiddenOnMobile>
             <MobileB2MGray900>Filter</MobileB2MGray900>
           </HiddenOnMobile>
@@ -103,7 +117,10 @@ const PropertyFilters = ({ states, setFilters, filters, setQuery, query }: Props
           <FilterFieldsWrapper>
             <AutoComplete
               fullWidth
-              options={(states || []).map((s) => ({ label: s.state, id: s.id }))}
+              options={(states || []).map((s) => ({
+                label: s.state,
+                id: s.id,
+              }))}
               renderInputLabel="State"
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
               onChange={(_, value: any) => {
@@ -117,11 +134,17 @@ const PropertyFilters = ({ states, setFilters, filters, setQuery, query }: Props
                   handleChange("stateId", undefined);
                 }
               }}
-              value={(states || []).find((s) => s.id === localFilters.stateId)?.state || ""}
+              value={
+                (states || []).find((s) => s.id === localFilters.stateId)
+                  ?.state || ""
+              }
             />
             <AutoComplete
               fullWidth
-              options={(lgas || []).map((lga) => ({ label: lga.lga, id: lga.id }))}
+              options={(lgas || []).map((lga) => ({
+                label: lga.lga,
+                id: lga.id,
+              }))}
               renderInputLabel="Lga"
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
               onChange={(_, value: any) => {
@@ -135,7 +158,10 @@ const PropertyFilters = ({ states, setFilters, filters, setQuery, query }: Props
                   handleChange("lgaId", "");
                 }
               }}
-              value={(lgas || []).find((lga) => lga.id === localFilters.lgaId)?.lga || ""}
+              value={
+                (lgas || []).find((lga) => lga.id === localFilters.lgaId)
+                  ?.lga || ""
+              }
             />
 
             <AutoComplete
@@ -154,10 +180,18 @@ const PropertyFilters = ({ states, setFilters, filters, setQuery, query }: Props
                   handleChange("areaId", "");
                 }
               }}
-              value={(areas || []).find((a) => a.id === localFilters.areaId)?.area || ""}
+              value={
+                (areas || []).find((a) => a.id === localFilters.areaId)?.area ||
+                ""
+              }
             />
           </FilterFieldsWrapper>
-          <Stack direction={"row"} justifyContent={"center"} alignItems={"center"} spacing={"10px"}>
+          <Stack
+            direction={"row"}
+            justifyContent={"center"}
+            alignItems={"center"}
+            spacing={"10px"}
+          >
             <Button
               fullWidth
               onClick={handleClearFilters}
@@ -167,7 +201,12 @@ const PropertyFilters = ({ states, setFilters, filters, setQuery, query }: Props
             >
               Clear
             </Button>
-            <Button fullWidth onClick={handleFilter} color="secondary" variant="contained">
+            <Button
+              fullWidth
+              onClick={handleFilter}
+              color="secondary"
+              variant="contained"
+            >
               Apply
             </Button>
           </Stack>
