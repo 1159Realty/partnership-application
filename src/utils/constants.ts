@@ -74,6 +74,7 @@ const UNPROTECTED_ROUTES = [
   "/sign-up",
   "/forgot-password",
   "/forgot-password",
+  "/404",
 ] as const;
 
 const FOOTER_ROUTES = [

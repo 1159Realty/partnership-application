@@ -18,9 +18,7 @@ const Search = ({ value, placeholder, ...props }: Props) => {
         placeholder={placeholder || "Search"}
         type="search"
       />
-      <button>
-        <MagnifyingGlass size={18} weight="bold" />
-      </button>
+      <MagnifyingGlass className="hover:" size={18} weight="bold" />
     </SearchWrapper>
   );
 };

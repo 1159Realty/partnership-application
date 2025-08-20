@@ -29,6 +29,9 @@ interface User {
   bankName: string;
   requestPartnership: boolean;
   myReferralId: string;
+  accountStatus?: _AccountStatus;
+  publicId?: string;
+  isQualified?: boolean;
 }
 
 type UserFormPayload = {
@@ -57,7 +60,12 @@ type UserPayload = {
   referralId?: string;
 };
 
-const INVITATIONSOURCES = ["SOCIAL_MEDIA", "YOUTUBE", "BILLBOARD", "REFERRAL"] as const;
+const INVITATIONSOURCES = [
+  "SOCIAL_MEDIA",
+  "YOUTUBE",
+  "BILLBOARD",
+  "REFERRAL",
+] as const;
 type InvitationSource = (typeof INVITATIONSOURCES)[number];
 
 const GENDERS = ["MALE", "FEMALE", "RATHER_NOT_SAY"] as const;
@@ -65,6 +73,9 @@ type Gender = (typeof GENDERS)[number];
 
 const COUNTRIES = ["NIGERIA", "OTHERS"] as const;
 type Country = (typeof COUNTRIES)[number];
+
+const _ACCOUNT_STATUS = ["ACTIVE", "INACTIVE"] as const;
+type _AccountStatus = (typeof _ACCOUNT_STATUS)[number];
 
 type FetchUsersArg = {
   page?: number;

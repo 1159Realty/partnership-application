@@ -3,7 +3,9 @@
 import { useEffect, useRef, useState } from "react";
 import { Html5Qrcode } from "html5-qrcode";
 import { Button } from "@/components/buttons";
-import { Info, QrCode, XCircle } from "@phosphor-icons/react";
+import { QrCode, XCircle } from "@phosphor-icons/react";
+import { useRouter } from "next/navigation";
+import { Search } from "@/components/Inputs";
 
 const QrScanner = () => {
   const qrCodeRegionId = "reader";
@@ -11,13 +13,14 @@ const QrScanner = () => {
   const [isScanning, setIsScanning] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
-  // Set mobile detection on mount and when screen resizes
+  const router = useRouter();
+
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
 
-    checkMobile(); // initial check
+    checkMobile();
     window.addEventListener("resize", checkMobile);
 
     return () => {
@@ -43,7 +46,7 @@ const QrScanner = () => {
         }
       : {
           fps: 20,
-          qrbox: 300,
+          qrbox: 200,
         };
 
     const html5QrCode = html5QrCodeRef.current;
@@ -57,7 +60,6 @@ const QrScanner = () => {
       try {
         const cameras = await Html5Qrcode.getCameras();
         if (cameras && cameras.length) {
-          // Prefer back camera if available
           const backCamera = cameras.find((cam) =>
             cam.label.toLowerCase().includes("back")
           );
@@ -66,14 +68,20 @@ const QrScanner = () => {
           await html5QrCode.start(
             cameraId,
             config,
-            (decodedText) => {
-              console.log("QR Code detected:", decodedText);
-              html5QrCode.stop().then(() => {
+            async (decodedText) => {
+              // setIsLoading(true);
+              try {
+                await html5QrCode.stop();
                 setIsScanning(false);
-                console.log("Scanner stopped");
-              });
+                router.push(`${decodedText}`);
+              } catch (err) {
+                console.error("Failed to stop scanner", err);
+                // setIsLoading(false);
+              } finally {
+                // setIsLoading(false);
+              }
             },
-            (errorMessage) => {
+            () => {
               // Optional: handle decode errors
             }
           );
@@ -89,39 +97,72 @@ const QrScanner = () => {
   };
 
   return (
-    <div className="w-full h-full items-center justify-center flex flex-col gap-4">
-      <div
-        id={qrCodeRegionId}
-        className="md:w-1/2 md:h-1/2 w-full h-full border border-black"
-      />
-      {!isScanning && (
-        <div className="p-3 text-md flex flex-col items-center justify-center gap-2">
-          <div className="flex items-center gap-2 text-center text-gray-700">
-            <Info size={20} weight="duotone" />
-            <span>
-              To verify a user, scan their QR code or search by User ID.
-            </span>
-          </div>
-          <span>
-            Tap <strong>"Start Scanner"</strong> to begin.
-          </span>
+    <>
+      {/* Search Bar */}
+      <div className="flex flex-row w-full gap-2 mb-4">
+        <div className="flex-1 max-w-full">
+          <Search placeholder="Search by User ID" />
         </div>
-      )}
+        <Button>Search</Button>
+      </div>
 
-      <Button onClick={handleScanToggle} className="flex items-center gap-2">
-        {isScanning ? (
-          <div className="flex items-center gap-2">
-            <XCircle size={20} />
-            Stop Scanner
+      {/* Shared height container for scanner and instruction */}
+      <div className="w-full flex flex-col items-center justify-center gap-4">
+        <div
+          className="
+    relative 
+    w-full 
+    h-[60vh] 
+    max-w-[90vw] 
+    md:max-w-4xl 
+    md:h-[70vh] 
+    bg-gray-100 
+    rounded-md 
+    overflow-hidden 
+    border 
+    border-gray-300
+  "
+        >
+          {/* Camera Preview */}
+          <div
+            id={qrCodeRegionId}
+            className={`absolute inset-0 w-full h-full transition-opacity duration-300 ${
+              isScanning ? "opacity-100 z-10" : "opacity-0 z-0"
+            }`}
+          />
+
+          {/* Instruction Placeholder */}
+          <div
+            className={`absolute inset-0 transition-opacity duration-300 flex flex-col items-center justify-center gap-4 p-4 ${
+              isScanning ? "opacity-0 z-0" : "opacity-100 z-10"
+            }`}
+          >
+            <div className="text-center text-gray-700 text-md">
+              To verify a user, scan their QR code or search by User ID.
+            </div>
+            <div className="text-center">
+              Tap <strong>"Start Scanner"</strong> to begin.
+            </div>
+            <QrCode size={250} />
           </div>
-        ) : (
-          <div className="flex items-center gap-2">
-            <QrCode size={20} />
-            Start Scanner
-          </div>
-        )}
-      </Button>
-    </div>
+        </div>
+
+        {/* Toggle Button */}
+        <Button onClick={handleScanToggle} className="flex items-center gap-2">
+          {isScanning ? (
+            <div className="flex items-center gap-2">
+              <XCircle size={20} />
+              Stop Scanner
+            </div>
+          ) : (
+            <div className="flex items-center gap-2">
+              <QrCode size={20} />
+              Start Scanner
+            </div>
+          )}
+        </Button>
+      </div>
+    </>
   );
 };
 

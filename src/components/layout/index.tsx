@@ -1,17 +1,13 @@
 "use client";
 import React, { useEffect } from "react";
-import { Header } from "./Header";
 import { ChildrenProps } from "@/utils/global-types";
-import { DesktopSidePanel, MobileSidePanel } from "./SidePanel";
 import { usePathname } from "next/navigation";
 import { LayoutWrapper } from "@/styles/globals.styles";
 import { LayoutChildrenWrapper, LayoutContentWrapper } from "./layout.styles";
-import { APP_VERSION, BASE_URL, NO_LAYOUT_ROUTES, ROUTES } from "@/utils/constants";
-import { useUserContext } from "@/contexts/UserContext";
+import { APP_VERSION, BASE_URL, NO_LAYOUT_ROUTES } from "@/utils/constants";
 import { useSession } from "@/lib/session/client/useSession";
 
 const Layout = ({ children }: ChildrenProps) => {
-  const { userData } = useUserContext();
   const { logout } = useSession();
 
   const pathname = usePathname();
@@ -34,11 +30,11 @@ const Layout = ({ children }: ChildrenProps) => {
     children
   ) : (
     <LayoutWrapper>
-      <MobileSidePanel />
+      {/* <MobileSidePanel /> */}
       <LayoutContentWrapper>
-        <DesktopSidePanel />
+        {/* <DesktopSidePanel /> */}
         <LayoutChildrenWrapper>
-          <Header avatarUrl={userData?.profilePic || ""} pathname={pathname as keyof typeof ROUTES} />
+          {/* <Header avatarUrl={userData?.profilePic || ""} pathname={pathname as keyof typeof ROUTES} /> */}
           {children}
         </LayoutChildrenWrapper>
       </LayoutContentWrapper>
