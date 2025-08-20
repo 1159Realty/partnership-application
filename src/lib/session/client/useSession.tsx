@@ -27,7 +27,7 @@ export const useSession = () => {
   const logout = () => {
     deleteCookie(SESSION);
     setUserData(null);
-    router.push(ROUTES["/sign-in"]);
+    router.push(ROUTES["/"]);
   };
 
   return {
