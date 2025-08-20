@@ -10,7 +10,7 @@ import { useDebounce } from "use-debounce";
 import { Pagination } from "@/components/pagination";
 import { NoListItemCard } from "@/components/cards/NoItemCard";
 import { Plus, Warehouse } from "@phosphor-icons/react/dist/ssr";
-import { IPropertyFilter } from "../home/HomeContext";
+// import { IPropertyFilter } from "../home/HomeContext";
 import { useEnrollment } from "@/lib/api/enrollment/useEnrollment";
 import { IEnrollment } from "@/lib/api/enrollment/types";
 import { EnrolledDetail } from "./EnrolledDetail";
@@ -22,6 +22,7 @@ import { User } from "@/lib/api/user/user.types";
 import { getUserName } from "@/services/string";
 import { getRole } from "@/lib/session/roles";
 import { useUserContext } from "@/contexts/UserContext";
+import { IPropertyFilter } from "../propertyManagement/PropertyManagementContext";
 
 interface PropertiesProps {
   enrollmentsData: PaginatedResponse<IEnrollment> | null;
@@ -30,7 +31,12 @@ interface PropertiesProps {
   clientData: User | null;
 }
 
-function Main({ enrollmentsData, states, clientId, clientData }: PropertiesProps) {
+function Main({
+  enrollmentsData,
+  states,
+  clientId,
+  clientData,
+}: PropertiesProps) {
   const { userData } = useUserContext();
 
   const { fetchEnrollments } = useEnrollment();
@@ -41,7 +47,8 @@ function Main({ enrollmentsData, states, clientId, clientData }: PropertiesProps
 
   const [showEnrollUserForm, setShowEnrollUserForm] = useState(false);
   const [enrollment, setEnrollment] = useState<IEnrollment | null>(null);
-  const [enrollments, setEnrollments] = useState<PaginatedResponse<IEnrollment> | null>(enrollmentsData);
+  const [enrollments, setEnrollments] =
+    useState<PaginatedResponse<IEnrollment> | null>(enrollmentsData);
 
   const hasItem = Boolean(enrollments?.items?.length);
   const [debouncedQuery] = useDebounce(query, 700);
@@ -72,40 +79,80 @@ function Main({ enrollmentsData, states, clientId, clientData }: PropertiesProps
           setEnrollments(response);
         }
       } else {
-        const response = await fetchEnrollments({ ...filters, keyword: debouncedQuery, page, userId: clientId });
+        const response = await fetchEnrollments({
+          ...filters,
+          keyword: debouncedQuery,
+          page,
+          userId: clientId,
+        });
         if (response) {
           setEnrollments(response);
         }
       }
     }
     fetchEnrollmentsAsync();
-  }, [fetchEnrollments, filters, debouncedQuery, page, clientId, userData?.roleId, userData?.id]);
+  }, [
+    fetchEnrollments,
+    filters,
+    debouncedQuery,
+    page,
+    clientId,
+    userData?.roleId,
+    userData?.id,
+  ]);
 
   return (
     <Box>
-      <Stack mb="32px" rowGap={"10px"} direction={"row"} alignItems={"center"} justifyContent={"space-between"} flexWrap={"wrap"}>
-        <Stack direction={"row"} alignItems={"center"} justifyContent={"center"}>
+      <Stack
+        mb="32px"
+        rowGap={"10px"}
+        direction={"row"}
+        alignItems={"center"}
+        justifyContent={"space-between"}
+        flexWrap={"wrap"}
+      >
+        <Stack
+          direction={"row"}
+          alignItems={"center"}
+          justifyContent={"center"}
+        >
           <PageTitle mr={"5px"}>
             <Box textTransform={"capitalize"}>{name}</Box>
           </PageTitle>
         </Stack>
         {hasItem && (
-          <Button onClick={() => setShowEnrollUserForm(true)} startIcon={<Plus weight="bold" />}>
+          <Button
+            onClick={() => setShowEnrollUserForm(true)}
+            startIcon={<Plus weight="bold" />}
+          >
             Add new
           </Button>
         )}
       </Stack>
 
-      <PropertyFilters filters={filters} setFilters={setFilters} setQuery={setQuery} query={query} states={states} />
+      <PropertyFilters
+        filters={filters}
+        setFilters={setFilters}
+        setQuery={setQuery}
+        query={query}
+        states={states}
+      />
       {!hasItem ? (
-        <Stack justifyContent={"center"} alignItems={"center"} width={"100%"} mt="32px">
+        <Stack
+          justifyContent={"center"}
+          alignItems={"center"}
+          width={"100%"}
+          mt="32px"
+        >
           <NoListItemCard
             action="Enroll client"
             onClick={() => setShowEnrollUserForm(true)}
             Icon={Warehouse}
             noItemCreatedDescription={`Client has no properties`}
             noItemFoundDescription="No properties found"
-            noItemCreated={Boolean(!enrollments?.items?.length && !enrollmentsData?.items?.length)}
+            noItemCreated={Boolean(
+              !enrollments?.items?.length && !enrollmentsData?.items?.length
+            )}
           />
         </Stack>
       ) : (
@@ -139,7 +186,10 @@ function Main({ enrollmentsData, states, clientId, clientData }: PropertiesProps
           </Box>
         </Box>
       )}
-      <EnrolledDetail enrollment={enrollment} handleClose={() => setEnrollment(null)} />
+      <EnrolledDetail
+        enrollment={enrollment}
+        handleClose={() => setEnrollment(null)}
+      />
       <EnrollClientForm
         onCreate={onCreate}
         clientId={clientId}

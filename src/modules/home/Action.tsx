@@ -7,7 +7,6 @@ import { PropertyOverview } from "@/components/property/PropertyOverview";
 import { IProperty } from "@/lib/api/property/property.types";
 import { PropertyCard } from "@/components/cards/PropertyCard";
 import { IState } from "@/lib/api/location/location.types";
-import { useHomeContext } from "./HomeContext";
 import { Box, Stack, Switch } from "@mui/material";
 import { MobileB2MGray900, MobileCap2MGray500 } from "@/utils/typography";
 import { useEffect, useState } from "react";
@@ -21,6 +20,7 @@ import { Tooltip } from "@/components/tooltip";
 import { Spinner } from "@/components/loaders";
 import { PropertyFilters } from "@/components/filters/PropertyFilters";
 import { getClientSession } from "@/lib/session/client";
+import { useHomeContext } from "./HomeContext";
 
 interface PropertyActionProps {
   property: IProperty | null;
@@ -29,17 +29,21 @@ interface PropertyActionProps {
 
 function PropertyAction({ property, handleClose }: PropertyActionProps) {
   const { userData } = useUserContext();
-  const { setSchedulePropertyId, schedulePropertyId, setEnrollPropertyId } = useHomeContext();
+  const { setSchedulePropertyId, schedulePropertyId, setEnrollPropertyId } =
+    useHomeContext();
 
   const { createInterest, deleteInterest, fetchInterests } = useInterest();
   const { fetchAppointmentsByUserId } = useAppointment();
 
   const [showInterest, setShowInterest] = useState(false);
-  const [appointments, setAppointments] = useState<PaginatedResponse<IAppointment> | null>(null);
+  const [appointments, setAppointments] =
+    useState<PaginatedResponse<IAppointment> | null>(null);
   const [loadingSchedule, setLoadingSchedule] = useState(false);
   const [loadingInterest, setLoadingInterest] = useState(false);
 
-  const hasScheduled = appointments?.items?.some((x) => x?.property?.id === property?.id && property?.id);
+  const hasScheduled = appointments?.items?.some(
+    (x) => x?.property?.id === property?.id && property?.id
+  );
 
   function handleScheduleAppointment() {
     if (!property) return;
@@ -64,7 +68,10 @@ function PropertyAction({ property, handleClose }: PropertyActionProps) {
       setLoadingInterest(true);
 
       const session = getClientSession();
-      const response = await fetchInterests({ propertyId: property?.id, userId: session?.user?.id });
+      const response = await fetchInterests({
+        propertyId: property?.id,
+        userId: session?.user?.id,
+      });
 
       setShowInterest(Boolean(response?.items?.length));
       setLoadingInterest(false);
@@ -76,7 +83,12 @@ function PropertyAction({ property, handleClose }: PropertyActionProps) {
     async function fetchAppointmentsByUserIdAsync() {
       if (!property?.id) return;
       setLoadingSchedule(true);
-      const response = await fetchAppointmentsByUserId({ page: 1, limit: 100, status: "PENDING", propertyId: property?.id });
+      const response = await fetchAppointmentsByUserId({
+        page: 1,
+        limit: 100,
+        status: "PENDING",
+        propertyId: property?.id,
+      });
       setAppointments(response);
       setLoadingSchedule(false);
     }
@@ -95,25 +107,48 @@ function PropertyAction({ property, handleClose }: PropertyActionProps) {
             </Box>
             <Divider />
 
-            {(hasPermission(userData?.roleId, "create:interest") || hasPermission(userData?.roleId, "create:appointment")) && (
+            {(hasPermission(userData?.roleId, "create:interest") ||
+              hasPermission(userData?.roleId, "create:appointment")) && (
               <>
                 <Stack px="16px" spacing={"16px"}>
-                  <Stack direction={"row"} justifyContent={"space-between"} alignItems={"center"} spacing={"10px"}>
+                  <Stack
+                    direction={"row"}
+                    justifyContent={"space-between"}
+                    alignItems={"center"}
+                    spacing={"10px"}
+                  >
                     <Box>
                       <MobileB2MGray900>Show interest</MobileB2MGray900>
                       <Box>
-                        <MobileCap2MGray500>Toggle on to signal your interest in the property</MobileCap2MGray500>
+                        <MobileCap2MGray500>
+                          Toggle on to signal your interest in the property
+                        </MobileCap2MGray500>
                       </Box>
                     </Box>
                     <Box>
-                      <Switch onChange={toggleInterest} checked={showInterest} color="secondary" size="medium" />
+                      <Switch
+                        onChange={toggleInterest}
+                        checked={showInterest}
+                        color="secondary"
+                        size="medium"
+                      />
                     </Box>
                     <Divider />
                   </Stack>
 
-                  <Tooltip title={hasScheduled ? "You already have an appointment scheduled for this property" : ""}>
+                  <Tooltip
+                    title={
+                      hasScheduled
+                        ? "You already have an appointment scheduled for this property"
+                        : ""
+                    }
+                  >
                     <Box>
-                      <Button disabled={hasScheduled} fullWidth onClick={handleScheduleAppointment}>
+                      <Button
+                        disabled={hasScheduled}
+                        fullWidth
+                        onClick={handleScheduleAppointment}
+                      >
                         Schedule Appointment
                       </Button>
                     </Box>
@@ -139,7 +174,15 @@ interface HomeActionFilterProps {
 
 function HomeActionFilter({ states }: HomeActionFilterProps) {
   const { setFilters, filters, setQuery, query } = useHomeContext();
-  return <PropertyFilters filters={filters} setFilters={setFilters} setQuery={setQuery} query={query} states={states} />;
+  return (
+    <PropertyFilters
+      filters={filters}
+      setFilters={setFilters}
+      setQuery={setQuery}
+      query={query}
+      states={states}
+    />
+  );
 }
 
 export { PropertyAction, HomeActionFilter };
