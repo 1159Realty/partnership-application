@@ -62,11 +62,7 @@ export default async function middleware(request: NextRequest) {
     isProtectedRoute(currentPath) &&
     allowedRoleRoutes.every((r) => !currentPath.includes(WEB_APP_URL + r));
 
-  if (
-    isTryingDisallowedRoute &&
-    !isHomeRoute(request.nextUrl.pathname) &&
-    isSignedIn
-  ) {
+  if (isTryingDisallowedRoute && !isHomeRoute(request.nextUrl.pathname)) {
     return NextResponse.redirect(new URL(ROUTES["/"], request.url));
   }
 }
