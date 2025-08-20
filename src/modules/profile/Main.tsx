@@ -3,7 +3,12 @@ import { Avatar } from "@/components/avatar";
 import { Divider } from "@/components/divider";
 import { StatusPill } from "@/components/pills";
 import { COLORS } from "@/utils/colors";
-import { Font5001421Gray900, MobileB1LightGray900, MobileCap2MGray600, MobileH1SMGray900 } from "@/utils/typography";
+import {
+  Font5001421Gray900,
+  MobileB1LightGray900,
+  MobileCap2MGray600,
+  MobileH1SMGray900,
+} from "@/utils/typography";
 import { Box, Stack } from "@mui/material";
 import React, { useState } from "react";
 import { ProfileDetailWrapper } from "./styles";
@@ -35,7 +40,8 @@ function Main() {
   const [showLogout, setShowLogout] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const [showBankAccountForm, setShowBankAccountForm] = useState<boolean>(false);
+  const [showBankAccountForm, setShowBankAccountForm] =
+    useState<boolean>(false);
   const [showPartnershipModal, setShowPartnershipModal] = useState(false);
   const [loadingPartnership, setLoadingPartnership] = useState(false);
 
@@ -68,7 +74,14 @@ function Main() {
 
   return (
     <Box>
-      <Stack rowGap={"10px"} mb="32px" flexWrap={"wrap"} direction={"row"} justifyContent={"space-between"} alignItems={"center"}>
+      <Stack
+        rowGap={"10px"}
+        mb="32px"
+        flexWrap={"wrap"}
+        direction={"row"}
+        justifyContent={"space-between"}
+        alignItems={"center"}
+      >
         <PageTitle mr={"5px"}>Profile</PageTitle>
 
         <IconButton onClick={() => setShowBankAccountForm(true)}>
@@ -86,7 +99,11 @@ function Main() {
           <MobileCap2MGray600>{userData?.email || ""}</MobileCap2MGray600>
         </Stack>
         {role !== "client" && (
-          <StatusPill p="5px 15px!important" sx={{ borderRadius: "100px!important" }} status="warning">
+          <StatusPill
+            p="5px 15px!important"
+            sx={{ borderRadius: "100px!important" }}
+            status="warning"
+          >
             {capitalize(role)}
           </StatusPill>
         )}
@@ -117,25 +134,38 @@ function Main() {
             <MobileB1LightGray900>Gender</MobileB1LightGray900>
             <MobileB1LightGray900>State</MobileB1LightGray900>
             <MobileB1LightGray900>Residential address</MobileB1LightGray900>
-            {isAgent && <MobileB1LightGray900>Referral Id</MobileB1LightGray900>}
+            {isAgent && (
+              <MobileB1LightGray900>Referral Id</MobileB1LightGray900>
+            )}
           </Stack>
           <Stack spacing={"8px"}>
             <Font5001421Gray900>{userData?.phoneNumber}</Font5001421Gray900>
-            <Font5001421Gray900>{capitalizeAndSpace(userData?.gender || "") || "N/A"}</Font5001421Gray900>
-            <Font5001421Gray900>{userData?.state?.state || "N/A"}</Font5001421Gray900>{" "}
-            <Font5001421Gray900>{userData?.residentialAddress?.trim() || "N/A"}</Font5001421Gray900>
+            <Font5001421Gray900>
+              {capitalizeAndSpace(userData?.gender || "") || "N/A"}
+            </Font5001421Gray900>
+            <Font5001421Gray900>
+              {userData?.state?.state || "N/A"}
+            </Font5001421Gray900>{" "}
+            <Font5001421Gray900>
+              {userData?.residentialAddress?.trim() || "N/A"}
+            </Font5001421Gray900>
             {isAgent && (
               <Font5001421Gray900>
                 {/* <Share value={`${WEB_APP_URL}/?referralId=${userData?.myReferralId || ""}`}> */}
                 <Share value={userData?.myReferralId || ""}>
-                  {userData?.myReferralId || ""} <Copy weight="bold" cursor={"pointer"} />
+                  {userData?.myReferralId || ""}{" "}
+                  <Copy weight="bold" cursor={"pointer"} />
                 </Share>
               </Font5001421Gray900>
             )}
           </Stack>
         </ProfileDetailWrapper>
         <Box mx="auto" maxWidth={"300px"} mt="32px">
-          <Button onClick={() => setShowLogout(true)} fullWidth variant="outlined">
+          <Button
+            onClick={() => setShowLogout(true)}
+            fullWidth
+            variant="outlined"
+          >
             Logout
           </Button>
         </Box>
@@ -167,7 +197,10 @@ function Main() {
         declineText="No"
       />
 
-      <UpdateBankAccountForm isManualOpen={showBankAccountForm} onManualClose={() => setShowBankAccountForm(false)} />
+      <UpdateBankAccountForm
+        isManualOpen={showBankAccountForm}
+        onManualClose={() => setShowBankAccountForm(false)}
+      />
     </Box>
   );
 }

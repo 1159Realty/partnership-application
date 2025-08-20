@@ -48,7 +48,10 @@ function createHeaders(token?: string | null): Headers {
 }
 
 // get
-async function GetRequest<T>(endpoint: string, token?: string | null): Promise<ApiResponse<T>> {
+async function GetRequest<T>(
+  endpoint: string,
+  token?: string | null
+): Promise<ApiResponse<T>> {
   const response = await fetch(`${BASE_URL}/${endpoint}`, {
     method: "GET",
     headers: createHeaders(token),
@@ -77,7 +80,11 @@ async function get<T>(endpoint: string): Promise<ApiResponse<T>> {
 }
 
 // Post
-async function PostRequest<T>(endpoint: string, payload: unknown, token?: string | null): Promise<ApiResponse<T>> {
+async function PostRequest<T>(
+  endpoint: string,
+  payload: unknown,
+  token?: string | null
+): Promise<ApiResponse<T>> {
   const response = await fetch(`${BASE_URL}/${endpoint}`, {
     method: "POST",
     headers: createHeaders(token),
@@ -87,10 +94,17 @@ async function PostRequest<T>(endpoint: string, payload: unknown, token?: string
   return await response?.json();
 }
 
-async function post<T>(endpoint: string, payload?: unknown): Promise<ApiResponse<T>> {
+async function post<T>(
+  endpoint: string,
+  payload?: unknown
+): Promise<ApiResponse<T>> {
   try {
     const session = await getServerSession();
-    let response = await PostRequest<T>(endpoint, payload, session?.token?.access);
+    let response = await PostRequest<T>(
+      endpoint,
+      payload,
+      session?.token?.access
+    );
 
     if (response?.statusCode === 401 && session?.token?.refresh) {
       const newToken = await getFreshToken(session.token.refresh);
@@ -107,7 +121,11 @@ async function post<T>(endpoint: string, payload?: unknown): Promise<ApiResponse
 }
 
 // Put
-async function PutRequest<T>(endpoint: string, payload: unknown, token?: string | null): Promise<ApiResponse<T>> {
+async function PutRequest<T>(
+  endpoint: string,
+  payload: unknown,
+  token?: string | null
+): Promise<ApiResponse<T>> {
   const response = await fetch(`${BASE_URL}/${endpoint}`, {
     method: "PUT",
     headers: createHeaders(token),
@@ -117,10 +135,17 @@ async function PutRequest<T>(endpoint: string, payload: unknown, token?: string 
   return await response?.json();
 }
 
-async function put<T>(endpoint: string, payload?: unknown): Promise<ApiResponse<T>> {
+async function put<T>(
+  endpoint: string,
+  payload?: unknown
+): Promise<ApiResponse<T>> {
   try {
     const session = await getServerSession();
-    let response = await PutRequest<T>(endpoint, payload, session?.token?.access);
+    let response = await PutRequest<T>(
+      endpoint,
+      payload,
+      session?.token?.access
+    );
 
     if (response?.statusCode === 401 && session?.token?.refresh) {
       const newToken = await getFreshToken(session.token.refresh);
@@ -136,4 +161,9 @@ async function put<T>(endpoint: string, payload?: unknown): Promise<ApiResponse<
   }
 }
 
-export { get as getServer, post as postServer, put as putServer };
+export {
+  get as getServer,
+  post as postServer,
+  put as putServer,
+  GetRequest as simpleGet,
+};

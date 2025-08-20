@@ -6,7 +6,10 @@ import React, { useEffect, useState } from "react";
 import { IProperty } from "@/lib/api/property/property.types";
 import { PaginatedResponse } from "@/lib/api/api.types";
 import { useProperty } from "@/lib/api/property/useProperty";
-import { CreatePropertyForm, UpdatePropertyForm } from "@/components/forms/PropertyForm";
+import {
+  CreatePropertyForm,
+  UpdatePropertyForm,
+} from "@/components/forms/PropertyForm";
 import { IState } from "@/lib/api/location/location.types";
 import { useDebounce } from "use-debounce";
 import { usePropertyManagementContext } from "./PropertyManagementContext";
@@ -22,13 +25,15 @@ interface PropertiesProps {
 }
 
 function Properties({ propertiesData, states }: PropertiesProps) {
-  const { query, filters, setShowCreateProperty } = usePropertyManagementContext();
+  const { query, filters, setShowCreateProperty } =
+    usePropertyManagementContext();
   const { fetchProperties } = useProperty();
   const [debouncedQuery] = useDebounce(query, 700);
 
   const [page, setPage] = useState(1);
   const [property, setProperty] = useState<IProperty | null>(null);
-  const [properties, setPropertiesData] = useState<PaginatedResponse<IProperty> | null>(propertiesData);
+  const [properties, setPropertiesData] =
+    useState<PaginatedResponse<IProperty> | null>(propertiesData);
   const [reload, setReload] = useState(false);
 
   const hasItem = Boolean(properties?.items?.length);
@@ -47,7 +52,9 @@ function Properties({ propertiesData, states }: PropertiesProps) {
     setPropertiesData((prev) => {
       if (!prev?.items) return prev;
       const newPropertiesData = { ...prev };
-      const index = newPropertiesData.items.findIndex((p) => p.id === newProperty.id);
+      const index = newPropertiesData.items.findIndex(
+        (p) => p.id === newProperty.id
+      );
 
       if (index > -1) {
         // if(newProperty?.status==="")
@@ -65,7 +72,12 @@ function Properties({ propertiesData, states }: PropertiesProps) {
 
   useEffect(() => {
     async function getProperties() {
-      const response = await fetchProperties({ ...filters, propertyName: debouncedQuery, page, includeDisabled: true });
+      const response = await fetchProperties({
+        ...filters,
+        propertyName: debouncedQuery,
+        page,
+        includeDisabled: true,
+      });
       if (response) {
         setPropertiesData(response);
       }
@@ -75,14 +87,26 @@ function Properties({ propertiesData, states }: PropertiesProps) {
 
   return (
     <Box>
-      <Stack rowGap={"10px"} mb="32px" flexWrap={"wrap"} direction={"row"} justifyContent={"space-between"} alignItems={"center"}>
+      <Stack
+        rowGap={"10px"}
+        mb="32px"
+        flexWrap={"wrap"}
+        direction={"row"}
+        justifyContent={"space-between"}
+        alignItems={"center"}
+      >
         <PageTitle mr={"5px"}>Property Management</PageTitle>
         {hasItem && <HasItemCreateButton />}
       </Stack>
       <PropertyManagementActionFilter states={states} />
 
       {!hasItem ? (
-        <Stack justifyContent={"center"} alignItems={"center"} width={"100%"} mt="32px">
+        <Stack
+          justifyContent={"center"}
+          alignItems={"center"}
+          width={"100%"}
+          mt="32px"
+        >
           <NoListItemCard
             action="Add new property"
             Icon={Warehouse}
@@ -91,7 +115,9 @@ function Properties({ propertiesData, states }: PropertiesProps) {
             }}
             noItemCreatedDescription="No property listed yet"
             noItemFoundDescription="No property found"
-            noItemCreated={Boolean(!properties?.items?.length && !propertiesData?.items?.length)}
+            noItemCreated={Boolean(
+              !properties?.items?.length && !propertiesData?.items?.length
+            )}
           />
         </Stack>
       ) : (
@@ -99,7 +125,13 @@ function Properties({ propertiesData, states }: PropertiesProps) {
           <Grid2 container spacing={{ xxs: 2, md: 3 }}>
             {properties?.items.map((p) => (
               <Grid2 key={p.id} size={{ xxs: 12, xs: 6, lg: 4 }}>
-                <PropertyCard showStatus showRemainingLandSize isManageProperty handleClick={handlePropertyClick} property={p} />
+                <PropertyCard
+                  showStatus
+                  showRemainingLandSize
+                  isManageProperty
+                  handleClick={handlePropertyClick}
+                  property={p}
+                />
               </Grid2>
             ))}
           </Grid2>

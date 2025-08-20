@@ -257,7 +257,8 @@ export const OPERATIONS_ROLES = [] as const;
 export type OperationsPermission = (typeof OPERATIONS_ROLES)[number];
 
 export const OPERATIONS_MANAGER_ROLES = [] as const;
-export type OperationsMangerPermission = (typeof OPERATIONS_MANAGER_ROLES)[number];
+export type OperationsMangerPermission =
+  (typeof OPERATIONS_MANAGER_ROLES)[number];
 
 export const ACCOUNTING_ROLES = [
   "view:interest",
@@ -309,7 +310,8 @@ export const ACCOUNTING_MANAGER_ROLES = [
   "resolve:invoice",
   "download:invoice",
 ] as const;
-export type AccountingManagerPermission = (typeof ACCOUNTING_MANAGER_ROLES)[number];
+export type AccountingManagerPermission =
+  (typeof ACCOUNTING_MANAGER_ROLES)[number];
 
 export const MEDIA_MANAGER_ROLES = [] as const;
 export type MediaManagerPermission = (typeof MEDIA_MANAGER_ROLES)[number];
@@ -576,7 +578,10 @@ export const ROLES = {
 export type Role = keyof typeof ROLES;
 export type Permission = (typeof ROLES)[Role][number];
 
-export const hasPermission = (roleId: string | undefined | null, permission: Permission): boolean => {
+export const hasPermission = (
+  roleId: string | undefined | null,
+  permission: Permission
+): boolean => {
   if (!roleId) return false;
   const role = getRole(roleId);
 
@@ -655,7 +660,10 @@ function getCreateRoles(userRole: string | null | undefined) {
   );
 }
 
-function getHasRoleUpdatePermission(userRole: string | null | undefined, assigneeRole: string | null | undefined) {
+function getHasRoleUpdatePermission(
+  userRole: string | null | undefined,
+  assigneeRole: string | null | undefined
+) {
   return (
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     hasPermission(userRole, `update:${assigneeRole}` as any)

@@ -40,7 +40,7 @@ export default async function middleware(request: NextRequest) {
   if (isProtectedRoute(currentPath) && !isSignedIn) {
     return NextResponse.redirect(
       new URL(
-        `${ROUTES["/"]}?redirect=${encodeURIComponent(fullPath)}`,
+        `${ROUTES["/404"]}?redirect=${encodeURIComponent(fullPath)}`,
         request.url
       )
     );

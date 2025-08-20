@@ -15,11 +15,15 @@ const eslintConfig = [
     rules: {
       "jsx-a11y/alt-text": "off",
       "no-console": ["error", { allow: ["error"] }],
-      "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_", varsIgnorePattern: "^_" }],
-      '@typescript-eslint/no-explicit-any': 'off',
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
+      ],
+      "@typescript-eslint/no-explicit-any": "off",
     },
     // "import/no-unresolved": ["error", { caseSensitive: true }],
     // "no-explicit-any": "off",
+    "@typescript-eslint/no-explicit-any": "off",
   },
 ];
 
