@@ -21,9 +21,22 @@ function isHomeRoute(pathname: string) {
 }
 
 export default async function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl;
+
+  // ⛔ Skip middleware for static files and Next.js internals
+  if (
+    pathname.startsWith("/_next") || // Next.js build files
+    pathname.startsWith("/api") ||   // API routes
+    pathname.startsWith("/static") || 
+    pathname.startsWith("/favicon") ||
+    pathname.match(/\.(.*)$/)        // Any file with extension (.png, .jpg, .css, .js, etc.)
+  ) {
+    return NextResponse.next();
+  }
+
   const session = await getServerSession();
   const fullPath = request.nextUrl.href.replace(WEB_APP_URL, "");
-  const currentPath = `${WEB_APP_URL}${request.nextUrl.pathname}`;
+  const currentPath = `${WEB_APP_URL}${pathname}`;
 
   const role = getRole(session?.user?.roleId);
   const allowedRoleRoutes = [
@@ -36,33 +49,32 @@ export default async function middleware(request: NextRequest) {
 
   const isSignedIn = Boolean(session);
 
-  // Redirect unauthenticated users trying to access protected routes
   if (isProtectedRoute(currentPath) && !isSignedIn) {
     return NextResponse.redirect(
-      new URL(
-        `${ROUTES["/404"]}?redirect=${encodeURIComponent(fullPath)}`,
-        request.url
-      )
+      new URL(`${ROUTES["/404"]}?redirect=${encodeURIComponent(fullPath)}`, request.url)
     );
   }
 
-  // TODO: Do not allow navigation to protected pages if onboarding is not complete!
-
-  // Redirect signed-in users away from unprotected pages like /sign-in or /onboarding
   if (
     isUnprotectedRoute(currentPath) &&
-    !isHomeRoute(request.nextUrl.pathname) &&
+    !isHomeRoute(pathname) &&
     isSignedIn
   ) {
     return NextResponse.redirect(new URL(ROUTES["/"], request.url));
   }
 
-  // Redirect signed-in users trying to access protected routes they don’t have access to
   const isTryingDisallowedRoute =
     isProtectedRoute(currentPath) &&
     allowedRoleRoutes.every((r) => !currentPath.includes(WEB_APP_URL + r));
 
-  if (isTryingDisallowedRoute && !isHomeRoute(request.nextUrl.pathname)) {
+  if (isTryingDisallowedRoute && !isHomeRoute(pathname)) {
     return NextResponse.redirect(new URL(ROUTES["/"], request.url));
   }
+
+  // Redirect every non-home route to "/"
+  if (pathname !== ROUTES["/"]) {
+    return NextResponse.redirect(new URL(ROUTES["/"], request.url));
+  }
+
+  return NextResponse.next();
 }
