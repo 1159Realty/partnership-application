@@ -45,12 +45,14 @@ export const FileUploadPreviewWrapper = styled.div`
 // Search
 export const SearchWrapper = styled.div`
   display: flex;
+  /* position: relative; */
   flex-direction: row;
   align-items: center;
   background: ${COLORS.gray200};
   border-radius: 10px;
   border-radius: 23px;
   padding: 0 20px;
+  width: 100%;
 
   svg {
     color: "#49454F";

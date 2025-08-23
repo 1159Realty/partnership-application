@@ -6,6 +6,9 @@ import { Button } from "@/components/buttons";
 import { QrCode, XCircle } from "@phosphor-icons/react";
 import { useRouter } from "next/navigation";
 import { Search } from "@/components/Inputs";
+import { PublicProfile } from "@/lib/api/public-profile/public-profile.types";
+import UserInfo from "./search-result";
+import SearchProfile from "./search-profile";
 
 const QrScanner = () => {
   const qrCodeRegionId = "reader";
@@ -16,21 +19,14 @@ const QrScanner = () => {
   const router = useRouter();
 
   useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
     checkMobile();
     window.addEventListener("resize", checkMobile);
-
-    return () => {
-      window.removeEventListener("resize", checkMobile);
-    };
+    return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
   useEffect(() => {
     html5QrCodeRef.current = new Html5Qrcode(qrCodeRegionId);
-
     return () => {
       if (html5QrCodeRef.current?.isScanning) {
         html5QrCodeRef.current.stop().catch(() => {});
@@ -39,16 +35,7 @@ const QrScanner = () => {
   }, []);
 
   const handleScanToggle = async () => {
-    const config = isMobile
-      ? {
-          fps: 10,
-          qrbox: 200,
-        }
-      : {
-          fps: 20,
-          qrbox: 200,
-        };
-
+    const config = isMobile ? { fps: 10, qrbox: 200 } : { fps: 20, qrbox: 200 };
     const html5QrCode = html5QrCodeRef.current;
 
     if (!html5QrCode) return;
@@ -59,7 +46,7 @@ const QrScanner = () => {
     } else {
       try {
         const cameras = await Html5Qrcode.getCameras();
-        if (cameras && cameras.length) {
+        if (cameras.length) {
           const backCamera = cameras.find((cam) =>
             cam.label.toLowerCase().includes("back")
           );
@@ -69,26 +56,14 @@ const QrScanner = () => {
             cameraId,
             config,
             async (decodedText) => {
-              // setIsLoading(true);
-              try {
-                await html5QrCode.stop();
-                setIsScanning(false);
-                router.push(`${decodedText}`);
-              } catch (err) {
-                console.error("Failed to stop scanner", err);
-                // setIsLoading(false);
-              } finally {
-                // setIsLoading(false);
-              }
+              await html5QrCode.stop();
+              setIsScanning(false);
+              router.push(`/?publicId=${encodeURIComponent(decodedText)}`);
             },
-            () => {
-              // Optional: handle decode errors
-            }
+            () => {}
           );
 
           setIsScanning(true);
-        } else {
-          console.error("No cameras found.");
         }
       } catch (err) {
         console.error("Failed to start scanner", err);
@@ -98,40 +73,16 @@ const QrScanner = () => {
 
   return (
     <>
-      {/* Search Bar */}
-      <div className="flex flex-row w-full gap-2 mb-4">
-        <div className="flex-1 max-w-full">
-          <Search placeholder="Search by User ID" />
-        </div>
-        <Button>Search</Button>
-      </div>
-
-      {/* Shared height container for scanner and instruction */}
+      <SearchProfile />
+      {/* Scanner */}
       <div className="w-full flex flex-col items-center justify-center gap-4">
-        <div
-          className="
-    relative 
-    w-full 
-    h-[60vh] 
-    max-w-[90vw] 
-    md:max-w-4xl 
-    md:h-[70vh] 
-    bg-gray-100 
-    rounded-md 
-    overflow-hidden 
-    border 
-    border-gray-300
-  "
-        >
-          {/* Camera Preview */}
+        <div className="relative w-full h-[60vh] max-w-[90vw] md:max-w-4xl md:h-[70vh] bg-gray-100 rounded-md overflow-hidden border border-gray-300">
           <div
             id={qrCodeRegionId}
             className={`absolute inset-0 w-full h-full transition-opacity duration-300 ${
               isScanning ? "opacity-100 z-10" : "opacity-0 z-0"
             }`}
           />
-
-          {/* Instruction Placeholder */}
           <div
             className={`absolute inset-0 transition-opacity duration-300 flex flex-col items-center justify-center gap-4 p-4 ${
               isScanning ? "opacity-0 z-0" : "opacity-100 z-10"
@@ -147,17 +98,19 @@ const QrScanner = () => {
           </div>
         </div>
 
-        {/* Toggle Button */}
-        <Button onClick={handleScanToggle} className="flex items-center gap-2">
+        <Button
+          onClick={handleScanToggle}
+          className="flex justify-center items-center gap-2"
+        >
           {isScanning ? (
-            <div className="flex items-center gap-2">
+            <div className="flex items-center justify-center text-center">
               <XCircle size={20} />
-              Stop Scanner
+              <span>Stop Scanner</span>
             </div>
           ) : (
-            <div className="flex items-center gap-2">
+            <div className="flex items-center justify-center text-center">
               <QrCode size={20} />
-              Start Scanner
+              <span>Start Scanner</span>
             </div>
           )}
         </Button>
