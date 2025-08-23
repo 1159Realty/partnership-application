@@ -1,30 +1,25 @@
-import { HomeWrapper } from "./home.styles";
-import QrScanner from "../qrCodeScanner";
+// import { fetchPublicProfile } from "@/lib/api/public-profile/server.public-profile";
+// import QrScanner from "../qrCodeScanner";
+// import { HomeWrapper } from "./home.styles";
+// import PublicProfileViewer from "../client-profile/client-profile";
 
-async function Home() {
-  // const propertiesDataResponse = fetchProperties();
-  // const propertyDataResponse = propertyId
-  //   ? fetchProperty(propertyId)
-  //   : undefined;
+// export default async function Home({
+//   searchParams,
+// }: {
+//   searchParams?: Record<string, string | string[] | undefined>;
+// }) {
+//   const publicIdParam = searchParams?.publicId;
 
-  // const statesDataResponse = fetchStates();
-  // const availabilityResponse = fetchAvailabilities();
+//   const publicId = Array.isArray(publicIdParam)
+//     ? publicIdParam[0]
+//     : publicIdParam;
 
-  // const [propertiesData, states, availabilityData, propertyData] =
-  //   await Promise.all([
-  //     propertiesDataResponse,
-  //     statesDataResponse,
-  //     availabilityResponse,
-  //     propertyDataResponse,
-  //   ]);
+//   const profile = publicId ? await fetchPublicProfile(publicId) : null;
 
-  return (
-    // <HomeContextProvider>
-    <HomeWrapper>
-      <QrScanner />
-    </HomeWrapper>
-    // </HomeContextProvider>
-  );
-}
-
-export { Home };
+//   return (
+//     <HomeWrapper>
+//       <QrScanner initialSearchTerm={publicId || ""} initialProfile={profile} />
+//       <PublicProfileViewer profile={profile} />
+//     </HomeWrapper>
+//   );
+// }
