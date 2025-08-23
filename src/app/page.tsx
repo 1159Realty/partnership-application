@@ -3,11 +3,7 @@ import PublicProfileViewer from "@/modules/client-profile/client-profile";
 import { HomeWrapper } from "@/modules/home/home.styles";
 import QrScanner from "@/modules/qrCodeScanner";
 
-export default async function Home({
-  searchParams,
-}: {
-  searchParams?: Record<string, string | string[] | undefined>;
-}) {
+export default async function Home({ searchParams }: { searchParams?: any }) {
   const publicIdParam = searchParams?.publicId;
 
   const publicId = Array.isArray(publicIdParam)
