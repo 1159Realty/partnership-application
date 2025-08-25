@@ -19,11 +19,9 @@ const eslintConfig = [
         "error",
         { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
       ],
-      "@typescript-eslint/no-explicit-any": "off",
     },
     // "import/no-unresolved": ["error", { caseSensitive: true }],
     // "no-explicit-any": "off",
-    "@typescript-eslint/no-explicit-any": "off",
   },
 ];
 

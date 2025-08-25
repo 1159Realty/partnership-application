@@ -1,13 +1,10 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { Search } from "@/components/Inputs";
 import { Button } from "@/components/buttons";
-import {
-  PublicProfile,
-  result,
-} from "@/lib/api/public-profile/public-profile.types";
-import UserInfo from "./search-result";
+import { useCustomer } from "@/lib/api/customer/client";
+import { useRouter } from "next/navigation";
 
 interface SearchButton {
   search: string;
@@ -17,10 +14,11 @@ interface SearchButton {
 const SearchProfile = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(false);
-  const [profile, setProfile] = useState<result | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const controllerRef = useRef<AbortController | null>(null);
+  const router = useRouter();
+
+  const { fetchCustomerProfile } = useCustomer();
 
   const searchButton: SearchButton = {
     search: "Search",
@@ -31,31 +29,22 @@ const SearchProfile = () => {
     const id = searchTerm.trim();
     if (!id) return;
 
-    const controller = new AbortController();
-    controllerRef.current = controller;
-
     setLoading(true);
     setError(null);
-    setProfile(null);
 
     try {
-      const res = await fetch(
-        `/api/public-profile?publicId=${encodeURIComponent(id)}`,
-        { signal: controller.signal }
-      );
-      if (!res.ok) throw new Error("Profile not found");
-
-      const response = await res.json();
-      const data: result = response;
-      console.log(response, "response");
-
-      setProfile(data);
+      const customer = await fetchCustomerProfile(id);
+      if (customer) {
+        router.push(`/client-profile/${id}`);
+        //redirect
+      } else {
+        setError("Customer not found ");
+      }
       setSearchTerm("");
     } catch (err) {
       if (err instanceof Error && err.name === "AbortError") {
-        console.log("Request aborted");
       } else {
-        setError("User not found ");
+        setError("Customer not found ");
       }
     } finally {
       setLoading(false);
@@ -63,10 +52,8 @@ const SearchProfile = () => {
   };
 
   const handleCancel = () => {
-    controllerRef.current?.abort();
     setLoading(false);
     setSearchTerm("");
-    setProfile(null);
     setError(null);
   };
 
@@ -82,11 +69,6 @@ const SearchProfile = () => {
             handleClick={handleSearch}
             loading={loading}
           />
-          {profile && (
-            <div className="absolute z-10 top-8 mt-4 w-full max-w-4xl ">
-              <UserInfo profile={profile} />
-            </div>
-          )}
         </div>
 
         {/* Button will take only the space it needs */}

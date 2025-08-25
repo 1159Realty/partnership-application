@@ -55,7 +55,8 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
   };
 
   const { setAlert } = useAlertContext();
-  const { showCreateProperty, setShowCreateProperty } = usePropertyManagementContext();
+  const { showCreateProperty, setShowCreateProperty } =
+    usePropertyManagementContext();
   const { createProperty } = useProperty();
   const { fetchLgas, fetchAreas } = useLocation();
 
@@ -109,7 +110,11 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
         return;
       }
 
-      if (formState.paymentDurationOptions.some((x) => x.duration === durationValue)) {
+      if (
+        formState.paymentDurationOptions.some(
+          (x) => x.duration === durationValue
+        )
+      ) {
         setAlert({
           message: "Duration exists already!",
           show: true,
@@ -120,7 +125,10 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
 
       setFormState((prev) => ({
         ...prev,
-        paymentDurationOptions: [...prev.paymentDurationOptions, { duration: durationValue, interest: interestValue }],
+        paymentDurationOptions: [
+          ...prev.paymentDurationOptions,
+          { duration: durationValue, interest: interestValue },
+        ],
       }));
       setDuration("");
       setInterestPerDuration("");
@@ -148,7 +156,10 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
 
       setFormState((prev) => ({
         ...prev,
-        availableLandSizes: [...prev.availableLandSizes, { price: priceValue, size: sizeValue }],
+        availableLandSizes: [
+          ...prev.availableLandSizes,
+          { price: priceValue, size: sizeValue },
+        ],
       }));
       setSize("");
       setPricePerSize("");
@@ -159,10 +170,17 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
     if (type === "duration") {
       setFormState((prev) => ({
         ...prev,
-        paymentDurationOptions: prev.paymentDurationOptions.filter((i) => i.duration !== value),
+        paymentDurationOptions: prev.paymentDurationOptions.filter(
+          (i) => i.duration !== value
+        ),
       }));
     } else {
-      setFormState((prev) => ({ ...prev, availableLandSizes: prev.availableLandSizes.filter((i) => i.size !== value) }));
+      setFormState((prev) => ({
+        ...prev,
+        availableLandSizes: prev.availableLandSizes.filter(
+          (i) => i.size !== value
+        ),
+      }));
     }
   }
 
@@ -174,8 +192,12 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
     payload.propertyPic = files[0];
     payload.totalLandSize = formatAsNumber(payload?.totalLandSize?.toString());
     payload.price = isHostelCategory ? formatAsNumber(payload?.price) : 0;
-    payload.overDueInterest = formatAsNumber(payload?.overDueInterest?.toString() || "");
-    payload.installmentPeriod = formatAsNumber(payload?.installmentPeriod?.toString() || "");
+    payload.overDueInterest = formatAsNumber(
+      payload?.overDueInterest?.toString() || ""
+    );
+    payload.installmentPeriod = formatAsNumber(
+      payload?.installmentPeriod?.toString() || ""
+    );
 
     const { error, result } = await createProperty(initialState, payload);
 
@@ -183,7 +205,11 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
       if (typeof result === "object") {
         onCreate?.(result);
       }
-      setAlert({ message: "Property created", show: true, severity: "success" });
+      setAlert({
+        message: "Property created",
+        show: true,
+        severity: "success",
+      });
       setShowCreateProperty(false);
     }
     if (error.requestError) {
@@ -191,7 +217,11 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
       delete error.requestError;
     } else if (Object.keys(error).length) {
       setError(error);
-      setAlert({ message: "Complete the required fields", show: true, severity: "error" });
+      setAlert({
+        message: "Complete the required fields",
+        show: true,
+        severity: "error",
+      });
     }
     setLoading(false);
   }
@@ -245,7 +275,9 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
                     id: x,
                     label: capitalizeAndSpace(x),
                   }))}
-                  onChange={(e) => handleChange("category", e.target.value as string)}
+                  onChange={(e) =>
+                    handleChange("category", e.target.value as string)
+                  }
                 />
                 {error?.category?.map((error, i) => (
                   <Box key={i}>
@@ -278,7 +310,9 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
                       id: x,
                       label: capitalizeAndSpace(x),
                     }))}
-                    onChange={(e) => handleChange("landType", e.target.value as string)}
+                    onChange={(e) =>
+                      handleChange("landType", e.target.value as string)
+                    }
                   />
                   {error?.landType?.map((error, i) => (
                     <Box key={i}>
@@ -291,13 +325,19 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
               <Box>
                 <NumericInput
                   fullWidth
-                  onChange={(e) => handleChange("totalLandSize", e.target.value)}
+                  onChange={(e) =>
+                    handleChange("totalLandSize", e.target.value)
+                  }
                   name="totalLandSize"
                   value={formState.totalLandSize}
                   label="Total Size"
                   slotProps={{
                     input: {
-                      endAdornment: <InputAdornment position="start">{isHostelCategory ? "UNIT" : "SQM"}</InputAdornment>,
+                      endAdornment: (
+                        <InputAdornment position="start">
+                          {isHostelCategory ? "UNIT" : "SQM"}
+                        </InputAdornment>
+                      ),
                     },
                   }}
                 />
@@ -320,7 +360,9 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
                     label="Price"
                     slotProps={{
                       input: {
-                        endAdornment: <InputAdornment position="start">₦</InputAdornment>,
+                        endAdornment: (
+                          <InputAdornment position="start">₦</InputAdornment>
+                        ),
                       },
                     }}
                   />
@@ -344,7 +386,11 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
                         fullWidth
                         slotProps={{
                           input: {
-                            endAdornment: <InputAdornment position="start">SQM</InputAdornment>,
+                            endAdornment: (
+                              <InputAdornment position="start">
+                                SQM
+                              </InputAdornment>
+                            ),
                           },
                         }}
                         value={size}
@@ -360,7 +406,11 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
                         fullWidth
                         slotProps={{
                           input: {
-                            endAdornment: <InputAdornment position="start">₦</InputAdornment>,
+                            endAdornment: (
+                              <InputAdornment position="start">
+                                ₦
+                              </InputAdornment>
+                            ),
                           },
                         }}
                         value={pricePerSize}
@@ -393,7 +443,12 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
                 </Stack>
 
                 {formState.availableLandSizes.map((i) => (
-                  <Stack direction={"row"} alignItems={"center"} spacing={"10px"} key={i.size}>
+                  <Stack
+                    direction={"row"}
+                    alignItems={"center"}
+                    spacing={"10px"}
+                    key={i.size}
+                  >
                     <MobileB1MGray900>
                       {i.size} SQM - {formatCurrency(i.price)}
                     </MobileB1MGray900>
@@ -421,7 +476,11 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
                       fullWidth
                       slotProps={{
                         input: {
-                          endAdornment: <InputAdornment position="start">Months</InputAdornment>,
+                          endAdornment: (
+                            <InputAdornment position="start">
+                              Months
+                            </InputAdornment>
+                          ),
                         },
                       }}
                       value={duration}
@@ -438,7 +497,9 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
                       fullWidth
                       slotProps={{
                         input: {
-                          endAdornment: <InputAdornment position="start">%</InputAdornment>,
+                          endAdornment: (
+                            <InputAdornment position="start">%</InputAdornment>
+                          ),
                         },
                       }}
                       value={interestPerDuration}
@@ -472,7 +533,12 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
               </Stack>
 
               {formState.paymentDurationOptions.map((i) => (
-                <Stack direction={"row"} alignItems={"center"} spacing={"10px"} key={i.duration}>
+                <Stack
+                  direction={"row"}
+                  alignItems={"center"}
+                  spacing={"10px"}
+                  key={i.duration}
+                >
                   <MobileB1MGray900>
                     {i.duration} Months - {i.interest}%
                   </MobileB1MGray900>
@@ -498,7 +564,10 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
                 <Select
                   key={formState?.country}
                   label="Country"
-                  items={COUNTRIES.map((x) => ({ id: x, label: capitalizeAndSpace(x) }))}
+                  items={COUNTRIES.map((x) => ({
+                    id: x,
+                    label: capitalizeAndSpace(x),
+                  }))}
                   onChange={(e) => {
                     handleChange("country", e.target.value as string);
                   }}
@@ -519,20 +588,30 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
                     <Box>
                       <AutoComplete
                         fullWidth
-                        isOptionEqualToValue={(option, value) => option.id === value.id}
-                        options={(states || []).map((s) => ({ label: s.state, id: s.id }))}
+                        isOptionEqualToValue={(option, value) =>
+                          option.id === value.id
+                        }
+                        options={(states || []).map((s) => ({
+                          label: s.state,
+                          id: s.id,
+                        }))}
                         renderInputLabel="State"
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
                         onChange={(_, value: any) => {
                           if (value?.id) {
                             handleChange("stateId", value.id);
                           }
                         }}
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
                         onInputChange={(_, value: any) => {
                           if (!value) {
                             handleChange("lgaId", "");
                           }
                         }}
-                        value={(states || []).find((s) => s.id === formState.stateId)?.state || ""}
+                        value={
+                          (states || []).find((s) => s.id === formState.stateId)
+                            ?.state || ""
+                        }
                       />
                       {error?.stateId?.map((err, i) => (
                         <Box key={i}>
@@ -544,14 +623,21 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
                     {/* LGA Selection */}
                     <Box>
                       <AutoComplete
-                        options={(lgas || []).map((lga) => ({ label: lga.lga, id: lga.id }))}
+                        options={(lgas || []).map((lga) => ({
+                          label: lga.lga,
+                          id: lga.id,
+                        }))}
                         renderInputLabel="LGA"
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
                         onChange={(_, value: any) => {
                           if (value?.id) {
                             handleChange("lgaId", value.id);
                           }
                         }}
-                        value={(lgas || []).find((lga) => lga.id === formState.lgaId)?.lga || ""}
+                        value={
+                          (lgas || []).find((lga) => lga.id === formState.lgaId)
+                            ?.lga || ""
+                        }
                       />
                       {error?.lgaId?.map((err, i) => (
                         <Box key={i}>
@@ -563,14 +649,21 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
                     {/* Area Selection */}
                     <Box>
                       <AutoComplete
-                        options={(areas || []).map((a) => ({ label: a.area, id: a.id }))}
+                        options={(areas || []).map((a) => ({
+                          label: a.area,
+                          id: a.id,
+                        }))}
                         renderInputLabel="Area"
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
                         onChange={(_, value: any) => {
                           if (value?.id) {
                             handleChange("areaId", value.id);
                           }
                         }}
-                        value={(areas || []).find((a) => a.id === formState.areaId)?.area || ""}
+                        value={
+                          (areas || []).find((a) => a.id === formState.areaId)
+                            ?.area || ""
+                        }
                       />
                       {error?.areaId?.map((err, i) => (
                         <Box key={i}>
@@ -582,7 +675,9 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
                     <Box>
                       <TextField
                         fullWidth
-                        onChange={(e) => handleChange("address", e.target.value)}
+                        onChange={(e) =>
+                          handleChange("address", e.target.value)
+                        }
                         name="address"
                         value={formState.address}
                         label="Land mark"
@@ -595,21 +690,20 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
                     </Box>
                   </>
                 ) : (
-
-                 <Box>
-                      <TextField
-                        fullWidth
-                        onChange={(e) => handleChange("address", e.target.value)}
-                        name="address"
-                        value={formState.address}
-                        label="Land mark"
-                      />
-                      {error?.address?.map((err, i) => (
-                        <Box key={i}>
-                          <ErrorText>{err}</ErrorText>
-                        </Box>
-                      ))}
-                    </Box>
+                  <Box>
+                    <TextField
+                      fullWidth
+                      onChange={(e) => handleChange("address", e.target.value)}
+                      name="address"
+                      value={formState.address}
+                      label="Land mark"
+                    />
+                    {error?.address?.map((err, i) => (
+                      <Box key={i}>
+                        <ErrorText>{err}</ErrorText>
+                      </Box>
+                    ))}
+                  </Box>
                 )}
               </>
 
@@ -621,13 +715,17 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
                 <Box>
                   <TextField
                     fullWidth
-                    onChange={(e) => handleChange("overDueInterest", e.target.value)}
+                    onChange={(e) =>
+                      handleChange("overDueInterest", e.target.value)
+                    }
                     name="overDueInterest"
                     value={formState.overDueInterest}
                     label="Overdue interest"
                     slotProps={{
                       input: {
-                        endAdornment: <InputAdornment position="start">%</InputAdornment>,
+                        endAdornment: (
+                          <InputAdornment position="start">%</InputAdornment>
+                        ),
                       },
                     }}
                   />
@@ -641,13 +739,17 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
                 <Box>
                   <TextField
                     fullWidth
-                    onChange={(e) => handleChange("installmentPeriod", e.target.value)}
+                    onChange={(e) =>
+                      handleChange("installmentPeriod", e.target.value)
+                    }
                     name="installmentPeriod"
                     value={formState.installmentPeriod}
                     label="Installment period"
                     slotProps={{
                       input: {
-                        endAdornment: <InputAdornment position="start">Days</InputAdornment>,
+                        endAdornment: (
+                          <InputAdornment position="start">Days</InputAdornment>
+                        ),
                       },
                     }}
                   />
@@ -667,13 +769,17 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
               <Box>
                 <TextField
                   fullWidth
-                  onChange={(e) => handleChange("overDueInterest", e.target.value)}
+                  onChange={(e) =>
+                    handleChange("overDueInterest", e.target.value)
+                  }
                   name="overDueInterest"
                   value={formState.overDueInterest}
                   label="Overdue interest"
                   slotProps={{
                     input: {
-                      endAdornment: <InputAdornment position="start">%</InputAdornment>,
+                      endAdornment: (
+                        <InputAdornment position="start">%</InputAdornment>
+                      ),
                     },
                   }}
                 />
@@ -687,13 +793,17 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
               <Box>
                 <TextField
                   fullWidth
-                  onChange={(e) => handleChange("installmentPeriod", e.target.value)}
+                  onChange={(e) =>
+                    handleChange("installmentPeriod", e.target.value)
+                  }
                   name="installmentPeriod"
                   value={formState.installmentPeriod}
                   label="Installment period"
                   slotProps={{
                     input: {
-                      endAdornment: <InputAdornment position="start">Days</InputAdornment>,
+                      endAdornment: (
+                        <InputAdornment position="start">Days</InputAdornment>
+                      ),
                     },
                   }}
                 />
@@ -740,7 +850,11 @@ function CreatePropertyForm({ states, onCreate }: CreatePropertyFormProps) {
             <Divider />
 
             <div className="flex flex-col gap-4 px-4">
-              <LoadingButton loadingPosition="end" loading={loading} onClick={handleCreateProperty}>
+              <LoadingButton
+                loadingPosition="end"
+                loading={loading}
+                onClick={handleCreateProperty}
+              >
                 Add Property
               </LoadingButton>
             </div>
@@ -758,7 +872,12 @@ interface UpdatePropertyFormProps {
   handleClose?: () => void;
 }
 
-function UpdatePropertyForm({ onUpdate, property, handleClose, handleReloadProperties }: UpdatePropertyFormProps) {
+function UpdatePropertyForm({
+  onUpdate,
+  property,
+  handleClose,
+  handleReloadProperties,
+}: UpdatePropertyFormProps) {
   const initialState: PropertyFormState = {
     error: {},
     result: null,
@@ -799,7 +918,11 @@ function UpdatePropertyForm({ onUpdate, property, handleClose, handleReloadPrope
       if (typeof result === "object") {
         onUpdate?.(result);
       }
-      setAlert({ message: "Property created", show: true, severity: "success" });
+      setAlert({
+        message: "Property created",
+        show: true,
+        severity: "success",
+      });
       onClose();
     }
     if (error.requestError) {
@@ -807,7 +930,11 @@ function UpdatePropertyForm({ onUpdate, property, handleClose, handleReloadPrope
       delete error.requestError;
     } else if (Object.keys(error).length) {
       setError(error);
-      setAlert({ message: "Complete the required fields", show: true, severity: "error" });
+      setAlert({
+        message: "Complete the required fields",
+        show: true,
+        severity: "error",
+      });
     }
     setLoading(false);
   }
@@ -865,10 +992,18 @@ function UpdatePropertyForm({ onUpdate, property, handleClose, handleReloadPrope
       ) : (
         <div className="mt-16 pb-8">
           <div className="mb-6">
-            <Stack direction={"row"} justifyContent={"space-between"} spacing={"10px"} px="16px">
+            <Stack
+              direction={"row"}
+              justifyContent={"space-between"}
+              spacing={"10px"}
+              px="16px"
+            >
               <PageTitleBtn hideCancel>Update property </PageTitleBtn>
               <Tooltip title="Market value">
-                <IconButton onClick={() => setShowMarketValue(true)} bg_color={COLORS.gray200}>
+                <IconButton
+                  onClick={() => setShowMarketValue(true)}
+                  bg_color={COLORS.gray200}
+                >
                   <CurrencyNgn weight="duotone" />
                 </IconButton>
               </Tooltip>
@@ -880,7 +1015,9 @@ function UpdatePropertyForm({ onUpdate, property, handleClose, handleReloadPrope
                 <Box>
                   <TextField
                     fullWidth
-                    onChange={(e) => handleChange("propertyName", e.target.value)}
+                    onChange={(e) =>
+                      handleChange("propertyName", e.target.value)
+                    }
                     name="propertyName"
                     value={formState.propertyName}
                     label="Name"
@@ -895,13 +1032,17 @@ function UpdatePropertyForm({ onUpdate, property, handleClose, handleReloadPrope
                 <Box>
                   <TextField
                     fullWidth
-                    onChange={(e) => handleChange("totalLandSize", e.target.value)}
+                    onChange={(e) =>
+                      handleChange("totalLandSize", e.target.value)
+                    }
                     name="totalLandSize"
                     value={formState.totalLandSize}
                     label="Total Size"
                     slotProps={{
                       input: {
-                        endAdornment: <InputAdornment position="start">SQM</InputAdornment>,
+                        endAdornment: (
+                          <InputAdornment position="start">SQM</InputAdornment>
+                        ),
                       },
                     }}
                   />
@@ -921,12 +1062,26 @@ function UpdatePropertyForm({ onUpdate, property, handleClose, handleReloadPrope
                     label="Status"
                     value={formState.status}
                     items={[
-                      { id: "AVAILABLE", label: "Available", status: "#28A745" },
-                      { id: "SOLD_OUT", label: "Sold Out", status: SEVERITY_COLORS.danger.dark },
-                      { id: "RESERVED", label: "Reserved", status: SEVERITY_COLORS.warning.dark },
+                      {
+                        id: "AVAILABLE",
+                        label: "Available",
+                        status: "#28A745",
+                      },
+                      {
+                        id: "SOLD_OUT",
+                        label: "Sold Out",
+                        status: SEVERITY_COLORS.danger.dark,
+                      },
+                      {
+                        id: "RESERVED",
+                        label: "Reserved",
+                        status: SEVERITY_COLORS.warning.dark,
+                      },
                       { id: "DISABLED", label: "Archived", status: "darkgrey" },
                     ]}
-                    onChange={(e) => handleChange("status", e.target.value as string)}
+                    onChange={(e) =>
+                      handleChange("status", e.target.value as string)
+                    }
                   />
                   {error?.status?.map((error, i) => (
                     <Box key={i}>
@@ -970,7 +1125,11 @@ function UpdatePropertyForm({ onUpdate, property, handleClose, handleReloadPrope
               <Divider />
 
               <div className="flex flex-col gap-4 px-4">
-                <LoadingButton loadingPosition="end" loading={loading} onClick={handleUpdateProperty}>
+                <LoadingButton
+                  loadingPosition="end"
+                  loading={loading}
+                  onClick={handleUpdateProperty}
+                >
                   Update Property
                 </LoadingButton>
               </div>

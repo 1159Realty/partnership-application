@@ -1,6 +1,10 @@
-import { User } from "@/lib/api/user/user.types";
+import { Customer } from "@/lib/api/customer/types";
 
-const truncateString = (str?: string, max = 30, showAll?: "show-all"): string => {
+const truncateString = (
+  str?: string,
+  max = 30,
+  showAll?: "show-all"
+): string => {
   if (showAll || !str) return str || "";
   if (str.length <= max) return str; // If within max limit, return as is
   return str.slice(0, Math.max(0, max - 3)) + "..."; // Truncate & add ellipsis
@@ -14,9 +18,17 @@ function formatPhoneNumber(value: string): null | string {
   value = value?.trim();
 
   if (!value) return null;
-  if (value.length !== 10 && value.length !== 11 && value.length !== 13 && value.length !== 14) return null;
-  if ((value.length === 10 || value.length === 11) && hasNonNumeric(value)) return null;
-  if (value.length === 13 && (!value.includes("234") || hasNonNumeric(value))) return null;
+  if (
+    value.length !== 10 &&
+    value.length !== 11 &&
+    value.length !== 13 &&
+    value.length !== 14
+  )
+    return null;
+  if ((value.length === 10 || value.length === 11) && hasNonNumeric(value))
+    return null;
+  if (value.length === 13 && (!value.includes("234") || hasNonNumeric(value)))
+    return null;
   if (value.length === 14 && !value.includes("+234")) return null;
 
   if (value.length === 10) return "+234" + value;
@@ -39,11 +51,18 @@ function capitalizeAndSpace(text: string): string {
     .join(" ");
 }
 
-function getUserName(user: User | null | undefined, variant: "full" | "first" | "last" = "full"): string {
+function getUserName(
+  user: Customer | null | undefined,
+  variant: "full" | "first" | "last" = "full"
+): string {
   if (!user) return "N/A";
-  if (variant === "first") return user?.firstName?.trim() ? user?.firstName : "N/A";
-  if (variant === "last") return user?.lastName?.trim() ? user?.lastName : "N/A";
-  return `${user?.firstName?.trim() || ""} ${user?.lastName?.trim() || ""}`?.trim()
+  if (variant === "first")
+    return user?.firstName?.trim() ? user?.firstName : "N/A";
+  if (variant === "last")
+    return user?.lastName?.trim() ? user?.lastName : "N/A";
+  return `${user?.firstName?.trim() || ""} ${
+    user?.lastName?.trim() || ""
+  }`?.trim()
     ? `${user?.firstName} ${user?.lastName}`
     : "N/A";
 }
@@ -73,7 +92,10 @@ function normalizeMonth(input: string): string {
   return monthMap[normalized] ?? input;
 }
 
-function mapNigerianState(input: string, type: "full" | "abbr" = "abbr"): string {
+function mapNigerianState(
+  input: string,
+  type: "full" | "abbr" = "abbr"
+): string {
   const fullToAbbr: Record<string, string> = {
     abia: "AB",
     adamawa: "AD",
@@ -116,10 +138,13 @@ function mapNigerianState(input: string, type: "full" | "abbr" = "abbr"): string
     abuja: "FCT",
   };
 
-  const abbrToFull: Record<string, string> = Object.entries(fullToAbbr).reduce((acc, [full, abbr]) => {
-    acc[abbr] = capitalizeAndSpace(full);
-    return acc;
-  }, {} as Record<string, string>);
+  const abbrToFull: Record<string, string> = Object.entries(fullToAbbr).reduce(
+    (acc, [full, abbr]) => {
+      acc[abbr] = capitalizeAndSpace(full);
+      return acc;
+    },
+    {} as Record<string, string>
+  );
 
   if (type === "full") {
     const key = input.trim().toUpperCase();

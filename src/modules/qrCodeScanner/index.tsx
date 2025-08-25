@@ -5,9 +5,6 @@ import { Html5Qrcode } from "html5-qrcode";
 import { Button } from "@/components/buttons";
 import { QrCode, XCircle } from "@phosphor-icons/react";
 import { useRouter } from "next/navigation";
-import { Search } from "@/components/Inputs";
-import { PublicProfile } from "@/lib/api/public-profile/public-profile.types";
-import UserInfo from "./search-result";
 import SearchProfile from "./search-profile";
 
 const QrScanner = () => {
@@ -92,7 +89,7 @@ const QrScanner = () => {
               To verify a user, scan their QR code or search by User ID.
             </div>
             <div className="text-center">
-              Tap <strong>"Start Scanner"</strong> to begin.
+              Tap <strong>&quot;Start Scanner&quot;</strong> to begin.
             </div>
             <QrCode size={250} />
           </div>
